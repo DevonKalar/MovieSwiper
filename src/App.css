@@ -1,0 +1,117 @@
+/* Main layout styles */
+
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --font-size: 14px;
+}
+
+html, body {
+  height: 100%;
+  font-size: var(--font-size);
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.image-container {
+  position: relative;
+}
+
+/* typography */
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem;
+}
+
+/* header styles */
+
+.logo {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+/* SwipeCard CSS */
+
+.swipe-card {
+  overflow-y: auto;
+}
+
+.swipe-card img {
+  width: 100%;
+  height: auto;
+}
+
+.movie-info {
+  padding: 1rem;
+  position:absolute;
+  bottom: 16px;
+  left: 16px;
+}
+
+.AnswerWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.swipe-button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.swipe-button:hover {
+  background-color: darken(var(--primary-color), 5%);
+}
+
+
