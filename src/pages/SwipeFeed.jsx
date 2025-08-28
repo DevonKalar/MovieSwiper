@@ -1,5 +1,5 @@
 import SwipeCard from "../components/features/SwipeCard";
-const MainPage = () => {
+const SwipeFeed = () => {
   return (
     <>
       <SwipeCard />
@@ -7,4 +7,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default SwipeFeed;
