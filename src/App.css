@@ -1,4 +1,4 @@
-/* Main layout styles */
+/* Global */
 
 :root {
   --primary-color: #082e57;
@@ -59,7 +59,7 @@ footer {
   position: relative;
 }
 
-/* typography */
+/* Typography */
 
 body {
   font-family: Arial, sans-serif;
@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem;
 }
 
-/* header styles */
+/* Header */
 
 .logo {
   font-size: 2rem;
@@ -105,7 +105,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* SwipeCard CSS */
+/* SwipeCard */
 
 .swipe-card {
   overflow-y: auto;
@@ -138,3 +138,30 @@ button:focus-visible {
   border-radius: 100%;
 }
 
+/* LikeList */
+
+.like-list-box {
+  max-width: 500px;
+}
+
+.like-item img {
+  display: block;
+  width: 100%;
+}
+
+.like-item {
+  position: relative;
+  width: fit-content;
+}
+
+.like-item-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  padding: 1rem;
+}
+
+.like-item-info h2 {
+  margin-bottom: 0;
+}
