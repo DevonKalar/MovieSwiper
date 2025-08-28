@@ -1,7 +1,7 @@
 /* Main layout styles */
 
 :root {
-  --primary-color: #007bff;
+  --primary-color: #082e57;
   --secondary-color: #6c757d;
   --background-color: #f8f9fa;
   --text-color: #212529;
@@ -77,6 +77,28 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1rem;
 }
 
+/* Components */
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 1em 2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  filter: brightness(0.8);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
 /* SwipeCard CSS */
 
 .swipe-card {
@@ -97,21 +119,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .AnswerWrapper {
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: center;
   padding: 1rem;
+  gap: 1rem;
 }
 
 .swipe-button {
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 100%;
 }
-
-.swipe-button:hover {
-  background-color: darken(var(--primary-color), 5%);
-}
-
 
