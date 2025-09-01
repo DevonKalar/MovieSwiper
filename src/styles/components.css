@@ -1,7 +1,6 @@
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 1em 2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -21,7 +20,7 @@ button:focus-visible {
 
 .button-primary {
   width: clamp(120px, 100%, 600px);
-  height: clamp(40px, 100%, 60px);
+  height: 48px;
   background-color: var(--secondary-500);
   border: 2px solid var(--secondary-500);
   color: #fff;
@@ -32,7 +31,7 @@ button:focus-visible {
   
 .button-outline {
   width: clamp(120px, 100%, 600px);
-  height: clamp(40px, 100%, 60px);
+  height: 48px;
   background-color: transparent;
   border: 2px solid white;
   color: white;
@@ -92,11 +91,23 @@ textarea:focus {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+
+
+/* filter */
+
 .filter-bar {
     display: grid;
     grid-template-columns: 1fr 48px;
     gap: var(--gap-sm);
     margin-bottom: var(--gap-md);
+}
+
+.filter-modal {
+  display: grid;
+  grid-template-columns: 1fr 32px;
+  border: 2px solid var(--primary-100);
+  border-radius: var(--gap-md);
+  margin-bottom: var(--gap-md);
 }
 
 /* Header */

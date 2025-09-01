@@ -1,8 +1,14 @@
+import { useState } from "react";
 import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const LikeList = () => {
 
     const { likedMovies, removeLikedMovie } = useMovies();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const filteredMovies = likedMovies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
         <div className="container-sm">
@@ -11,13 +17,20 @@ const LikeList = () => {
 
             <div className="filter-bar">
                 <form className="search-form ">
-                    <input type="text" placeholder="Search..." className="full" />
+                    <input type="text" placeholder="Search..." className="full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </form>
-                <button className="button-icon">F</button>
+                <button className="button-icon" onClick={() => setIsModalOpen(true)}>F</button>
             </div>
 
+            {isModalOpen && (
+                    <div className="filter-modal p-2">
+                        <h3>Filters</h3>
+                        <button className="button-info" onClick={() => setIsModalOpen(false)}>x</button>
+                    </div>
+                )}
+
             <div className="grid gap-3">
-                {likedMovies.map((movie) => (
+                {filteredMovies.map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div className="relative">
                         <img src={movie.poster} alt={movie.title} />
