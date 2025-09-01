@@ -3,7 +3,6 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import MainLayout from './components/layouts/MainLayout';
 import SwipeFeed from './pages/SwipeFeed';
 import LikeFeed from './pages/LikeFeed';
-import './App.css';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

@@ -43,20 +43,20 @@ const SwipeCard = () => {
   }
 
   return (
-    <div className="swipe-card-box">
-      <div className="swipe-card">
-        <div className="image-container">
+    <div className="container-sm">
+      <div>
+        <div className="relative">
           <img src={movieData.poster} alt="Movie Poster" />
-          <div className="movie-info">
+          <div className="pos-bottom-left p-2">
             <h3>{movieData.title}</h3>
             <p>{movieData.description}</p>
           </div>
         </div>
       </div>
-      <div className="AnswerWrapper">
-        <button onClick={handleSubmit} className="swipe-button" value="no">Nope</button>
-        <button onClick={handleSubmit} className="swipe-button" value="pass">Pass</button>
-        <button onClick={handleSubmit} className="swipe-button" value="yes">Yeah</button>
+      <div className="flex-row justify-center gap-1 py-2">
+        <button onClick={handleSubmit} className="button-circle" value="no">Nope</button>
+        <button onClick={handleSubmit} className="button-circle" value="pass">Pass</button>
+        <button onClick={handleSubmit} className="button-circle" value="yes">Yeah</button>
       </div>
     </div>
   );

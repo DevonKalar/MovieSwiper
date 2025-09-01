@@ -2,9 +2,9 @@ import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header>
+    <header className="flex-row justify-between items-center">
       <Link to="/" className="home-link">
-        <h1 className="logo">Movie Swiper</h1>
+        <h1 className="logo">MovieSwiper</h1>
       </Link>
       <nav>
         <NavLink to="/" className="nav-link">
