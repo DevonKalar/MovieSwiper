@@ -3,6 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import MainLayout from './components/layouts/MainLayout';
 import SwipeFeed from './pages/SwipeFeed';
 import LikeFeed from './pages/LikeFeed';
+import { MoviesProvider } from './providers/MoviesContext';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,9 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <MoviesProvider>
+      <RouterProvider router={router} />
+    </MoviesProvider>
   )
 }
 

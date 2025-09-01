@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchMovieDetails } from "../../services/movieService.js";
+import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const SwipeCard = () => {
 
@@ -24,17 +25,25 @@ const SwipeCard = () => {
     getMovieData(movieId);
   }, [movieId]);
 
+  const { likeMovie, rejectMovie, passMovie, likedMovies, rejectedMovies, passedMovies } = useMovies();
+
   const handleSubmit = (e) => {
     const buttonValue = e.currentTarget.value
     switch (buttonValue) {
       case 'yes':
     console.log("User liked the movie:", movieData.title);
+    likeMovie(movieData);
+    console.log("Current liked movies:", likedMovies);
     break;
       case 'no':
     console.log("User disliked the movie:", movieData.title);
+    rejectMovie(movieData);
+    console.log("Current disliked movies:", rejectedMovies);
     break;
       case 'pass':
     console.log("User passed on the movie:", movieData.title);
+    passMovie(movieData);
+    console.log("Current passed movies:", passedMovies);
     break;
       default:
     console.log("Unknown button value:", buttonValue);

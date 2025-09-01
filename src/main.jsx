@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client'
 // style imports 
 import './styles/variables.css'
 import './styles/base.css'
-import './styles/layouts.css'
+import './styles/layout.css'
 import './styles/utils.css'
 import './styles/components.css'
 

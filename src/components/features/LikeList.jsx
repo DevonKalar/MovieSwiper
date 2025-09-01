@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const LikeList = () => {
-    
-    // WIP - Liked Movies will be an array of objects later 
-    const likedMovies = ["Movie 1", "Movie 2", "Movie 3", "Movie 4", "Movie 5"];
+
+    const { likedMovies, removeLikedMovie } = useMovies();
 
     return (
         <div className="container-sm">
@@ -18,17 +17,17 @@ const LikeList = () => {
             </div>
 
             <div className="grid gap-3">
-
+                {likedMovies.map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div className="relative">
-                        <img src="https://dummyimage.com/440x660/000/fff" alt="Movie 1" />
+                        <img src={movie.poster} alt={movie.title} />
                         <button className="button-info pos-bottom-right m-1">i</button>
+                        <button className="button-info pos-top-left m-1" onClick={() => removeLikedMovie(movie)}>x</button>
                     </div>
                     <div className="flex-col justify-between py-2">
                         <div>
-                            <h3>Movie Title</h3>
-                            <p>Director</p>
-                            <p>Genre</p>
+                            <h3>{movie.title}</h3>
+                            <p>{movie.genre}</p>
                         </div>
                         <div className="flex-col gap-1">
                             <button className="button-primary">Watch</button>
@@ -36,80 +35,7 @@ const LikeList = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="grid-cols-2 gap-2">
-                    <div className="relative">
-                        <img src="https://dummyimage.com/440x660/000/fff" alt="Movie 1" />
-                        <button className="button-info pos-bottom-right m-1">i</button>
-                    </div>
-                    <div className="flex-col justify-between py-2">
-                        <div>
-                            <h3>Movie Title</h3>
-                            <p>Director</p>
-                            <p>Genre</p>
-                        </div>
-                        <div className="flex-col gap-1">
-                            <button className="button-primary">Watch</button>
-                            <button className="button-outline">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid-cols-2 gap-2">
-                    <div className="relative">
-                        <img src="https://dummyimage.com/440x660/000/fff" alt="Movie 1" />
-                        <button className="button-info pos-bottom-right m-1">i</button>
-                    </div>
-                    <div className="flex-col justify-between py-2">
-                        <div>
-                            <h3>Movie Title</h3>
-                            <p>Director</p>
-                            <p>Genre</p>
-                        </div>
-                        <div className="flex-col gap-1">
-                            <button className="button-primary">Watch</button>
-                            <button className="button-outline">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid-cols-2 gap-2">
-                    <div className="relative">
-                        <img src="https://dummyimage.com/440x660/000/fff" alt="Movie 1" />
-                        <button className="button-info pos-bottom-right m-1">i</button>
-                    </div>
-                    <div className="flex-col justify-between py-2">
-                        <div>
-                            <h3>Movie Title</h3>
-                            <p>Director</p>
-                            <p>Genre</p>
-                        </div>
-                        <div className="flex-col gap-1">
-                            <button className="button-primary">Watch</button>
-                            <button className="button-outline">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid-cols-2 gap-2">
-                    <div className="relative">
-                        <img src="https://dummyimage.com/440x660/000/fff" alt="Movie 1" />
-                        <button className="button-info pos-bottom-right m-1">i</button>
-                    </div>
-                    <div className="flex-col justify-between py-2">
-                        <div>
-                            <h3>Movie Title</h3>
-                            <p>Director</p>
-                            <p>Genre</p>
-                        </div>
-                        <div className="flex-col gap-1">
-                            <button className="button-primary">Watch</button>
-                            <button className="button-outline">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-
+                ))}
             </div>
         </div>
     )
