@@ -8,7 +8,37 @@ const LikeList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const filteredMovies = likedMovies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    const [filters, setFilters] = useState({
+        genre: [],
+        releaseDate: [],
+        company: [],
+    });
+
+    const addFilter = (category, value) => {
+        setFilters(prev => ({
+            ...prev,
+            [category]: [...prev[category], value]
+        }));
+    };
+
+    const removeFilter = (category, value) => {
+        setFilters(prev => ({
+            ...prev,
+            [category]: prev[category].filter(item => item !== value)
+        }));
+    };
+
+    // filtering logic
+
+    const filteredMovies = () => {
+        return likedMovies.filter(movie => {
+            const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesGenre = filters.genre.length === 0 || filters.genre.includes(movie.genre);
+            const matchesReleaseDate = filters.releaseDate.length === 0 || filters.releaseDate.includes(movie.releaseDate);
+            const matchesCompany = filters.company.length === 0 || filters.company.includes(movie.company);
+            return matchesSearch && matchesGenre && matchesReleaseDate && matchesCompany;
+        });
+    };
 
     return (
         <div className="container-sm">
@@ -24,13 +54,19 @@ const LikeList = () => {
 
             {isModalOpen && (
                     <div className="filter-modal p-2">
-                        <h3>Filters</h3>
+                        <div>
+                            <h3>Filters</h3>
+                            <h4>Genre</h4>
+                            <h4>Release Date</h4>
+                            <h4>Company</h4>
+                            <h4>Rating</h4>
+                        </div>
                         <button className="button-info" onClick={() => setIsModalOpen(false)}>x</button>
                     </div>
                 )}
 
             <div className="grid gap-3">
-                {filteredMovies.map((movie) => (
+                {filteredMovies().map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div className="relative">
                         <img src={movie.poster} alt={movie.title} />
