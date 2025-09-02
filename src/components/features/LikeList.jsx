@@ -9,9 +9,9 @@ const LikeList = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [filters, setFilters] = useState({
-        genre: [],
-        releaseDate: [],
-        company: [],
+        genres: [],
+        releaseDates: [],
+        companies: [],
     });
 
     const addFilter = (category, value) => {
@@ -33,15 +33,23 @@ const LikeList = () => {
     const filteredMovies = () => {
         return likedMovies.filter(movie => {
             const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesGenre = filters.genre.length === 0 || filters.genre.includes(movie.genre);
-            const matchesReleaseDate = filters.releaseDate.length === 0 || filters.releaseDate.includes(movie.releaseDate);
-            const matchesCompany = filters.company.length === 0 || filters.company.includes(movie.company);
+            const matchesGenre = filters.genres.length === 0 || filters.genres.every(g => movie.genres.includes(g));
+            const matchesReleaseDate = filters.releaseDates.length === 0 || filters.releaseDates.includes(movie.releaseDate);
+            const matchesCompany = filters.companies.length === 0 || filters.companies.includes(movie.companies);
             return matchesSearch && matchesGenre && matchesReleaseDate && matchesCompany;
         });
     };
 
+    // filtering modal
+
+    const filterOptions = {
+        genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
+        releaseDates: [...new Set(likedMovies.map(movie => movie.releaseDates))],
+        companies: [...new Set(likedMovies.flatMap(movie => movie.companies))],
+    }
+
     return (
-        <div className="container-sm">
+        <div className="container-xl">
 
             <h1>Your Liked Movies</h1>
 
@@ -49,34 +57,43 @@ const LikeList = () => {
                 <form className="search-form ">
                     <input type="text" placeholder="Search..." className="full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </form>
-                <button className="button-icon" onClick={() => setIsModalOpen(true)}>F</button>
+                {isModalOpen ? <button className="button-icon bg-white text-secondary border-secondary" onClick={() => setIsModalOpen(false)}>F</button> : <button className="button-icon" onClick={() => setIsModalOpen(true)}>F</button>}
             </div>
 
             {isModalOpen && (
                     <div className="filter-modal p-2">
                         <div>
                             <h3>Filters</h3>
-                            <h4>Genre</h4>
-                            <h4>Release Date</h4>
-                            <h4>Company</h4>
-                            <h4>Rating</h4>
+                            {Object.entries(filterOptions).map(([category, options]) => (
+                                <div key={category}>
+                                    <h4>{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                                    <div>
+                                        {options.map(option => (
+                                            <button key={option} onClick={() => addFilter(category, option)}>
+                                                {option}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <button className="button-info" onClick={() => setIsModalOpen(false)}>x</button>
                     </div>
                 )}
 
-            <div className="grid gap-3">
+            
+
+            <div className="grid-cols-3 gap-3">
                 {filteredMovies().map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div className="relative">
                         <img src={movie.poster} alt={movie.title} />
                         <button className="button-info pos-bottom-right m-1">i</button>
-                        <button className="button-info pos-top-left m-1" onClick={() => removeLikedMovie(movie)}>x</button>
                     </div>
-                    <div className="flex-col justify-between py-2">
+                    <div className="flex-col justify-between py-2 relative">
+                        <button className="pos-top-right" onClick={() => removeLikedMovie(movie)}>x</button>
                         <div>
                             <h3>{movie.title}</h3>
-                            <p>{movie.genre}</p>
+                            <p>{movie.genres.join(", ")}</p>
                         </div>
                         <div className="flex-col gap-1">
                             <button className="button-primary">Watch</button>

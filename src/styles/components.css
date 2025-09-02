@@ -104,7 +104,7 @@ textarea:focus {
 
 .filter-modal {
   display: grid;
-  grid-template-columns: 1fr 32px;
+  grid-template-columns: 1fr;
   border: 2px solid var(--primary-100);
   border-radius: var(--gap-md);
   margin-bottom: var(--gap-md);
@@ -114,7 +114,6 @@ textarea:focus {
 
 .logo {
   font-size: 2rem;
-  margin: 1rem;
   color: white;
 }
 

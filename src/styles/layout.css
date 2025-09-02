@@ -1,5 +1,7 @@
 /* grids */
 
+
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -13,8 +15,38 @@
 
 .grid-cols-3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
 }
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
 
 /* containers */
 
@@ -41,7 +73,7 @@
 
 /* header */
 header {
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
   background-color: var(--primary-700);
 }
 
