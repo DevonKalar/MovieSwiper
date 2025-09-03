@@ -1,11 +1,9 @@
 /* grids */
 
-
-
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--gap-md);
+  gap: var(--space-md);
 }
 
 .grid-cols-2 {
@@ -14,6 +12,11 @@
 }
 
 .grid-cols-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.grid-cols-4 {
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -30,6 +33,11 @@
   .grid-cols-3 {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .grid-cols-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -43,6 +51,11 @@
 
   .grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-cols-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const LikeList = () => {
 
     const { likedMovies, removeLikedMovie } = useMovies();
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // filtering options
 
@@ -15,14 +13,16 @@ const LikeList = () => {
     const addFilter = (category, value) => {
         if (!filters.some(filter => filter.category === category && filter.value === value)) {
             setFilters(prev => [...prev, { category, value }]);
-            setCurrentPage(1);
         }
     };
 
     const removeFilter = (category, value) => {
         setFilters(prev => prev.filter(filter => filter.category !== category || filter.value !== value));
-        setCurrentPage(1);
     };
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, filters]);
 
     // filtering logic
 
@@ -41,7 +41,7 @@ const LikeList = () => {
         });
     };
 
-    // filtering modal
+    // filter tags
 
     const filterOptions = {
         genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
@@ -52,7 +52,7 @@ const LikeList = () => {
     // client-side pagination
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 18;
+    const itemsPerPage = 15;
 
     const paginatedMovies = () => {
         const start = (currentPage - 1) * itemsPerPage;
@@ -81,41 +81,69 @@ const LikeList = () => {
         setCurrentPage(pageNumber);
     }
 
+    // modal states
+
+    const [modals, setModals] = useState({});
+
+    const modalRef = useRef();
+
+    // close modal on outside click
+    useEffect(() => {
+        if (Object.keys(modals).length === 0) return;
+        const handleClick = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setModals({});
+            }
+        };
+        document.addEventListener("mousedown", handleClick);
+        return () => {
+            document.removeEventListener("mousedown", handleClick);
+        };
+    }, [modals]);
+
+    const openModal = (category) => {
+        setModals(prev => ({ ...prev, [category]: true }));
+    };
+
+    const closeModal = (category) => {
+        setModals(prev => ({ ...prev, [category]: false }));
+    };
+
+    const toggleModal = (category) => {
+    setModals(prev => 
+        prev[category] ? {} : { [category]: true }
+    );
+    };
+
     return (
-        <div className="container-xl">
+        <div className="container-xl relative">
 
             <h1>Your Liked Movies</h1>
-        
-            <div className="filter-bar">
+
+            <div className="grid-cols-4 gap-4 py-2">
                 <form className="search-form ">
-                    <input type="text" placeholder="Search..." className="full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    <input type="text" placeholder="Filter By Title" className="transparent full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </form>
-                {isModalOpen ? <button className="button-icon bg-white text-secondary border-secondary" onClick={() => setIsModalOpen(false)}>F</button> : <button className="button-icon" onClick={() => setIsModalOpen(true)}>F</button>}
+                {Object.entries(filterOptions).map(([category, options]) => (
+                    <div key={category} className="flex-col justify-center relative">
+                        <div className="flex-row justify-between align-center full ">
+                        <h4 className="m-0">{category.charAt(0).toUpperCase() + category.slice(1)}</h4> 
+                        <button onClick={() => openModal(category)}><img src="/src/assets/icons/down-arrow.png" className="ui-icon"/></button>
+                        </div>
+                        {modals[category] && 
+                            <div ref={modalRef} className="filter-modal pos-top my-2 p-2 gap-1">
+                                {options.map(option => (
+                                    <button className="filter-badge p-1 b-4" key={option} onClick={() => addFilter(category, option)}>
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>}
+                    </div>
+                ))}
             </div>
 
-            {isModalOpen && (
-                    <div className="filter-modal p-2">
-                        <div>
-                            <h3>Filters</h3>
-                            {Object.entries(filterOptions).map(([category, options]) => (
-                                <div key={category}>
-                                    <h4>{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-                                    <div>
-                                        {options.map(option => (
-                                            <button key={option} onClick={() => addFilter(category, option)}>
-                                                {option}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
             {filters.length > 0 ? (
-                <div className="active-filters flex-row align-center gap-2 p-2">
-                    <h4 className="m-0">Active Filters:</h4>
+                <div className="active-filters flex-row align-center gap-2 py-2">
                     {filters.map((filter, index) => (
                         <div key={`${filter.category}-${filter.value}-${index}`} className="filter-badge flex-row align-center gap-1">
                             <span>{filter.value} ({filter.category})</span>

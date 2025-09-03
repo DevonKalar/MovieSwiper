@@ -17,6 +17,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .button-primary {
   width: clamp(120px, 100%, 180px);
@@ -79,6 +83,11 @@ button:focus-visible {
   width: 32px;
   padding: 0;
   font-weight: bold;
+  opacity: 0.75;
+}
+
+button.button-pagination[disabled] {
+  opacity: 1;
 }
 
 .button-pagination.active {
@@ -96,7 +105,7 @@ textarea {
   background-color: transparent;
   border-radius: 48px;
   height: 48px;
-  padding: 0 var(--gap-lg);
+  padding: 0 var(--space-lg);
 }
 
 input:focus,
@@ -104,6 +113,16 @@ textarea:focus {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Search bar */
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border: 2px solid var(--primary-100);
+  border-radius: var(--space-lg);
+  height: fit-content;
+}
 
 
 /* filter */
@@ -111,29 +130,38 @@ textarea:focus {
 .filter-bar {
     display: grid;
     grid-template-columns: 1fr 48px;
-    gap: var(--gap-sm);
-    margin-bottom: var(--gap-md);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
 }
 
 .filter-modal {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
   border: 2px solid var(--primary-100);
-  border-radius: var(--gap-md);
-  margin-bottom: var(--gap-md);
+  border-radius: var(--space-md);
+  margin-bottom: var(--space-md);
+  background-color: var(--primary-500);
+  z-index: 10;
+  top: 100%;
 }
 
 .filter-badge {
   display: flex;
-  padding: var(--gap-xs) var(--gap-sm);
-  border-radius: var(--gap-lg);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--space-lg);
   border: 2px solid var(--primary-100);
   color: white;
   background-color: transparent;
   font-size: 0.875rem;
   cursor: pointer;
   transition: background-color 0.25s, color 0.25s;
-  gap: var(--gap-xs);
+  gap: var(--space-xs);
+}
+
+.ui-icon {
+  width: 16px;
+  height: 16px;
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
 }
 
 /* Header */
