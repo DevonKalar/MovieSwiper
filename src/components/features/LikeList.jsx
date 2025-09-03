@@ -49,7 +49,7 @@ const LikeList = () => {
         <div className="container-xl">
 
             <h1>Your Liked Movies</h1>
-
+        
             <div className="filter-bar">
                 <form className="search-form ">
                     <input type="text" placeholder="Search..." className="full" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
@@ -90,7 +90,7 @@ const LikeList = () => {
             ) : null}
 
             <div className="grid-cols-3 gap-3">
-                {filteredMovies().map((movie) => (
+                {filteredMovies().length === 0 ? <p>No movies found matching your criteria.</p> : filteredMovies().map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div>
                         <img src={movie.poster} alt={movie.title} />
