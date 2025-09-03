@@ -15,7 +15,7 @@ const LikeList = () => {
     });
 
     const addFilter = (category, value) => {
-        setFilters(prev => ({
+        if (!filters[category].includes(value)) setFilters(prev => ({
             ...prev,
             [category]: [...prev[category], value]
         }));
@@ -80,14 +80,22 @@ const LikeList = () => {
                     </div>
                 )}
 
-            
+            {filters.genres.length > 0 || filters.releaseDates.length > 0 || filters.companies.length > 0 ? (
+                <div className="active-filters flex-row align-center gap-2 p-2">
+                    <h4 className="m-0">Active Filters:</h4>
+                    {Object.entries(filters).flatMap(([category, filters]) => (
+                        filters.map(filter => (
+                            <div key={category + filter} className="filter-badge align-center">{filter}<button onClick={() => removeFilter(category, filter)}>x</button></div>
+                        ))
+                    ))}
+                </div>
+            ) : null}
 
             <div className="grid-cols-3 gap-3">
                 {filteredMovies().map((movie) => (
                 <div className="grid-cols-2 gap-2">
-                    <div className="relative">
+                    <div>
                         <img src={movie.poster} alt={movie.title} />
-                        <button className="button-info pos-bottom-right m-1">i</button>
                     </div>
                     <div className="flex-col justify-between py-2 relative">
                         <button className="pos-top-right" onClick={() => removeLikedMovie(movie)}>x</button>
@@ -97,7 +105,7 @@ const LikeList = () => {
                         </div>
                         <div className="flex-col gap-1">
                             <button className="button-primary">Watch</button>
-                            <button className="button-outline">Share</button>
+                            <button className="button-outline">Explore</button>
                         </div>
                     </div>
                 </div>

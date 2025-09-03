@@ -110,6 +110,19 @@ textarea:focus {
   margin-bottom: var(--gap-md);
 }
 
+.filter-badge {
+  display: flex;
+  padding: var(--gap-xs) var(--gap-sm);
+  border-radius: var(--gap-lg);
+  border: 2px solid var(--primary-100);
+  color: white;
+  background-color: transparent;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+  gap: var(--gap-xs);
+}
+
 /* Header */
 
 .logo {
