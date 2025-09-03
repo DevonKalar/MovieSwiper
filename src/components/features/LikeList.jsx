@@ -24,6 +24,7 @@ const LikeList = () => {
 
     const filteredMovies = () => {
         return likedMovies.filter(movie => {
+            if(movie.title == null) return false;
             const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesFilters = filters.every(filter => {
                 const movieProp = movie[filter.category];
