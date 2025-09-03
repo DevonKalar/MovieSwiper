@@ -121,15 +121,15 @@
 /* sizing */
 
 .full {
-    width: 100%;
+    width: 100% !important;
 }
 
 .half {
-    width: 50%;
+    width: 50% !important;
 }
 
 .third {
-    width: 33.33%;
+    width: 33.33% !important;
 }
 
 

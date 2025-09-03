@@ -7,17 +7,21 @@ const LikeList = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // filtering options
+
     const [searchTerm, setSearchTerm] = useState("");
     const [filters, setFilters] = useState([]);
 
     const addFilter = (category, value) => {
         if (!filters.some(filter => filter.category === category && filter.value === value)) {
             setFilters(prev => [...prev, { category, value }]);
+            setCurrentPage(1);
         }
     };
 
     const removeFilter = (category, value) => {
         setFilters(prev => prev.filter(filter => filter.category !== category || filter.value !== value));
+        setCurrentPage(1);
     };
 
     // filtering logic
@@ -43,6 +47,38 @@ const LikeList = () => {
         genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
         releaseDates: [...new Set(likedMovies.map(movie => movie.releaseDates))],
         companies: [...new Set(likedMovies.flatMap(movie => movie.companies))],
+    }
+
+    // client-side pagination
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 18;
+
+    const paginatedMovies = () => {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        return filteredMovies().slice(start, end);
+    };
+
+    const pageNumbers = () => {
+        const totalPages = Math.ceil(filteredMovies().length / itemsPerPage);
+        return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    const nextPage = () => {
+        if (currentPage < Math.ceil(filteredMovies().length / itemsPerPage)) {
+            setCurrentPage(prev => prev + 1);
+        }
+    }
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prev => prev - 1);
+        }
+    }
+
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
     }
 
     return (
@@ -90,7 +126,7 @@ const LikeList = () => {
             ) : null}
 
             <div className="grid-cols-3 gap-3">
-                {filteredMovies().length === 0 ? <p>No movies found matching your criteria.</p> : filteredMovies().map((movie) => (
+                {paginatedMovies().length === 0 ? <p>No movies found matching your criteria.</p> : paginatedMovies().map((movie) => (
                 <div className="grid-cols-2 gap-2">
                     <div>
                         <img src={movie.poster} alt={movie.title} />
@@ -102,13 +138,30 @@ const LikeList = () => {
                             <p>{movie.genres.join(", ")}</p>
                         </div>
                         <div className="flex-col gap-1">
-                            <button className="button-primary">Watch</button>
-                            <button className="button-outline">Explore</button>
+                            <button className="button-primary full">Watch</button>
+                            <button className="button-outline full">Explore</button>
                         </div>
                     </div>
                 </div>
                 ))}
             </div>
+
+            {filteredMovies().length > itemsPerPage && (
+                <div className="flex-row justify-center items-center gap-4 p-3">
+                    <button className="button-outline" onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+                        <div className="flex-row gap-2">
+                            {pageNumbers().map(number => {
+                                return (
+                                    <button key={number} className={`button-pagination ${currentPage === number ? 'active' : ''}`} disabled={currentPage === number} onClick={() => goToPage(number)}>
+                                        {number}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    <button className="button-outline" onClick={nextPage} disabled={currentPage === Math.ceil(filteredMovies().length / itemsPerPage)}>Next</button>
+                </div>
+            )}
+
         </div>
     )
 }
