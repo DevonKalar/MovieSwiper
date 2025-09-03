@@ -8,24 +8,16 @@ const LikeList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filters, setFilters] = useState({
-        genres: [],
-        releaseDates: [],
-        companies: [],
-    });
+    const [filters, setFilters] = useState([]);
 
     const addFilter = (category, value) => {
-        if (!filters[category].includes(value)) setFilters(prev => ({
-            ...prev,
-            [category]: [...prev[category], value]
-        }));
+        if (!filters.some(filter => filter.category === category && filter.value === value)) {
+            setFilters(prev => [...prev, { category, value }]);
+        }
     };
 
     const removeFilter = (category, value) => {
-        setFilters(prev => ({
-            ...prev,
-            [category]: prev[category].filter(item => item !== value)
-        }));
+        setFilters(prev => prev.filter(filter => filter.category !== category || filter.value !== value));
     };
 
     // filtering logic
@@ -33,10 +25,14 @@ const LikeList = () => {
     const filteredMovies = () => {
         return likedMovies.filter(movie => {
             const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesGenre = filters.genres.length === 0 || filters.genres.every(g => movie.genres.includes(g));
-            const matchesReleaseDate = filters.releaseDates.length === 0 || filters.releaseDates.includes(movie.releaseDate);
-            const matchesCompany = filters.companies.length === 0 || filters.companies.includes(movie.companies);
-            return matchesSearch && matchesGenre && matchesReleaseDate && matchesCompany;
+            const matchesFilters = filters.every(filter => {
+                const movieProp = movie[filter.category];
+                if (Array.isArray(movieProp)) {
+                    return movieProp.includes(filter.value);
+                }
+                return movieProp === filter.value;
+            });
+            return matchesSearch && matchesFilters;
         });
     };
 
@@ -80,13 +76,14 @@ const LikeList = () => {
                     </div>
                 )}
 
-            {filters.genres.length > 0 || filters.releaseDates.length > 0 || filters.companies.length > 0 ? (
+            {filters.length > 0 ? (
                 <div className="active-filters flex-row align-center gap-2 p-2">
                     <h4 className="m-0">Active Filters:</h4>
-                    {Object.entries(filters).flatMap(([category, filters]) => (
-                        filters.map(filter => (
-                            <div key={category + filter} className="filter-badge align-center">{filter}<button onClick={() => removeFilter(category, filter)}>x</button></div>
-                        ))
+                    {filters.map((filter, index) => (
+                        <div key={`${filter.category}-${filter.value}-${index}`} className="filter-badge flex-row align-center gap-1">
+                            <span>{filter.value} ({filter.category})</span>
+                            <button onClick={() => removeFilter(filter.category, filter.value)}>x</button>
+                        </div>
                     ))}
                 </div>
             ) : null}
