@@ -51,23 +51,28 @@
 /* containers */
 
 .container-sm {
-    max-width: 440px;
+  max-width: 440px;
+  width:100%;
 }
 
 .container-md {
-    max-width: 768px;
+  max-width: 768px;
+  width:100%;
 }
 
 .container-lg {
-    max-width: 1024px;
+  max-width: 1024px;
+  width:100%;
 }
 
 .container-xl {
-    max-width: 1520px;
+  max-width: 1520px;
+  width:100%; 
 }
 
 .container-full {
-    max-width: 100%;
+  max-width: 100%;
+  width:100%;
 }
 
 
@@ -86,7 +91,7 @@ nav {
 main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding: 2rem;
   background-color: var(--primary-500);
