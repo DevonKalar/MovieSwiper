@@ -11,8 +11,12 @@ export const fetchMovieDetails = async (movieId) => {
     }
     const data = await response.json();
     return {
+      id: data.id,
       title: data.title,
       description: data.overview,
+      companies: data.production_companies?.map(company => company.name) || "Unknown",
+      genres: data.genres?.map(genre => genre.name) || "Unknown",
+      releaseDates: data.release_date,
       poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
     };
   } catch (error) {

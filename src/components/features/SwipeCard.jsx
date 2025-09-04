@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchMovieDetails } from "../../services/movieService.js";
+import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const SwipeCard = () => {
 
@@ -24,17 +25,25 @@ const SwipeCard = () => {
     getMovieData(movieId);
   }, [movieId]);
 
+  const { likeMovie, rejectMovie, passMovie, likedMovies, rejectedMovies, passedMovies } = useMovies();
+
   const handleSubmit = (e) => {
     const buttonValue = e.currentTarget.value
     switch (buttonValue) {
       case 'yes':
     console.log("User liked the movie:", movieData.title);
+    likeMovie(movieData);
+    console.log("Current liked movies:", likedMovies);
     break;
       case 'no':
     console.log("User disliked the movie:", movieData.title);
+    rejectMovie(movieData);
+    console.log("Current disliked movies:", rejectedMovies);
     break;
       case 'pass':
     console.log("User passed on the movie:", movieData.title);
+    passMovie(movieData);
+    console.log("Current passed movies:", passedMovies);
     break;
       default:
     console.log("Unknown button value:", buttonValue);
@@ -43,20 +52,20 @@ const SwipeCard = () => {
   }
 
   return (
-    <div className="swipe-card-box">
-      <div className="swipe-card">
-        <div className="image-container">
+    <div className="container-sm">
+      <div>
+        <div className="relative">
           <img src={movieData.poster} alt="Movie Poster" />
-          <div className="movie-info">
+          <div className="pos-bottom-left p-2">
             <h3>{movieData.title}</h3>
             <p>{movieData.description}</p>
           </div>
         </div>
       </div>
-      <div className="AnswerWrapper">
-        <button onClick={handleSubmit} className="swipe-button" value="no">Nope</button>
-        <button onClick={handleSubmit} className="swipe-button" value="pass">Pass</button>
-        <button onClick={handleSubmit} className="swipe-button" value="yes">Yeah</button>
+      <div className="flex-row justify-center gap-1 py-2">
+        <button onClick={handleSubmit} className="button-circle" value="no">Nope</button>
+        <button onClick={handleSubmit} className="button-circle" value="pass">Pass</button>
+        <button onClick={handleSubmit} className="button-circle" value="yes">Yeah</button>
       </div>
     </div>
   );

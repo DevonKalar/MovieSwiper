@@ -1,0 +1,148 @@
+
+
+  /* Colors */
+
+:root {
+  --primary-100: #CDD1D5;
+  --primary-300: #687480;
+  --primary-500: #04182C;
+  --primary-700: #020E1A;
+  --primary-900: #010509;
+}
+
+:root {
+  --secondary-100: #CDDBEA;
+  --secondary-300: #9CB7D5;
+  --secondary-500: #1236E9;
+  --secondary-700: #042E5A;
+  --secondary-900: #010F1E;
+}
+
+:root {
+  --accent-100: #DFFCFA;
+  --accent-300: #9EF6EF;
+  --accent-500: #73E8FF;
+  --accent-700: #389089;
+  --accent-900: #13302E;
+}
+
+:root {
+  --gray-100: #f8f9fa;
+  --gray-300: #f8f9fa;
+  --gray-500: #f8f9fa;
+  --gray-700: #f8f9fa;
+  --gray-900: #f8f9fa;
+}
+
+:root {
+  --error-100: red;
+  --error-300: red;
+  --error-500: red;
+  --error-700: red;
+  --error-900: red;
+}
+
+:root {
+  --warn-100: yellow;
+  --warn-300: yellow;
+  --warn-500: yellow;
+  --warn-700: yellow;
+  --warn-900: yellow;
+}
+
+:root {
+  --success-100: green;
+  --success-300: green;
+  --success-500: green;
+  --success-700: green;
+  --success-900: green;
+}
+
+/* Typography */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-Italic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter_18pt-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+:root {
+--base-font-size: 16px;
+--h1-font-size: 2.5rem;
+--h2-font-size: 2rem;
+--h3-font-size: 1.5rem;
+--h4-font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --h1-font-size: 2.8rem;
+        --h2-font-size: 2.3rem;
+        --h3-font-size: 1.75rem;
+        --h4-font-size: 1.7rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --h1-font-size: 2.8rem;
+        --h2-font-size: 2.3rem;
+        --h3-font-size: 1.75rem;
+        --h4-font-size: 1.7rem;
+    }
+}
+
+/* Breakpoints */
+:root {
+    --breakpoint-mobile: 0;
+    --breakpoint-tablet: 768px;
+    --breakpoint-laptop: 1024px;
+    --breakpoint-desktop: 1440px;
+    --breakpoint-wide: 1920px;
+}
+
+/* spacing */
+:root {
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-xxl: 3rem;
+}
