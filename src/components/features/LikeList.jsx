@@ -125,12 +125,12 @@ const LikeList = () => {
                     <div key={category} className="flex flex-col justify-center relative">
                         <div className="flex flex-row justify-between items-center">
                         <h4 className="m-0">{category.charAt(0).toUpperCase() + category.slice(1)}</h4> 
-                        <button className="modal-button bg-transparent border-2 border-white rounded-full p-2" onClick={() => toggleModal(category)}><img src="/src/assets/icons/down-arrow.png" className="w-4 h-4 invert"/></button>
+                        <button className="modal-button bg-transparent border-2 border-white rounded-full p-2 w-8 h-8" onClick={() => toggleModal(category)}><img src="/src/assets/icons/down-arrow.png" className="w-4 h-4 invert"/></button>
                         </div>
                         {modals[category] && 
-                            <div ref={modalRef} className="filter-modal flex flex-row flex-wrap absolute top-full bg-primary-500 border-2 rounded-2xl p-4 my-2 gap-1 overflow-y-auto z-10">
+                            <div ref={modalRef} className="filter-modal flex flex-row flex-wrap absolute top-full bg-primary-500 border-2 rounded-2xl p-4 my-2 gap-2 overflow-y-auto z-10">
                                 {options.map(option => (
-                                    <button className="flex p-2 px-4 text-sm outline border-1" key={option} onClick={() => addFilter(category, option)}>
+                                    <button className="flex h-8 p-2 px-4 text-sm outline border-1" key={option} onClick={() => addFilter(category, option)}>
                                         {option}
                                     </button>
                                 ))}
@@ -144,7 +144,7 @@ const LikeList = () => {
                     {filters.map((filter, index) => (
                         <div key={`${filter.category}-${filter.value}-${index}`} className="flex flex-row items-center text-sm gap-1 outline border-1 px-4 rounded-4xl">
                             <span>{filter.value} ({filter.category})</span>
-                            <button className="bg-transparent px-2" onClick={() => removeFilter(filter.category, filter.value)}>x</button>
+                            <button className="bg-transparent px-2 h-8" onClick={() => removeFilter(filter.category, filter.value)}>x</button>
                         </div>
                     ))}
                 </div>
@@ -155,11 +155,13 @@ const LikeList = () => {
                 <div className="grid-cols-2 gap-2">
                     <div className="relative">
                         <img className="rounded-2xl" src={movie.poster} alt={movie.title} />
-                        <div className="flex-col absolute top-0 left-0 w-full h-full p-4 justify-between opacity-0 hover:opacity-100 hover:backdrop-blur-xs bg-blur text-white rounded-2xl border-1 border-primary-300">
-                            <button className="border-1 w-0.5 rounded-full bg-white text-xs text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)}>x</button>
-                            <div>
-                                <h3>{movie.title}</h3>
-                                <p>{movie.genres.join(", ")}</p>
+                        <div className="flex flex-col absolute top-0 left-0 w-full h-full p-4 justify-between opacity-0 hover:opacity-100 hover:backdrop-blur-xs bg-blur text-white rounded-2xl border-1 border-primary-300">
+                            <div className="flex flex-row justify-between items-start gap-4">
+                                <div>
+                                    <h3>{movie.title}</h3>
+                                    <p>{movie.genres.join(", ")}</p>
+                                </div>
+                                <button className="border-1 h-6 w-6 p-2 rounded-full bg-white text-xs text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)}>x</button>
                             </div>
                             <div className="flex flex-col gap-2">
                                 <button className="border-2 border-secondary-500 w-full">Watch</button>
@@ -173,7 +175,7 @@ const LikeList = () => {
             </div>
 
             {filteredMovies().length > itemsPerPage && (
-                <div className="flex flex-row justify-center items-center gap-4 p-3">
+                <div className="flex flex-row justify-center items-center gap-4 p-3 my-4">
                     <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
                         <div className="flex flex-row gap-2">
                             {pageNumbers().map(number => {

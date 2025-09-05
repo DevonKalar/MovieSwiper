@@ -8,7 +8,23 @@
   }
 
   h1 {
+    line-height: 1.1 !important;
     @apply text-5xl;
+  }
+
+  h2 {
+    line-height: 1.1 !important;
+    @apply text-4xl;
+  }
+
+  h3 {
+    line-height: 1.1 !important;
+    @apply text-2xl;
+  }
+
+  h4 {
+    line-height: 1.1 !important;
+    @apply text-base;
   }
 
   #root {
@@ -16,7 +32,7 @@
   }
 
   button {
-    @apply italic font-bold bg-secondary-500 text-white py-2 px-4 rounded-full hover:bg-secondary-700 hover:cursor-pointer hover:opacity-75 flex items-center justify-center;
+    @apply italic h-12 font-bold bg-secondary-500 text-white py-2 px-4 rounded-full hover:bg-secondary-700 hover:cursor-pointer hover:opacity-75 flex items-center justify-center;
   }
 
   button[disabled] {
@@ -36,6 +52,11 @@
   }
 
   .bg-blur:hover {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  .bg-blur:active {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
   }

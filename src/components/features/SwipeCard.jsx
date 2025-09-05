@@ -58,10 +58,7 @@ const SwipeCard = () => {
       <>
 
       <div className="relative rounded-2xl">
-        <img src={movieData.poster} alt="Movie Poster" />
-        <div className="absolute bottom-0 left-0 p-4 bg-primary-700 bg-opacity-10 w-full text-white">
-          <h3>{movieData.title}</h3>
-        </div>
+        <img className="rounded-2xl" src={movieData.poster} alt="Movie Poster" />
       </div>
 
       <div className="flex flex-row justify-center gap-4 py-4">
