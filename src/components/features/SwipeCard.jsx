@@ -52,22 +52,28 @@ const SwipeCard = () => {
   }
 
   return (
-    <div className="container-sm">
-      <div>
-        <div className="relative">
-          <img src={movieData.poster} alt="Movie Poster" />
-          <div className="pos-bottom-left p-2">
-            <h3>{movieData.title}</h3>
-            <p>{movieData.description}</p>
-          </div>
+    <div className="max-w-md mx-auto">
+
+      {movieData.title === undefined || movieData.title === null ? <p>no movies dude</p> : 
+      <>
+
+      <div className="relative rounded-2xl">
+        <img src={movieData.poster} alt="Movie Poster" />
+        <div className="absolute bottom-0 left-0 p-4 bg-primary-700 bg-opacity-10 w-full text-white">
+          <h3>{movieData.title}</h3>
         </div>
       </div>
-      <div className="flex-row justify-center gap-1 py-2">
-        <button onClick={handleSubmit} className="button-circle" value="no">Nope</button>
-        <button onClick={handleSubmit} className="button-circle" value="pass">Pass</button>
-        <button onClick={handleSubmit} className="button-circle" value="yes">Yeah</button>
+
+      <div className="flex flex-row justify-center gap-4 py-4">
+        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="no">Nope</button>
+        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="pass">Pass</button>
+        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="yes">Yeah</button>
       </div>
+      
+      </>}
+
     </div>
+
   );
 };
 

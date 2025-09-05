@@ -1,58 +1,45 @@
-/* normalize */
+@import "tailwindcss";
+@import './fonts.css';
+@import "./theme.css";
 
-html, body {
-  height: 100%;
-  font-size: var(--base-font-size);
-  line-height: 1.5;
-  font-family: Inter;
-  color: var(--primary-100);
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-accent-500 m-0 italic font-bold;
+  }
+
+  h1 {
+    @apply text-5xl;
+  }
+
+  #root {
+    @apply bg-primary-500 text-primary-100 flex flex-col min-h-screen gap-12 font-normal text-base;
+  }
+
+  button {
+    @apply italic font-bold bg-secondary-500 text-white py-2 px-4 rounded-full hover:bg-secondary-700 hover:cursor-pointer hover:opacity-75 flex items-center justify-center;
+  }
+
+  button[disabled] {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  input {
+    @apply border-2 border-primary-100 bg-transparent text-primary-100 p-2 px-4 rounded-full focus:outline-none focus:border-secondary-500;
+  }
+
+  * {
+    @apply transition-[opacity,transform,background-color,border-color,color] duration-300;
+  }
+
+  .outline {
+    @apply border-2 bg-transparent border-white;
+  }
+
+  .bg-blur:hover {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+  }
+  
+
 }
-
-main {
-  min-height: calc(100vh - 56px - 99px);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Typography */
-
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1.1;
-  margin-bottom: 1rem;
-  color: var(--accent-500);
-  font-style: italic;
-  font-weight: bold;
-}
-
-h1 {
-  font-size: var(--h1-font-size);
-}
-
-h2 {
-  font-size: var(--h2-font-size);
-}
-
-h3 {
-  font-size: var(--h3-font-size);
-}
-
-h4 {
-  font-size: var(--h4-font-size);
-}
-
 
