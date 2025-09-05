@@ -55,11 +55,6 @@
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
   }
-
-  .bg-blur:active {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-  }
   
 
 }
