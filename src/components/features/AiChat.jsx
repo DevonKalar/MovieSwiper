@@ -1,26 +1,25 @@
 import { useState, useEffect } from 'react';
 
 const mockChatData = [
-	{ sender: 'agent', contents: 'Hello! How can I assist you today?' },
-	{ sender: 'user', contents: 'Can you recommend a movie for me?' },
-	{ sender: 'agent', contents: 'Sure! What kind of mood are you in today?' },
-	{ sender: 'user', contents: 'I am feeling very angsty' },
-	{ sender: 'agent', contents: 'Thank you! Let me find a movie that matches your mood.' },
+	{ sender: 'agent', message: 'Hello! How can I assist you today?' },
+	{ sender: 'user', message: 'Can you recommend a movie for me?' },
+	{ sender: 'agent', message: 'Sure! What kind of mood are you in today?' },
+	{ sender: 'user', message: 'I am feeling very angsty' },
+	{ sender: 'agent', message: 'Thank you! Let me find a movie that matches your mood.' },
 ];
 
 export const AiChat = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const toggleModal = () => setIsModalOpen(!isModalOpen);
-	const closeModal = () => setIsModalOpen(false);
-
+	const [chatData, setChatData] = useState(mockChatData);
 	const [userMessage, setUserMessage] = useState("");
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		mockChatData.push({ sender: 'user', contents: userMessage });
+		setChatData([...chatData, { sender: 'user', message: userMessage }]);
 		setUserMessage('');
-	}
+	};
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const toggleModal = () => setIsModalOpen(!isModalOpen);
+	const closeModal = () => setIsModalOpen(false);
 	
 	return (
 		<div className="flex flex-col items-end fixed bottom-12 right-12 z-50 gap-2">
@@ -35,11 +34,11 @@ export const AiChat = () => {
 				>x</button>
 			</div>
 			<div className="flex flex-col p-4 gap-2 max-h-64 overflow-y-auto">
-				{mockChatData.map((message, index) => {
-					const isAgent = message.sender === 'agent';
+				{chatData.map((chat, index) => {
+					const isAgent = chat.sender === 'agent';
 					return (
 						<div key={`message-${index}`} className={`flex flex-col ${isAgent ? 'items-start mr-8' : 'items-end ml-8'} gap-1`}>
-							<p className={`p-2 px-4 rounded-3xl ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-300'} text-sm`}>{message.contents}</p>
+							<p className={`p-2 px-4 rounded-3xl ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-300'} text-sm`}>{chat.message}</p>
 							<p className="text-sm text-primary-300">{isAgent ? 'Agent' : 'User'}</p>
 						</div>
 					);
@@ -53,7 +52,6 @@ export const AiChat = () => {
 			</div>
 		</div>}
 
-		{/* Placeholder for the AI Chat Bubble */}
 		<button className="modal-button w-16 h-16 rounded-full " onClick={toggleModal}>AI</button>
 		</div>
     );
