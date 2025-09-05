@@ -2,16 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex-row justify-center">
-      <div className="container-xl flex-row justify-between items-center full">
+    <header className="bg-primary-700 flex-row justify-center p-4">
+      <div className="w-full max-w-7xl flex flex-row justify-between items-center mx-auto">
         <Link to="/" className="home-link">
-          <h1 className="logo m-0">MovieSwiper</h1>
+          <h1 className="text-white m-0">MovieSwiper</h1>
         </Link>
-        <nav>
-          <NavLink to="/" className="nav-link">
+        <nav className="flex flex-row gap-4 justify-center items-center">
+          <NavLink to="/" className="nav-link text-white">
             Discover
           </NavLink>
-          <NavLink to="/likes" className="nav-link">
+          <NavLink to="/likes" className="nav-link text-white">
             Watch List
           </NavLink>
         </nav>
