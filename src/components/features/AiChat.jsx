@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
+import { getAgentResponse } from '../../services/AiChatService.js';
 
-const mockChatData = [
-	{ sender: 'agent', message: 'Hello! How can I assist you today?' },
-	{ sender: 'user', message: 'Can you recommend a movie for me?' },
-	{ sender: 'agent', message: 'Sure! What kind of mood are you in today?' },
-	{ sender: 'user', message: 'I am feeling very angsty' },
-	{ sender: 'agent', message: 'Thank you! Let me find a movie that matches your mood.' },
-];
+
 
 export const AiChat = () => {
+	const mockChatData = [
+	{ sender: 'agent', message: 'Hello! How can I help you today?' }
+	];
 	const [chatData, setChatData] = useState(mockChatData);
 	const [userMessage, setUserMessage] = useState("");
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setChatData([...chatData, { sender: 'user', message: userMessage }]);
+
+		// add user message to chat
+		setChatData(prev => [...prev, { sender: 'user', message: userMessage }]);
+		// clear input
 		setUserMessage('');
+		// get agent response
+		getAgentResponse(userMessage).then(response => {
+			setChatData(prev => [...prev, response]);
+		});
 	};
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,9 +30,11 @@ export const AiChat = () => {
 		<div className="flex flex-col items-end fixed bottom-12 right-12 z-50 gap-2">
 		
     {isModalOpen && <div className="modal flex flex-col w-96 gap-2 mb-4 bg-white border rounded-lg shadow-lg ">
-			<div className="flex flex-row items-center justify-between p-4 gap-2">
-				<img src="" alt="AI Avatar" className="w-8 h-8 rounded-full bg-primary-100" />
-				<p className="text-secondary-500">AI Avatar Name</p>
+			<div className="flex flex-row items-center justify-between p-4 gap-2 border-b-1">
+				<div className="flex flex-row items-center gap-2">
+				<img src="/src/assets/images/ai-avatar.jpg" alt="AI Avatar" className="w-12 h-12 rounded-full bg-primary-100" />
+				<p className="text-secondary-500">Movio</p>
+				</div>
 				<button
 					className="bg-transparent px-2 h-8 text-secondary-500"
 					onClick={closeModal}
@@ -38,13 +45,13 @@ export const AiChat = () => {
 					const isAgent = chat.sender === 'agent';
 					return (
 						<div key={`message-${index}`} className={`flex flex-col ${isAgent ? 'items-start mr-8' : 'items-end ml-8'} gap-1`}>
-							<p className={`p-2 px-4 rounded-3xl ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-300'} text-sm`}>{chat.message}</p>
-							<p className="text-sm text-primary-300">{isAgent ? 'Agent' : 'User'}</p>
+							<p className={`p-2 px-4 rounded-3xl font-light ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-100'} text-sm`}>{chat.message}</p>
+							<p className="text-sm text-primary-300 font-light italic">{isAgent ? 'Movio' : 'You'}</p>
 						</div>
 					);
 				})}
 			</div>
-			<div className="">
+			<div className="border-t-1 p-2">
 				<form onSubmit={handleSubmit} className="flex flex-row items-center p-2 w-full">
 					<input className="p-2 px-4 h-12 w-full text-secondary-500 rounded-3xl border-r-0 rounded-tr-none rounded-br-none text-sm" type="text" placeholder="Type your message..." value={userMessage} onChange={(e) => setUserMessage(e.target.value)} />
 					<button className="bg-primary-500 text-white rounded-3xl rounded-tl-none rounded-bl-none" type="submit">Send</button>
