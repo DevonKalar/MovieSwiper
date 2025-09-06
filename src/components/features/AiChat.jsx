@@ -1,26 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getAgentResponse } from '../../services/AiChatService.js';
 
-
-
 export const AiChat = () => {
-	const mockChatData = [
-	{ sender: 'agent', message: 'Hello! How can I help you today?' }
-	];
-	const [chatData, setChatData] = useState(mockChatData);
+	const initialChatData = [{
+		sender: 'agent',
+		message: 'Hello, I\'m Movio. I can recommend movies or answer trivia questions! How can I help you today?'
+	}];
+	const [chatData, setChatData] = useState(initialChatData);
 	const [userMessage, setUserMessage] = useState("");
+	const [isAgentTyping, setIsAgentTyping] = useState(false);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
 		// add user message to chat
 		setChatData(prev => [...prev, { sender: 'user', message: userMessage }]);
 		// clear input
 		setUserMessage('');
 		// get agent response
+		setIsAgentTyping(true);
 		getAgentResponse(userMessage).then(response => {
 			setChatData(prev => [...prev, response]);
+			setIsAgentTyping(false);
 		});
 	};
+
+	const chatMessagesRef = useRef(null);
+
+	const scrollToBottom = () => {
+		if (chatMessagesRef.current) {
+			chatMessagesRef.current.scrollTo({
+				top: chatMessagesRef.current.scrollHeight,
+				behavior: 'smooth'
+			});
+		}
+	};
+
+	useEffect(() => {scrollToBottom();}, [chatData, isAgentTyping]);
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -40,16 +55,20 @@ export const AiChat = () => {
 					onClick={closeModal}
 				>x</button>
 			</div>
-			<div className="flex flex-col p-4 gap-2 max-h-64 overflow-y-auto">
+			<div className="flex flex-col p-4 gap-2 max-h-96 overflow-y-auto" ref={chatMessagesRef}>
 				{chatData.map((chat, index) => {
 					const isAgent = chat.sender === 'agent';
 					return (
 						<div key={`message-${index}`} className={`flex flex-col ${isAgent ? 'items-start mr-8' : 'items-end ml-8'} gap-1`}>
-							<p className={`p-2 px-4 rounded-3xl font-light ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-100'} text-sm`}>{chat.message}</p>
+							<p className={`p-3 px-4 rounded-3xl font-light ${isAgent ? 'rounded-bl-none text-white bg-primary-500' : 'rounded-br-none text-secondary-700 bg-secondary-100'} text-sm`}>{chat.message}</p>
 							<p className="text-sm text-primary-300 font-light italic">{isAgent ? 'Movio' : 'You'}</p>
 						</div>
 					);
 				})}
+				{isAgentTyping && (<div className="flex flex-col items-start mr-8 gap-1">
+					<p className="p-3 px-4 rounded-3xl font-light rounded-bl-none text-white bg-primary-500 text-sm animate-pulse">Movio is typing...</p>
+					<p className="text-sm text-primary-300 font-light italic">Movio</p>
+				</div>)}
 			</div>
 			<div className="border-t-1 p-2">
 				<form onSubmit={handleSubmit} className="flex flex-row items-center p-2 w-full">

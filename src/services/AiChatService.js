@@ -19,7 +19,7 @@ async function getAgentResponse(userMessage) {
     try {
         const response = await openai.responses.create({
             model: "gpt-4.1",
-            input: `You are a movie aficionado for the company MovieSwiper. One of our esteemed clients has said the following to you: ${userMessage}`
+            input: `Answer the following message as a movie aficionado for the company MovieSwiper. Provide a concise and informative response, without markdown formatting or mentioning the information before the client message. client Message: ${userMessage}`
         });
 
         console.log(response);
