@@ -98,7 +98,7 @@ const LikeList = () => {
             onClick={() => toggleModal(category)}
             type="button"
             >
-            <img src="/src/assets/icons/down-arrow.png" className="w-4 h-4 invert" alt="Toggle" />
+            <img src="/down-arrow.png" className="w-4 h-4 invert" alt="Toggle" />
             </button>
         </div>
         {modals[category] && (
