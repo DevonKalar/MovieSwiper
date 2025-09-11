@@ -1,10 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { getAgentResponse } from '../../services/AiChatService.js';
+import { useMovies } from '../../providers/MoviesContext.jsx';
 
 export const AiChat = () => {
+	const { likedMovies } = useMovies();
+	const movieTitles = useMemo(() => likedMovies.map(movie => movie.title).join(", "), [likedMovies]);
+
 	const initialChatData = [{
 		sender: 'agent',
-		message: 'Hello, I\'m Movio. I can recommend movies or answer trivia questions! How can I help you today?'
+		message: 'Hello, I\'m Movio! Here to chat about all things movies! Can I recommend a movie, or answer some trivia questions for you?'
 	}];
 	const [chatData, setChatData] = useState(initialChatData);
 	const [userMessage, setUserMessage] = useState("");
@@ -18,7 +22,7 @@ export const AiChat = () => {
 		setUserMessage('');
 		// get agent response
 		setIsAgentTyping(true);
-		getAgentResponse(userMessage).then(response => {
+		getAgentResponse(userMessage, movieTitles).then(response => {
 			setChatData(prev => [...prev, response]);
 			setIsAgentTyping(false);
 		});
