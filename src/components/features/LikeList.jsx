@@ -47,7 +47,7 @@ const LikeList = () => {
 
   const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+    gridRef.current.scrollIntoView({ behavior: 'smooth' });
   };
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(prev => prev - 1);
@@ -78,7 +78,7 @@ const LikeList = () => {
   // Filter options
   const filterOptions = {
     genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
-    releaseYear: [...new Set(likedMovies.map(movie => movie.releaseYear))],
+    releaseYear: [...new Set(likedMovies.map(movie => movie.releaseYear).sort((a, b) => b - a))],
     rating: [...new Set(likedMovies.map(movie => movie.rating))],
   };
 

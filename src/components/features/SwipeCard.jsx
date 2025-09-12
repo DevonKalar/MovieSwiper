@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { getPersonalizedMovies } from "../../services/movieService.js";
 import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const SwipeCard = () => {
   const { likeMovie, rejectMovie, passMovie, movieQueue, removeFromQueue } = useMovies();
   const [activeMovie, setActiveMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [cardAction, setCardAction] = useState(null); // 'like', 'reject', 'pass'
 
   useEffect(() => {
     if (movieQueue.length > 0) {
@@ -17,12 +17,15 @@ const SwipeCard = () => {
     const buttonValue = e.currentTarget.value;
     switch (buttonValue) {
       case 'yes':
+        setCardAction('like');
         likeMovie(activeMovie);
         break;
       case 'no':
+        setCardAction('reject');
         rejectMovie(activeMovie);
         break;
       case 'pass':
+        setCardAction('pass');
         passMovie(activeMovie);
         break;
       default:
@@ -30,7 +33,11 @@ const SwipeCard = () => {
         break;
     }
     //remove movie from queue
-    removeFromQueue(activeMovie.id);
+
+    setTimeout(() => {
+      removeFromQueue(activeMovie.id);
+      setCardAction(null);
+    }, 1000);
   };
 
 
@@ -44,8 +51,8 @@ const SwipeCard = () => {
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="relative rounded-2xl">
-        <img className="rounded-2xl" src={activeMovie.poster} alt="Movie Poster" />
+      <div className="relative rounded-2xl" >
+        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : cardAction === 'pass' ? 'border-yellow-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
       </div>
       <div className="flex flex-row justify-center gap-4 py-4">
         <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="no">Nope</button>
