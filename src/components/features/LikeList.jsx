@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const LikeList = () => {
@@ -47,11 +47,18 @@ const LikeList = () => {
 
   const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(prev => prev - 1);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
-  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+  };
+
+  const topRef = useRef(null);
 
   // Modal logic
   useEffect(() => {
@@ -71,12 +78,12 @@ const LikeList = () => {
   // Filter options
   const filterOptions = {
     genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
-    releaseDates: [...new Set(likedMovies.map(movie => movie.releaseDates))],
-    companies: [...new Set(likedMovies.flatMap(movie => movie.companies))],
+    releaseYear: [...new Set(likedMovies.map(movie => movie.releaseYear))],
+    rating: [...new Set(likedMovies.map(movie => movie.rating))],
   };
 
   return (
-    <div className="w-full max-w-7xl relative mx-auto px-4 md:px-8 xl:px-0 ">
+    <div ref={topRef} className="w-full max-w-7xl relative mx-auto px-4 md:px-8 xl:px-0 ">
 
     <h1>Your Liked Movies</h1>
     <div className="grid md:grid-cols-4 gap-4 my-4 mt-8">
@@ -92,7 +99,7 @@ const LikeList = () => {
     {Object.entries(filterOptions).map(([category, options]) => (
         <div key={category} className="flex flex-col justify-center relative">
         <div className="flex flex-row justify-between items-center">
-            <h4 className="m-0">{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+            <h4 className="m-0">{category.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}</h4>
             <button
             className="modal-button bg-transparent border-2 border-white rounded-full p-2 w-8 h-8"
             onClick={() => toggleModal(category)}
@@ -130,7 +137,7 @@ const LikeList = () => {
     </div>
     )}
 
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 my-2">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 my-2" >
     {paginatedMovies.length === 0 ? (
         <p>No movies found matching your criteria.</p>
     ) : paginatedMovies.map((movie) => (
