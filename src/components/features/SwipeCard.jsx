@@ -1,57 +1,58 @@
-
 import { useState, useEffect } from "react";
-import { fetchMovieDetails } from "../../services/movieService.js";
 import { useMovies } from "../../providers/MoviesContext.jsx";
 
 const SwipeCard = () => {
-
-  const randomMovieId = () => Math.floor(Math.random() * 1000);
-  const [movieId, setMovieId] = useState(randomMovieId);
-  const [movieData, setMovieData] = useState({});
+  const { likeMovie, rejectMovie, passMovie, movieQueue, removeFromQueue } = useMovies();
+  const [activeMovie, setActiveMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [cardAction, setCardAction] = useState(null); // 'like', 'reject', 'pass'
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchMovieDetails(movieId);
-      setMovieData(data || {});
-    };
-    fetchData();
-  }, [movieId]);
-
-  const { likeMovie, rejectMovie, passMovie } = useMovies();
-
+    if (movieQueue.length > 0) {
+      setActiveMovie(movieQueue[0]);
+    }
+  }, [movieQueue]);
 
   const handleSubmit = (e) => {
     const buttonValue = e.currentTarget.value;
     switch (buttonValue) {
       case 'yes':
-        likeMovie(movieData);
+        setCardAction('like');
+        likeMovie(activeMovie);
         break;
       case 'no':
-        rejectMovie(movieData);
+        setCardAction('reject');
+        rejectMovie(activeMovie);
         break;
       case 'pass':
-        passMovie(movieData);
+        setCardAction('pass');
+        passMovie(activeMovie);
         break;
       default:
         // handle unknown
         break;
     }
-    setMovieId(randomMovieId());
+    //remove movie from queue
+
+    setTimeout(() => {
+      removeFromQueue(activeMovie.id);
+      setCardAction(null);
+    }, 1000);
   };
 
 
-  if (!movieData.title) {
+  if (!activeMovie.title) {
     return (
       <div className="max-w-md mx-auto">
-        <p>no movies dude</p>
+        <p>API ERROR: Movie Not Returned</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="relative rounded-2xl">
-        <img className="rounded-2xl" src={movieData.poster} alt="Movie Poster" />
+      <div className="relative rounded-2xl" >
+        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : cardAction === 'pass' ? 'border-yellow-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
       </div>
       <div className="flex flex-row justify-center gap-4 py-4">
         <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="no">Nope</button>

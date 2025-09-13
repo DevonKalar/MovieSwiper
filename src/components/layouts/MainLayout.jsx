@@ -8,7 +8,7 @@ const MainLayout = () => {
     <>
       <Header />
       <AiChat />
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
