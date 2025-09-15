@@ -1,7 +1,3 @@
-import OpenAI from "openai";
-
-//to do: move key to backend for security
-
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const baseUrl = `${backendUrl}openai/`;
 
@@ -56,43 +52,5 @@ try {
 	};
 }
 };
-
-
-
-// legacy code using OpenAI SDK directly from frontend - moved to backend for security
-async function getAgentResponseLegacy(userMessage, likedMovies) {
-
-    // call the OpenAI API
-    if (!userMessage || userMessage.trim() === '') {
-        return {
-            sender: 'agent',
-            message: 'Please provide a message for me to respond to.',
-            error: true
-        };
-    }
-
-    try {
-        const response = await openai.responses.create({
-            model: "gpt-4.1",
-            input: `Instructions:
-            ${instructions}
-            Client Message:
-            ${userMessage}`
-        });
-
-        console.log(response);
-        return {
-            sender: 'agent',
-            message: response.output_text
-        };
-    } catch (error) {
-        console.error('OpenAI API error:', error);
-        return {
-            sender: 'agent',
-            message: 'Sorry, I encountered an error. Please try again.',
-            error: true
-        };
-    }
-}
 
 export { getAgentResponse };

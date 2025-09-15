@@ -46,9 +46,9 @@ export const AiChat = () => {
 	const closeModal = () => setIsModalOpen(false);
 	
 	return (
-		<div className="flex flex-col items-end fixed bottom-12 right-12 z-50 gap-2">
+	<div className="flex flex-col items-end fixed max-w-full bottom-0 right-0 p-4 z-50 gap-2">
 		
-    {isModalOpen && <div className="modal flex flex-col w-96 gap-2 mb-4 bg-white border rounded-lg shadow-lg ">
+    {isModalOpen && <div className="modal flex flex-col w-full md:w-96 gap-2 mb-4 bg-white border rounded-lg shadow-lg ">
 			<div className="flex flex-row items-center justify-between p-4 gap-2 border-b-1">
 				<div className="flex flex-row items-center gap-2">
 				<img src="/ai-avatar.jpg" alt="AI Avatar" className="w-12 h-12 rounded-full bg-primary-100" />
@@ -83,6 +83,6 @@ export const AiChat = () => {
 		</div>}
 
 		<button className="modal-button w-16 h-16 rounded-full " onClick={toggleModal}>AI</button>
-		</div>
+	</div>
     );
 }

@@ -18,7 +18,6 @@ const actionHelper = (action, actionFunction) => {
   
   setTimeout(() => {
     actionFunction(activeMovie);
-    removeFromQueue(activeMovie.id);
     setCardAction(null);
   }, 1000);
 };
@@ -51,7 +50,7 @@ const handleSubmit = (e) => {
   }
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto p-4">
       <div className="relative rounded-2xl" >
         <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : cardAction === 'pass' ? 'border-yellow-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
       </div>
