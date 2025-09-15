@@ -110,10 +110,9 @@ export const fetchPopularMovies = async (page = 1) => {
 export const fetchPersonalizedMovies = async (genres = ["878", "53"], page = 1) => {
   const genreString = genres.join("%7C");
   const url = `${baseURL}movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
-  const testUrl = "http://localhost:3000/api/tmdb/movies?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
-  console.log("Fetching personalized movies from:", testUrl);
+  console.log("Fetching personalized movies from:", url);
   try {
-    const response = await fetch(testUrl, {
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         accept: 'application/json',
