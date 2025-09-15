@@ -12,47 +12,48 @@ const MoviesProvider = ({ children }) => {
 
 	console.log('MoviesProvider Mounted!');
 
+	// fetch more movies function
 	const fetchMoreMovies = useCallback(async () => {
-		if (movieQueue.length >= 5) return; // refill when below 5
+		if (movieQueue.length >= 5) return; // only fetch if queue has less than 5 movies
 		const newMovies = await fetchMoviesWithGenres(["878", "53"], page);
 		setMovieQueue((prev) => [...prev, ...newMovies]);
 		setPage((prev) => prev + 1);
-	}, [page]);
+	}, [movieQueue.length, page]);
 
-	// Initial fetch
+	// movie queue refill effect
 	useEffect(() => {
 		fetchMoreMovies();
-	}, []); 
+	}, [movieQueue.length, fetchMoreMovies]); 
 
-	const addToQueue = (newMovies) => {
-		setMovieQueue((prev) => [...prev, ...newMovies]);
-	}
-
+	// movie action handlers
 	const removeFromQueue = (movieId) => {
 		setMovieQueue((prev) => prev.filter(movie => movie.id !== movieId));
 	}
 
 	const likeMovie = (newMovie) => {
-			if(likedMovies.some(movie => movie.id === newMovie.id)) return;
-			setLikedMovies((prev) => [...prev, newMovie]);
-			setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-			setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		if(likedMovies.some(movie => movie.id === newMovie.id)) return;
+		setLikedMovies((prev) => [...prev, newMovie]);
+		setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		removeFromQueue(newMovie.id);
 	}
 
 	const rejectMovie = (newMovie) => {
-			if(rejectedMovies.some(movie => movie.id === newMovie.id)) return;
-			setRejectedMovies((prev) => [...prev, newMovie]);
-			setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-			setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		if(rejectedMovies.some(movie => movie.id === newMovie.id)) return;
+		setRejectedMovies((prev) => [...prev, newMovie]);
+		setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		removeFromQueue(newMovie.id);
 	}
 
 	const passMovie = (newMovie) => {
-			if(passedMovies.some(movie => movie.id === newMovie.id)) return;
-			setPassedMovies((prev) => [...prev, newMovie]);
+		if(passedMovies.some(movie => movie.id === newMovie.id)) return;
+		setPassedMovies((prev) => [...prev, newMovie]);
+		removeFromQueue(newMovie.id);
 	}
 
 	const removeLikedMovie = (newMovie) => {
-			setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+		setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
 	}
 
 	return (
@@ -61,8 +62,6 @@ const MoviesProvider = ({ children }) => {
 					likedMovies,
 					rejectedMovies,
 					passedMovies,
-					addToQueue,
-					removeFromQueue,
 					likeMovie,
 					rejectMovie,
 					passMovie,
