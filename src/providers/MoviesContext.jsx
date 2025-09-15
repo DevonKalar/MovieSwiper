@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getPersonalizedMovies } from "../services/movieService.js";
+import { fetchPersonalizedMovies } from "../services/movieService.js";
 
 const MoviesContext = createContext();
 
@@ -15,7 +15,7 @@ const MoviesProvider = ({ children }) => {
 		useEffect(() => {
 			if (movieQueue.length < 5) {
 				const fetchMoreMovies = async () => {
-					const newMovies = await getPersonalizedMovies(["878", "53"], page);
+					const newMovies = await fetchPersonalizedMovies(["878", "53"], page);
 					setMovieQueue((prev) => [...prev, ...newMovies]);
 					setPage((prev) => prev + 1);
 				}
