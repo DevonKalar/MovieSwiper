@@ -1,85 +1,86 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { fetchPersonalizedMovies } from "../services/movieService.js";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { fetchMoviesWithGenres } from "../helpers/movieDataHelpers";
 
 const MoviesContext = createContext();
 
 const MoviesProvider = ({ children }) => {
-    const [movieQueue, setMovieQueue] = useState([]);
-		const [page, setPage] = useState(1);
-    const [likedMovies, setLikedMovies] = useState([]);
-    const [rejectedMovies, setRejectedMovies] = useState([]);
-    const [passedMovies, setPassedMovies] = useState([]);
+	const [movieQueue, setMovieQueue] = useState([]);
+	const [page, setPage] = useState(1);
+	const [likedMovies, setLikedMovies] = useState([]);
+	const [rejectedMovies, setRejectedMovies] = useState([]);
+	const [passedMovies, setPassedMovies] = useState([]);
 
-    console.log('MoviesProvider Mounted!');
+	console.log('MoviesProvider Mounted!');
 
-		useEffect(() => {
-			if (movieQueue.length < 5) {
-				const fetchMoreMovies = async () => {
-					const newMovies = await fetchPersonalizedMovies(["878", "53"], page);
-					setMovieQueue((prev) => [...prev, ...newMovies]);
-					setPage((prev) => prev + 1);
-				}
-				fetchMoreMovies();
-			}
-		}, [movieQueue]);
+	const fetchMoreMovies = useCallback(async () => {
+		if (movieQueue.length >= 5) return; // refill when below 5
+		const newMovies = await fetchMoviesWithGenres(["878", "53"], page);
+		setMovieQueue((prev) => [...prev, ...newMovies]);
+		setPage((prev) => prev + 1);
+	}, [page]);
 
-		const addToQueue = (newMovies) => {
-			setMovieQueue((prev) => [...prev, ...newMovies]);
-		}
+	// Initial fetch
+	useEffect(() => {
+		fetchMoreMovies();
+	}, []); 
 
-		const removeFromQueue = (movieId) => {
-			setMovieQueue((prev) => prev.filter(movie => movie.id !== movieId));
-		}
+	const addToQueue = (newMovies) => {
+		setMovieQueue((prev) => [...prev, ...newMovies]);
+	}
 
-    const likeMovie = (newMovie) => {
-        if(likedMovies.some(movie => movie.id === newMovie.id)) return;
-        setLikedMovies((prev) => [...prev, newMovie]);
-        setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-        setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-    }
+	const removeFromQueue = (movieId) => {
+		setMovieQueue((prev) => prev.filter(movie => movie.id !== movieId));
+	}
 
-    const rejectMovie = (newMovie) => {
-        if(rejectedMovies.some(movie => movie.id === newMovie.id)) return;
-        setRejectedMovies((prev) => [...prev, newMovie]);
-        setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-        setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-    }
+	const likeMovie = (newMovie) => {
+			if(likedMovies.some(movie => movie.id === newMovie.id)) return;
+			setLikedMovies((prev) => [...prev, newMovie]);
+			setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+			setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+	}
 
-    const passMovie = (newMovie) => {
-        if(passedMovies.some(movie => movie.id === newMovie.id)) return;
-        setPassedMovies((prev) => [...prev, newMovie]);
-    }
+	const rejectMovie = (newMovie) => {
+			if(rejectedMovies.some(movie => movie.id === newMovie.id)) return;
+			setRejectedMovies((prev) => [...prev, newMovie]);
+			setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+			setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+	}
 
-    const removeLikedMovie = (newMovie) => {
-        setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-    }
+	const passMovie = (newMovie) => {
+			if(passedMovies.some(movie => movie.id === newMovie.id)) return;
+			setPassedMovies((prev) => [...prev, newMovie]);
+	}
 
-    return (
-        <MoviesContext.Provider value={{
-            movieQueue,
-            likedMovies,
-            rejectedMovies,
-            passedMovies,
-						addToQueue,
-						removeFromQueue,
-            likeMovie,
-            rejectMovie,
-            passMovie,
-            removeLikedMovie
-        }}>
-            {children}
-        </MoviesContext.Provider>
-    )
+	const removeLikedMovie = (newMovie) => {
+			setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+	}
+
+	return (
+			<MoviesContext.Provider value={{
+					movieQueue,
+					likedMovies,
+					rejectedMovies,
+					passedMovies,
+					addToQueue,
+					removeFromQueue,
+					likeMovie,
+					rejectMovie,
+					passMovie,
+					removeLikedMovie
+			}}>
+					{children}
+			</MoviesContext.Provider>
+	)
 };
 
 const useMovies = () => {
-    const context = useContext(MoviesContext);
+	const context = useContext(MoviesContext);
 
-    if(!context) {
-        throw new Error('useMovies must be used within a MoviesProvider');
-    }
+	if(!context) {
+			throw new Error('useMovies must be used within a MoviesProvider');
+	}
 
-    return context;
+	return context;
 }
 
 export { MoviesProvider, useMovies };

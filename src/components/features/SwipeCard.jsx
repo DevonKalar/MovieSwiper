@@ -13,32 +13,33 @@ const SwipeCard = () => {
     }
   }, [movieQueue]);
 
-  const handleSubmit = (e) => {
-    const buttonValue = e.currentTarget.value;
-    switch (buttonValue) {
-      case 'yes':
-        setCardAction('like');
-        likeMovie(activeMovie);
-        break;
-      case 'no':
-        setCardAction('reject');
-        rejectMovie(activeMovie);
-        break;
-      case 'pass':
-        setCardAction('pass');
-        passMovie(activeMovie);
-        break;
-      default:
-        // handle unknown
-        break;
-    }
-    //remove movie from queue
+const actionHelper = (action, actionFunction) => {
+  setCardAction(action);
+  
+  setTimeout(() => {
+    actionFunction(activeMovie);
+    removeFromQueue(activeMovie.id);
+    setCardAction(null);
+  }, 1000);
+};
 
-    setTimeout(() => {
-      removeFromQueue(activeMovie.id);
-      setCardAction(null);
-    }, 1000);
-  };
+const handleSubmit = (e) => {
+  const buttonValue = e.currentTarget.value;
+  
+  switch (buttonValue) {
+    case 'yes':
+      actionHelper('like', likeMovie);
+      break;
+    case 'no':
+      actionHelper('reject', rejectMovie);
+      break;
+    case 'pass':
+      actionHelper('pass', passMovie);
+      break;
+    default:
+      break;
+  }
+};
 
 
   if (!activeMovie.title) {
