@@ -1,7 +1,7 @@
-const baseURL = "https://api.themoviedb.org/3/";
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 
-export const getMovieDetails = async (movieId) => {
+export const fetchMovieDetails = async (movieId) => {
   const url = `${baseURL}movie/${movieId}?language=en-US`;
   console.log("Fetching movie details from:", url);
   try {
@@ -29,7 +29,54 @@ export const getMovieDetails = async (movieId) => {
   }
 }
 
-export const getPopularMovies = async (page = 1) => {
+export const fetchMoviesByGenre = async (genres = ["878", "53"], page = 1) => {
+  const genreString = genres.join("%7C");
+  const url = `${baseURL}movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
+  console.log("Fetching movies from:", url);
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_BEARER_TOKEN}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log("Fetched movies:", data.results);
+    return data;
+  } catch (error) {
+    console.error("Fetch movies failed:", error);
+    return [];
+  }
+}
+
+export const fetchGenres = async () => {
+  const url = `${baseURL}genre/movie/list?language=en-US`;
+  console.log("Fetching genres from:", url);
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_BEARER_TOKEN}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    console.log("Fetched genres:", data.genres);
+    return data.genres;
+  } catch (error) {
+    console.error("Fetch genres failed:", error);
+    return [];
+  }
+}
+
+export const fetchPopularMovies = async (page = 1) => {
   const url = `${baseURL}popular?language=en-US&page=${page}`;
   console.log("Fetching popular movies from:", url);
   try {
@@ -60,9 +107,9 @@ export const getPopularMovies = async (page = 1) => {
   }
 }
 
-export const getPersonalizedMovies = async (genres = ["878", "53"], page = 1) => {
+export const fetchPersonalizedMovies = async (genres = ["878", "53"], page = 1) => {
   const genreString = genres.join("%7C");
-  const url = `${baseURL}discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
+  const url = `${baseURL}movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
   console.log("Fetching personalized movies from:", url);
   try {
     const response = await fetch(url, {

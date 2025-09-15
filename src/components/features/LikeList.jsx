@@ -47,7 +47,7 @@ const LikeList = () => {
 
   const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-    gridRef.current.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => gridRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(prev => prev - 1);
