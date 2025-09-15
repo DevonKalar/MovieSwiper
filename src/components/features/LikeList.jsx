@@ -47,13 +47,14 @@ const LikeList = () => {
 
   const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-    setTimeout(() => gridRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(prev => prev - 1);
     setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
   const goToPage = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
     setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
   };
@@ -77,8 +78,8 @@ const LikeList = () => {
 
   // Filter options
   const filterOptions = {
-    genres: [...new Set(likedMovies.flatMap(movie => movie.genres))],
-    releaseYear: [...new Set(likedMovies.map(movie => movie.releaseYear).sort((a, b) => b - a))],
+    genreNames: [...new Set(likedMovies.flatMap(movie => movie.genreNames))],
+    releaseDate: [...new Set(likedMovies.map(movie => movie.releaseDate).sort((a, b) => b - a))],
     rating: [...new Set(likedMovies.map(movie => movie.rating))],
   };
 
@@ -148,7 +149,7 @@ const LikeList = () => {
             <div className="flex flex-row justify-between items-start gap-4">
                 <div>
                 <h3>{movie.title}</h3>
-                <p>{movie.genres.join(", ")}</p>
+                <p>{movie.genreNames.join(", ")}</p>
                 </div>
                 <button className="border-1 h-6 w-6 p-2 rounded-full bg-white text-xs text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)} type="button">x</button>
             </div>
