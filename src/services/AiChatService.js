@@ -25,6 +25,8 @@ if (likedMovies) {
 		instructions += ` The user has liked the following movies: ${likedMovies}.`;
 }
 
+instructions += ` Here is the user's message: ${userMessage}`;
+
 try {
 	const response = await fetch(`${baseUrl}response`, {
 		method: 'POST',
