@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useMovies } from "../../providers/MoviesContext.jsx";
+import { useMovies } from "@providers/MoviesContext.jsx";
 
 const SwipeCard = () => {
-  const { likeMovie, rejectMovie, passMovie, movieQueue, removeFromQueue } = useMovies();
+  const { likeMovie, rejectMovie, movieQueue, removeFromQueue } = useMovies();
   const [activeMovie, setActiveMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [cardAction, setCardAction] = useState(null); // 'like' or 'reject'
