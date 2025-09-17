@@ -46,7 +46,7 @@ export const AiChat = () => {
 	const closeModal = () => setIsModalOpen(false);
 	
 	return (
-	<div className="flex flex-col items-end fixed max-w-full bottom-0 right-0 p-4 z-50 gap-2">
+	<div className="flex flex-col items-end fixed max-w-full bottom-0 right-0 md:bottom-12 md:right-12 p-4 z-50 gap-2">
 		
     {isModalOpen && <div className="modal flex flex-col w-full md:w-96 gap-2 mb-4 bg-white border rounded-lg shadow-lg ">
 			<div className="flex flex-row items-center justify-between p-4 gap-2 border-b-1">
