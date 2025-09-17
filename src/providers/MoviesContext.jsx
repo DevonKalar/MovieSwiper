@@ -8,7 +8,6 @@ const MoviesProvider = ({ children }) => {
 	const [page, setPage] = useState(1);
 	const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
-	const [passedMovies, setPassedMovies] = useState([]);
 
 	console.log('MoviesProvider Mounted!');
 
@@ -34,7 +33,6 @@ const MoviesProvider = ({ children }) => {
 		if(likedMovies.some(movie => movie.id === newMovie.id)) return;
 		setLikedMovies((prev) => [...prev, newMovie]);
 		setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-		setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
 		removeFromQueue(newMovie.id);
 	}
 
@@ -42,13 +40,6 @@ const MoviesProvider = ({ children }) => {
 		if(rejectedMovies.some(movie => movie.id === newMovie.id)) return;
 		setRejectedMovies((prev) => [...prev, newMovie]);
 		setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-		setPassedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
-		removeFromQueue(newMovie.id);
-	}
-
-	const passMovie = (newMovie) => {
-		if(passedMovies.some(movie => movie.id === newMovie.id)) return;
-		setPassedMovies((prev) => [...prev, newMovie]);
 		removeFromQueue(newMovie.id);
 	}
 
@@ -57,18 +48,16 @@ const MoviesProvider = ({ children }) => {
 	}
 
 	return (
-			<MoviesContext.Provider value={{
-					movieQueue,
-					likedMovies,
-					rejectedMovies,
-					passedMovies,
-					likeMovie,
-					rejectMovie,
-					passMovie,
-					removeLikedMovie
-			}}>
-					{children}
-			</MoviesContext.Provider>
+		<MoviesContext.Provider value={{
+			movieQueue,
+			likedMovies,
+			rejectedMovies,
+			likeMovie,
+			rejectMovie,
+			removeLikedMovie
+		}}>
+				{children}
+		</MoviesContext.Provider>
 	)
 };
 

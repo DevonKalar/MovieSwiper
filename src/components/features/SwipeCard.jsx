@@ -5,7 +5,7 @@ const SwipeCard = () => {
   const { likeMovie, rejectMovie, passMovie, movieQueue, removeFromQueue } = useMovies();
   const [activeMovie, setActiveMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [cardAction, setCardAction] = useState(null); // 'like', 'reject', 'pass'
+  const [cardAction, setCardAction] = useState(null); // 'like' or 'reject'
 
   useEffect(() => {
     if (movieQueue.length > 0) {
@@ -29,9 +29,6 @@ const handleSubmit = (e) => {
     case 'yes':
       actionHelper('like', likeMovie);
       break;
-    case 'no':
-      actionHelper('reject', rejectMovie);
-      break;
     case 'pass':
       actionHelper('pass', passMovie);
       break;
@@ -52,11 +49,10 @@ const handleSubmit = (e) => {
   return (
     <div className="max-w-md mx-auto p-4">
       <div className="relative rounded-2xl" >
-        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : cardAction === 'pass' ? 'border-yellow-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
+        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
       </div>
       <div className="flex flex-row justify-center gap-4 py-4">
         <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="no">Nope</button>
-        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="pass">Pass</button>
         <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="yes">Yeah</button>
       </div>
     </div>
