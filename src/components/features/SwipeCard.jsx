@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useMovies } from "@providers/MoviesContext.jsx";
+import { LikeIcon } from '@icons/exports.jsx';
+import { PassIcon } from '@icons/exports.jsx';
 
 const SwipeCard = () => {
-  const { likeMovie, rejectMovie, movieQueue, removeFromQueue } = useMovies();
+  const { likeMovie, rejectMovie, movieQueue } = useMovies();
   const [activeMovie, setActiveMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [cardAction, setCardAction] = useState(null); // 'like' or 'reject'
@@ -29,14 +31,13 @@ const handleSubmit = (e) => {
     case 'yes':
       actionHelper('like', likeMovie);
       break;
-    case 'pass':
-      actionHelper('pass', passMovie);
+    case 'no':
+      actionHelper('reject', rejectMovie);
       break;
     default:
       break;
   }
 };
-
 
   if (!activeMovie.title) {
     return (
@@ -48,13 +49,14 @@ const handleSubmit = (e) => {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      <div className="relative rounded-2xl" >
-        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500' : cardAction === 'reject' ? 'border-red-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
+      <div className={`relative rounded-2xl ${cardAction === 'like' ? 'bg-green-500' : cardAction === 'reject' ? 'bg-red-500' : ''}`}>
+        <img className={`rounded-2xl border-2 ${cardAction === 'like' ? 'border-green-500 bg-green-500' : cardAction === 'reject' ? 'border-red-500 bg-red-500' : ''} overflow-hidden`} src={activeMovie.poster} alt="Movie Poster" />
+        <div className="flex flex-row absolute bottom-0 left-0 right-0 justify-center gap-4 py-4 opacity-0 hover:opacity-100 text-white rounded-b-2xl">
+          <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-error-500 " value="no"><PassIcon /></button>
+          <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-success-500 " value="yes"><LikeIcon /></button>
+        </div>
       </div>
-      <div className="flex flex-row justify-center gap-4 py-4">
-        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="no">Nope</button>
-        <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-transparent border-2 border-white" value="yes">Yeah</button>
-      </div>
+      
     </div>
   );
 };
