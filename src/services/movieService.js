@@ -3,7 +3,6 @@ const baseURL = import.meta.env.VITE_BACKEND_URL;
 export const fetchMoviesByGenreId = async (genres = ["878", "53"], page = 1) => {
   const genreString = genres.join("%7C");
   const url = `${baseURL}tmdb/movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
-  console.log("Fetching movies from:", url);
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -15,7 +14,6 @@ export const fetchMoviesByGenreId = async (genres = ["878", "53"], page = 1) => 
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("Fetched movies:", data.results);
     return data.results.map(movie => ({
        id: movie.id,
        title: movie.title,
@@ -33,7 +31,6 @@ export const fetchMoviesByGenreId = async (genres = ["878", "53"], page = 1) => 
 
 export const fetchMovieDetails = async (movieId) => {
   const url = `${baseURL}tmdb/movies/${movieId}?language=en-US`;
-  console.log("Fetching movie details from:", url);
   try {
     const response = await fetch(url, {
       headers: {
@@ -61,7 +58,6 @@ export const fetchMovieDetails = async (movieId) => {
 
 export const fetchGenres = async () => {
   const url = `${baseURL}tmdb/genres`;
-  console.log("Fetching genres from:", url);
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -73,7 +69,6 @@ export const fetchGenres = async () => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("Fetched genres:", data);
     return data;
   } catch (error) {
     console.error("Fetch genres failed:", error);
@@ -83,7 +78,6 @@ export const fetchGenres = async () => {
 
 export const fetchPopularMovies = async (page = 1) => {
   const url = `${baseURL}tmdb/popular?language=en-US&page=${page}`;
-  console.log("Fetching popular movies from:", url);
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -95,7 +89,6 @@ export const fetchPopularMovies = async (page = 1) => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("Fetched popular movies:", data.results);
     return data.results.map(movie => ({
       id: movie.id,
       title: movie.title,

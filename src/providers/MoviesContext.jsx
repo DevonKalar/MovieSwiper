@@ -9,8 +9,6 @@ const MoviesProvider = ({ children }) => {
 	const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
 
-	console.log('MoviesProvider Mounted!');
-
 	// fetch more movies function
 	const fetchMoreMovies = useCallback(async () => {
 		if (movieQueue.length >= 5) return; // only fetch if queue has less than 5 movies

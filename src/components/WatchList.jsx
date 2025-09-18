@@ -48,16 +48,16 @@ const WatchList = () => {
 
   const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 200);
   };
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(prev => prev - 1);
-    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 200);
   };
   const goToPage = (pageNumber) => {
     if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
-    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => topRef.current.scrollIntoView({ behavior: 'smooth' }), 200);
   };
 
   const topRef = useRef(null);
@@ -152,7 +152,7 @@ const WatchList = () => {
                 <h3>{movie.title}</h3>
                 <p>{movie.genreNames.join(", ")}</p>
                 </div>
-                <button className="h-8 w-8 rounded-full bg-white text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)} type="button"><CloseIcon /></button>
+                <button className="h-6 w-6 p-0 rounded-full bg-transparent text-error-500" onClick={() => removeLikedMovie(movie)} type="button"><CloseIcon /></button>
             </div>
             <div className="flex flex-col gap-2">
                 <button className="border-2 border-secondary-500 w-full" type="button">Watch</button>
