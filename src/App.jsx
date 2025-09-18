@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import Index from '@pages/index.jsx';
+import Index from '@pages/Index.jsx';
 import { MoviesProvider } from './providers/MoviesContext';
 import NotFound from '@pages/NotFound.jsx';
 import WatchList from '@components/WatchList.jsx';
