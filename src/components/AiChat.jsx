@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getAgentResponse } from '../../services/AiChatService.js';
-import { useMovies } from '../../providers/MoviesContext.jsx';
+import { getAgentResponse } from '../services/AiChatService.js';
+import { useMovies } from '../providers/MoviesContext.jsx';
 import movioProfilePic from '@images/ai-avatar.jpg';
+import { ChatBotIcon } from '@icons';
 
 export const AiChat = () => {
 	const { likedMovies } = useMovies();
@@ -83,7 +84,7 @@ export const AiChat = () => {
 			</div>
 		</div>}
 
-		<button className="modal-button w-16 h-16 rounded-full " onClick={toggleModal}>AI</button>
+		<button className="modal-button w-16 h-16 rounded-full " onClick={toggleModal}><ChatBotIcon /></button>
 	</div>
     );
 }

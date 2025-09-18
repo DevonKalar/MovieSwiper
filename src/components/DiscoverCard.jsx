@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useMovies } from "@providers/MoviesContext.jsx";
-import { LikeIcon } from '@icons/exports.jsx';
-import { PassIcon } from '@icons/exports.jsx';
+import { LikeIcon } from '@icons';
+import { PassIcon } from '@icons';
 
-const SwipeCard = () => {
+const DiscoverCard = () => {
   const { likeMovie, rejectMovie, movieQueue } = useMovies();
   const [activeMovie, setActiveMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -89,17 +89,14 @@ const handleSwipe = (direction) => {
 }
 
 const handleMouseDown = (e) => {
-  e.preventDefault();
   handleDragStart(e);
 }
 
 const handleMouseMove = (e) => {
-  e.preventDefault();
   handleDragMove(e);
 }
 
 const handleMouseUp = (e) => {
-  e.preventDefault();
   handleDragEnd();
 }
 
@@ -131,7 +128,7 @@ useEffect(() => {
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }
-}, [isDragging, startX, currentX, swipeDirection]);
+}, [isDragging, swipeDirection]);
 
   if (isLoading) {
     return (
@@ -170,4 +167,4 @@ useEffect(() => {
   );
 };
 
-export default SwipeCard;
+export default DiscoverCard;

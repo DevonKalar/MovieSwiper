@@ -17,10 +17,12 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components/'),
       '@assets': path.resolve(__dirname, 'src/assets/'),
       '@helpers': path.resolve(__dirname, 'src/helpers/'),
-      '@icons': path.resolve(__dirname, 'src/assets/icons/'),
+      '@icons': path.resolve(__dirname, 'src/assets/icons/exports.jsx'),
       '@images': path.resolve(__dirname, 'src/assets/images/'),
       '@services': path.resolve(__dirname, 'src/services/'),
       '@providers': path.resolve(__dirname, 'src/providers/'),
+      '@pages': path.resolve(__dirname, 'src/pages/'),
+      '@styles': path.resolve(__dirname, 'src/styles/'),
     }
   }
 })

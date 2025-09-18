@@ -28,7 +28,7 @@
   }
 
   #root {
-    @apply bg-primary-500 text-primary-100 flex flex-col min-h-screen gap-12 font-normal text-base;
+    @apply bg-primary-500 text-primary-100 flex flex-col min-h-screen font-normal text-base;
   }
 
   button {

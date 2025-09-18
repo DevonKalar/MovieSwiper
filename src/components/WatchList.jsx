@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useMovies } from "../../providers/MoviesContext.jsx";
-import { DownArrowIcon, CloseIcon } from '@icons/exports.jsx';
+import { useMovies } from "@providers/MoviesContext.jsx";
+import { DownArrowIcon, CloseIcon } from '@icons';
 
-const LikeList = () => {
+const WatchList = () => {
   const { likedMovies, removeLikedMovie } = useMovies();
 
   // Filtering options
@@ -187,4 +187,4 @@ const LikeList = () => {
   );
 };
 
-export default LikeList;
+export default WatchList;
