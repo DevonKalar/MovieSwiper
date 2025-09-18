@@ -3,7 +3,7 @@ import Header from "@components/Header";
 import Footer from "@components/Footer";
 import { AiChat } from "@components/AiChat";
 
-const MainLayout = () => {
+const Index = () => {
   return (
     <>
       <Header />
@@ -16,4 +16,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default Index;
