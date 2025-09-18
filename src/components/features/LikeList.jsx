@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useMovies } from "../../providers/MoviesContext.jsx";
-import downArrow from '@icons/down-arrow.png';
+import { DownArrowIcon } from '@icons/exports.jsx';
 
 const LikeList = () => {
   const { likedMovies, removeLikedMovie } = useMovies();
@@ -107,7 +107,7 @@ const LikeList = () => {
             onClick={() => toggleModal(category)}
             type="button"
             >
-            <img src={downArrow} className="w-4 h-4 invert" alt="Toggle" />
+            <DownArrowIcon className="w-4 h-4" />
             </button>
         </div>
         {modals[category] && (
