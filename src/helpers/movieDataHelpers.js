@@ -4,7 +4,6 @@ import { fetchGenres } from "../services/movieService.js";
 // fetch movie data with genre ids and enrich with genre names
 
 export const fetchMoviesWithGenres = async (genres, page) => {
-    console.log('Fetching movies with genres:', genres, 'on page:', page);
     if (!genres || genres.length === 0) {
         console.warn('No genres provided, returning empty array.');
         return [];

@@ -12,7 +12,7 @@ const Header = () => {
             Discover
           </NavLink>
           <NavLink to="/likes" className="nav-link text-white">
-            Watch
+            Watchlist
           </NavLink>
         </nav>
       </div>
