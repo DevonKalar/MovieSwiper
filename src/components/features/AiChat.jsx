@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { getAgentResponse } from '../../services/AiChatService.js';
 import { useMovies } from '../../providers/MoviesContext.jsx';
+import movioProfilePic from '@images/ai-avatar.jpg';
 
 export const AiChat = () => {
 	const { likedMovies } = useMovies();
@@ -51,7 +52,7 @@ export const AiChat = () => {
     {isModalOpen && <div className="modal flex flex-col w-full md:w-96 gap-2 mb-4 bg-white border rounded-lg shadow-lg ">
 			<div className="flex flex-row items-center justify-between p-4 gap-2 border-b-1">
 				<div className="flex flex-row items-center gap-2">
-				<img src="/ai-avatar.jpg" alt="AI Avatar" className="w-12 h-12 rounded-full bg-primary-100" />
+				<img src={movioProfilePic} alt="AI Avatar" className="w-12 h-12 rounded-full bg-primary-100" />
 				<p className="text-secondary-500">Movio</p>
 				</div>
 				<button

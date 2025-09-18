@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useMovies } from "../../providers/MoviesContext.jsx";
-import { DownArrowIcon } from '@icons/exports.jsx';
+import { DownArrowIcon, CloseIcon } from '@icons/exports.jsx';
 
 const LikeList = () => {
   const { likedMovies, removeLikedMovie } = useMovies();
@@ -152,7 +152,7 @@ const LikeList = () => {
                 <h3>{movie.title}</h3>
                 <p>{movie.genreNames.join(", ")}</p>
                 </div>
-                <button className="border-1 h-6 w-6 p-2 rounded-full bg-white text-xs text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)} type="button">x</button>
+                <button className="h-8 w-8 rounded-full bg-white text-secondary-500 border-secondary-500" onClick={() => removeLikedMovie(movie)} type="button"><CloseIcon /></button>
             </div>
             <div className="flex flex-col gap-2">
                 <button className="border-2 border-secondary-500 w-full" type="button">Watch</button>
