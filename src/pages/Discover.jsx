@@ -20,8 +20,11 @@ const Discover = () => {
 		setIsLoading(true);
 		console.log(`loading movies for page ${queryPage}...`);
 		const fetchedMovies = await fetchMoviesWithGenres(["878", "53"], queryPage);
-		setMovies(fetchedMovies.filter(movie => !likedMovies.some(liked => liked.id === movie.id) && !rejectedMovies.some(rejected => rejected.id === movie.id)));
+		const newMovies = fetchedMovies.filter(movie => !likedMovies.some(liked => liked.id === movie.id) && !rejectedMovies.some(rejected => rejected.id === movie.id));
+		const remainingMovies = movies.slice(currentMovieIndex + 1);
+		setMovies([...remainingMovies, ...newMovies]);
 		setIsLoading(false);
+		setCurrentMovieIndex(0);
 	};
 
 	// handle swipe
@@ -32,20 +35,18 @@ const Discover = () => {
 			rejectMovie(movies[currentMovieIndex]);
 		}
 
-		if (currentMovieIndex < movies.length - 1) {
+		if (currentMovieIndex < movies.length - 3) {
 			setCurrentMovieIndex(prevIndex => prevIndex + 1);
 		} else {
-			console.log(`on page ${queryPage}, loading more movies...`);
 			setQueryPage(prevPage => prevPage + 1);
-			setCurrentMovieIndex(0);
 		}
 	};
 
   return (
     <>
       <Header />
-      <main className="flex-1 overflow-hidden py-12">
-        { movies.slice(currentMovieIndex, currentMovieIndex + 1).map(movie => (
+      <main className="flex-1 overflow-hidden py-12 relative">
+        { movies.slice(currentMovieIndex, currentMovieIndex + 3).reverse().map(movie => (
 					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isTop={currentMovieIndex === 0} isLoading={isLoading} />
 					))
 				}
