@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { getAgentResponse } from '../services/AiChatService.js';
-import { useMovies } from '../providers/MoviesContext.jsx';
+import { useUser } from '@providers/UserProvider.jsx';
 import movioProfilePic from '@images/ai-avatar.jpg';
 import { ChatBotIcon } from '@icons';
 
 export const AiChat = () => {
-	const { likedMovies } = useMovies();
+	const { likedMovies } = useUser();
 	const movieTitles = useMemo(() => likedMovies.map(movie => movie.title).join(", "), [likedMovies]);
 
 	const initialChatData = [{

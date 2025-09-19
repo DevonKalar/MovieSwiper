@@ -1,19 +1,18 @@
-import { Outlet } from "react-router-dom";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
-import { AiChat } from "@components/AiChat";
+import WatchListGrid from "@components/WatchListGrid";
 
-const Index = () => {
+const WatchList = () => {
   return (
     <>
       <Header />
-      <AiChat />
       <main className="flex-1 overflow-hidden py-12">
-        <Outlet />
+        <h1 className="text-3xl font-bold">Your Watchlist</h1>
+        <WatchListGrid />
       </main>
       <Footer />
     </>
   );
 };
 
-export default Index;
+export default WatchList;

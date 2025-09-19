@@ -1,33 +1,26 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import Index from '@pages/Index.jsx';
-import { MoviesProvider } from './providers/MoviesContext';
+import { UserProvider } from '@providers/UserProvider.jsx';
 import NotFound from '@pages/NotFound.jsx';
-import WatchList from '@components/WatchList.jsx';
-import DiscoverCard from '@components/DiscoverCard.jsx';
+import WatchList from '@pages/WatchList.jsx';
+import Discover from '@pages/Discover.jsx';
+import {AiChat} from '@components/AiChat.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    // Login Routes
-
-    // Main Routes
-    <Route path="/" element={<Index />}>
-      <Route index element={<DiscoverCard />} />
-      <Route path="likes" element={<WatchList />} />
+    <Route path="/" >
+      <Route index element={<Discover />} />
+      <Route path="watchlist" element={<WatchList />} />
       <Route path="*" element={<NotFound />} />
     </Route>
-
-    // Account Routes
-
-    // Not Found Route
-    
   )
 );
 
 function App() {
   return (
-    <MoviesProvider>
+    <UserProvider>
       <RouterProvider router={router} />
-    </MoviesProvider>
+      <AiChat />
+    </UserProvider>
   )
 }
 

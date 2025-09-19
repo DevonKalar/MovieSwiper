@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useMovies } from "@providers/MoviesContext.jsx";
+import { useUser } from "@providers/UserProvider.jsx";
 import { DownArrowIcon, CloseIcon } from '@icons';
 
 const WatchList = () => {
-  const { likedMovies, removeLikedMovie } = useMovies();
+  const { likedMovies, removeLikedMovie } = useUser();
 
   // Filtering options
   const [searchTerm, setSearchTerm] = useState("");
