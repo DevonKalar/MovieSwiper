@@ -6,6 +6,7 @@ const DiscoverCard = ({ movie, onSwipe, isLoading}) => {
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [swipeDirection, setSwipeDirection] = useState(null); // 'left' or 'right'
+  const isProcessingSwipe = useRef(false);
   const cardRef = useRef(null);
 
 const handleDragStart = (e) => {
@@ -68,12 +69,16 @@ useEffect(() => {
 }, [isDragging, swipeDirection]);
 
 const handleSubmit = (e) => {
+  if (isProcessingSwipe.current) return;
+  e.preventDefault();
   const buttonValue = e.currentTarget.value;
-  setSwipeDirection(buttonValue);
+  isProcessingSwipe.current = true;
   setTimeout(() => {
+    setSwipeDirection(buttonValue);
     onSwipe(buttonValue);
     setCurrentX(0);
     setSwipeDirection(null);
+    isProcessingSwipe.current = false;
   }, 300)
 };
 
@@ -97,13 +102,11 @@ const handleSubmit = (e) => {
         <div>
           <img className="rounded-2xl aspect-2/3 object-cover" src={movie.poster} alt="Movie Poster" />
           <div className={`flex flex-row absolute bottom-0 left-0 right-0 justify-center items-end gap-4 h-full py-4 opacity-0 hover:opacity-100 text-white rounded-2xl `}>
-            <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-error-500 " value="left"><PassIcon /></button>
-            <button onClick={handleSubmit} className="rounded-full w-16 h-16 bg-success-500 " value="right"><LikeIcon /></button>
+            <button onClick={handleSubmit} disabled={isProcessingSwipe.current} className="rounded-full w-16 h-16 bg-error-500 " value="left"><PassIcon /></button>
+            <button onClick={handleSubmit} disabled={isProcessingSwipe.current} className="rounded-full w-16 h-16 bg-success-500 " value="right"><LikeIcon /></button>
           </div>
         </div>
-        
-
-        </div>      
+        </div>
       </div>
     </div>
   );
