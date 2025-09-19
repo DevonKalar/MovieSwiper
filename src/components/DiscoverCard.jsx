@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { LikeIcon, PassIcon, RejectIcon, HeartIcon } from '@icons';
 
-const DiscoverCard = ({ movie, onSwipe, isTop, isLoading}) => {
+const DiscoverCard = ({ movie, onSwipe, isLoading}) => {
   const [currentX, setCurrentX] = useState(0);
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);

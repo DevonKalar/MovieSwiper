@@ -1,13 +1,21 @@
+import Header from "@components/common/Header";
+import Footer from "@components/common/Footer";
+import { Link } from "react-router-dom";
+
 const NotFound = () => {
-    return (
-        <div className="flex flex-col items-center justify-center h-full text-center p-4">
-            <h1 className="text-6xl font-bold mb-4">404</h1>
-            <p className="text-2xl mb-8">Page Not Found</p>
-            <a href="/" className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition">
-                Go to Home
-            </a>
-        </div>
-    )
+        return (
+      <>
+        <Header />
+        <main className="flex-1 flex items-center justify-center overflow-hidden py-12">
+          <div className="flex flex-col items-center h-full justify-center gap-4">
+            <h1 className="text-3xl">404: Page Not Found</h1>
+            <p className="text-center">You took a leap and landed on a page that doesn't exist. <br></br>That's okay, we have plenty of movies for you to discover!</p>
+            <Link to="/" className="px-6 h-12 flex flex-col align-center justify-center bg-secondary-500 text-white rounded-full hover:opacity-75">Discover Movies</Link>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
 }
 
 export default NotFound;

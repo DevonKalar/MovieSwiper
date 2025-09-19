@@ -46,8 +46,8 @@ const Discover = () => {
     <>
       <Header />
       <main className="flex-1 overflow-hidden py-12 relative">
-        { movies.slice(currentMovieIndex, currentMovieIndex + 3).reverse().map(movie => (
-					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isTop={currentMovieIndex === 0} isLoading={isLoading} />
+        {movies.slice(currentMovieIndex, currentMovieIndex + 3).reverse().map(movie => (
+					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isLoading={isLoading} />
 					))
 				}
       </main>

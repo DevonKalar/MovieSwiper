@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useUser } from "@providers/UserProvider.jsx";
-import { CloseIcon } from '@icons';
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import WatchListGrid from "@components/WatchListGrid";
@@ -78,11 +78,11 @@ const WatchList = () => {
     return (
       <>
         <Header />
-        <main className="flex-1 overflow-hidden py-12">
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl">No Liked Movies Found</h2>
-            <p className="text-center">You haven't liked any movies yet.</p>
-            <button className="border-2 border-white bg-transparent mt-4" type="button">Explore Movies</button>
+        <main className="flex-1 flex items-center justify-center overflow-hidden py-12">
+          <div className="flex flex-col items-center h-full justify-center gap-4">
+            <h1 className="text-3xl">Your Watchlist Is Empty</h1>
+            <p className="text-center">Explore great movies and swipe to add to your watchlist.</p>
+            <Link to="/" className="px-6 h-12 flex flex-col align-center justify-center bg-secondary-500 text-white rounded-full hover:opacity-75">Discover Movies</Link>
           </div>
         </main>
         <Footer />
@@ -95,29 +95,27 @@ const WatchList = () => {
       <Header />
       <main ref={topRef} className="flex-1 overflow-hidden py-12">
         <div className="w-full max-w-7xl relative mx-auto px-4 md:px-8 xl:px-0 ">
-            <h1>Your Watchlist</h1>
-            <WatchListFilter
-              activeFilters={activeFilters}
-              setActiveFilters={setActiveFilters}
-              filters={filterOptions}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-            />
-            <WatchListGrid
-              movies={paginatedMovies}
-              removeLikedMovie={removeLikedMovie}
-            />
-        
-            <WatchListPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              pageNumbers={pageNumbers}
-              prevPage={prevPage}
-              nextPage={nextPage}
-              goToPage={goToPage}
-            />
-        
-            </div>
+          <h1>Your Watchlist</h1>
+          <WatchListFilter
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
+            filters={filterOptions}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
+          <WatchListGrid
+            movies={paginatedMovies}
+            removeLikedMovie={removeLikedMovie}
+          />
+          <WatchListPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            pageNumbers={pageNumbers}
+            prevPage={prevPage}
+            nextPage={nextPage}
+            goToPage={goToPage}
+          />
+        </div>
       </main>
       <Footer />
     </>
