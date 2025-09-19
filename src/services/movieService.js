@@ -95,6 +95,7 @@ class tmdbApiService {
         title: movie.title,
         description: movie.overview,
         releaseDate: movie.release_date,
+        releaseYear: movie.release_date ? movie.release_date.split("-")[0] : "Unknown",
         poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         rating: movie.vote_average,
         genreIds: movie.genre_ids, // Note: genre_ids are numeric IDs; mapping to names requires additional data
