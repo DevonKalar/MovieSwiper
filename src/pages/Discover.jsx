@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Header from "@components/Header";
-import Footer from "@components/Footer";
+import Header from "@components/common/Header";
+import Footer from "@components/common/Footer";
 import DiscoverCard from "@components/DiscoverCard";
 import { useUser } from "@providers/UserProvider.jsx";
 import { fetchMoviesWithGenres } from "@helpers/movieDataHelpers";
@@ -41,31 +41,12 @@ const Discover = () => {
 		}
 	};
 
-	  if (isLoading) {
-    return (
-			<>
-			<Header />
-      	<main className="flex-1 overflow-hidden py-12">
-					<div className="max-w-md mx-auto p-4">
-						<div className="relative rounded-2xl">
-							<img className="rounded-2xl border-2 animate-pulse" src="https://dummyimage.com/500x750/020e1a/fff.jpg&text=+" alt="Movie Poster" />
-							<div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center rounded-2xl ">
-          		<h4 className="text-3xl text-bold animate-pulse">Getting Movies...</h4>
-        			</div>
-        			</div>
-      		</div>
-			</main>
-			<Footer />
-			</>
-    );
-  };
-
   return (
     <>
       <Header />
       <main className="flex-1 overflow-hidden py-12">
         { movies.slice(currentMovieIndex, currentMovieIndex + 1).map(movie => (
-					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isTop={currentMovieIndex === 0} />
+					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isTop={currentMovieIndex === 0} isLoading={isLoading} />
 					))
 				}
       </main>
