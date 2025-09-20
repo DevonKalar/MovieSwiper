@@ -1,12 +1,74 @@
-# React + Vite
+# MovieSwiper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MovieSwiper is a modern web app for discovering, swiping, and managing your personal movie watchlist. It features an interactive swipe interface, AI-powered movie chat, and advanced filtering—all built with React, Vite, and TailwindCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Swipe to Discover:** Browse movies and swipe right to add to your watchlist, left to reject.
+- **Watchlist Management:** Filter, search, and paginate your saved movies.
+- **AI Movie Chat:** Chat with Movio, an AI agent, for recommendations and trivia.
+- **Responsive UI:** Optimized for desktop and mobile.
+- **Genre, Date, and Rating Filters:** Easily find movies by your favorite criteria.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React** (with React Router)
+- **Vite** (for fast development and builds)
+- **TailwindCSS** (custom theming and utility classes)
+- **OpenAI** (AI chat agent)
+- **TMDB API** (movie data)
+- **ESLint & Prettier** (code quality)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
+
+```sh
+git clone https://github.com/DevonKalar/MoveSwiper.git
+cd movieswiper
+npm install
+```
+
+### Running Locally
+
+```sh
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Building for Production
+
+```sh
+npm run build
+```
+
+## Project Structure
+
+```
+src/
+	components/      # UI components (DiscoverCard, WatchList, AiChat, etc.)
+	pages/           # Main pages (Discover, WatchList, NotFound)
+	providers/       # Context providers (UserProvider)
+	services/        # API and AI chat services
+	helpers/         # Data helpers
+	styles/          # Tailwind, fonts, and theme CSS
+	assets/          # Fonts, icons, images
+```
+
+## Environment Variables
+
+Create a `.env` file with your backend API URL:
+
+```
+VITE_BACKEND_URL=<your_backend_url>
+```
+
+## License
+
+For demonstration purposes only. © MovieSwiper
