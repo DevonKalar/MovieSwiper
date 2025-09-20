@@ -100,7 +100,7 @@ const handleSubmit = (e) => {
         {swipeDirection === 'right' ? <HeartIcon className="h-16 w-16 rounded-full text-success-900 p-2 bg-success-500/25" /> : swipeDirection === 'left' ? <RejectIcon className="h-16 w-16 text-error-900 p-2 bg-error-500/25 rounded-full" /> : null}
         </div>
         <div>
-          <img className="rounded-2xl aspect-2/3 object-cover" src={movie.poster} alt="Movie Poster" />
+          <img className="rounded-2xl aspect-2/3 object-cover bg-primary-400" src={movie.poster} alt="Movie Poster" />
           <div className={`flex flex-row absolute bottom-0 left-0 right-0 justify-center items-end gap-4 h-full py-4 opacity-0 hover:opacity-100 text-white rounded-2xl `}>
             <button onClick={handleSubmit} disabled={isProcessingSwipe.current} className="rounded-full w-16 h-16 bg-error-500 " value="left"><PassIcon /></button>
             <button onClick={handleSubmit} disabled={isProcessingSwipe.current} className="rounded-full w-16 h-16 bg-success-500 " value="right"><LikeIcon /></button>

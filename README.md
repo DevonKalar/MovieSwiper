@@ -55,6 +55,7 @@ src/
 	components/      # UI components (DiscoverCard, WatchList, AiChat, etc.)
 	pages/           # Main pages (Discover, WatchList, NotFound)
 	providers/       # Context providers (UserProvider)
+  hooks/           # Custom hooks (useMinimumLoading)
 	services/        # API and AI chat services
 	helpers/         # Data helpers
 	styles/          # Tailwind, fonts, and theme CSS
