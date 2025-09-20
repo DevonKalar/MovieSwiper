@@ -78,7 +78,7 @@ export const AiChat = () => {
 			</div>
 			<div className="border-t-1 p-2">
 				<form onSubmit={handleSubmit} className="flex flex-row items-center p-2 w-full">
-					<input className="p-2 px-4 h-12 w-full text-secondary-500 rounded-3xl border-r-0 rounded-tr-none rounded-br-none text-sm" type="text" placeholder="Type your message..." value={userMessage} onChange={(e) => setUserMessage(e.target.value)} />
+					<input className="p-2 px-4 h-12 w-full text-secondary-500 rounded-3xl border-r-0 rounded-tr-none rounded-br-none" type="text" placeholder="Type your message..." value={userMessage} onChange={(e) => setUserMessage(e.target.value)} />
 					<button className="bg-primary-500 text-white rounded-3xl rounded-tl-none rounded-bl-none" type="submit">Send</button>
 				</form>
 			</div>

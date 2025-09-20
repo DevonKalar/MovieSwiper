@@ -6,6 +6,7 @@ import Footer from "@components/common/Footer";
 import WatchListGrid from "@components/WatchListGrid";
 import WatchListFilter from "@components/WatchListFilter";
 import WatchListPagination from "@components/WatchListPagination";
+import WatchListModal from "../components/WatchListModal.jsx";
 
 const WatchList = () => {
   const { likedMovies, removeLikedMovie } = useUser();
@@ -13,6 +14,7 @@ const WatchList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilters, setActiveFilters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalId, setModalId] = useState(null);
   const ITEMS_PER_PAGE = 24;
 
   // Filtering logic
@@ -74,6 +76,10 @@ const WatchList = () => {
 
   const topRef = useRef(null);
 
+  // Modal logic
+  const openModal = (id) => setModalId(id);
+  const closeModal = () => setModalId(null);
+
   if (!likedMovies || likedMovies.length === 0) {
     return (
       <>
@@ -106,6 +112,7 @@ const WatchList = () => {
           <WatchListGrid
             movies={paginatedMovies}
             removeLikedMovie={removeLikedMovie}
+            openModal={openModal}
           />
           <WatchListPagination
             currentPage={currentPage}
@@ -115,6 +122,13 @@ const WatchList = () => {
             nextPage={nextPage}
             goToPage={goToPage}
           />
+
+          {modalId && (
+            <WatchListModal
+              movie={likedMovies.find(movie => movie.id === modalId)}
+              closeModal={closeModal}
+            />
+          )}
         </div>
       </main>
       <Footer />

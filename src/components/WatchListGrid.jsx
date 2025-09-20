@@ -1,6 +1,6 @@
 import { CloseIcon } from '@icons';
 
-const WatchListGrid = ({movies, removeLikedMovie}) => {
+const WatchListGrid = ({movies, removeLikedMovie, openModal}) => {
 
   if (!movies || movies.length === 0) {
     return <p>No movies found matching your criteria.</p>;
@@ -21,8 +21,7 @@ const WatchListGrid = ({movies, removeLikedMovie}) => {
               <button className="h-6 w-6 p-0 rounded-full bg-transparent text-error-500" onClick={() => removeLikedMovie(movie)} type="button"><CloseIcon /></button>
             </div>
             <div className="flex flex-col gap-2">
-                <button className="border-2 border-secondary-500 w-full" type="button">Watch</button>
-                <button className="border-2 border-white bg-transparent w-full" type="button">Explore</button>
+                <button onClick={() => openModal(movie.id)} className="border-2 border-secondary-500 w-full" type="button">Explore</button>
             </div>
             </div>
           </div>

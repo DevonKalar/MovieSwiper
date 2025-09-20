@@ -1,10 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { DownArrowIcon } from '@icons';
 
 const WatchListFilter = ({ activeFilters, setActiveFilters, filters, searchTerm, setSearchTerm }) => {
 	const [popovers, setPopovers] = useState({});
-
 
 	// Popover logic
 	useEffect(() => {
