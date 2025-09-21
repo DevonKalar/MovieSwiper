@@ -94,8 +94,8 @@ const handleSubmit = (e) => {
 
   return (
     <div className="flex justify-center items-center max-w-md mx-auto p-4 absolute top-0 left-0 right-0 bottom-0" >
-      <div ref={cardRef} style={{ transform: `translateX(${currentX}px)` }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} className={`relative rounded-2xl duration-0 touch-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}>
-        <div className={`rounded-2xl border-2 ${swipeDirection === 'right' ? 'border-green-500 rotate-20' : swipeDirection === 'left' ? 'border-red-500 -rotate-20' : ''}`}>
+      <div ref={cardRef} style={{ transform: `translateX(${currentX}px) rotate(${currentX * 0.1}deg)` }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} className={`relative rounded-2xl duration-0 touch-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}>
+        <div className={`rounded-2xl border-2 ${swipeDirection === 'right' ? 'border-green-500' : swipeDirection === 'left' ? 'border-red-500' : ''}`}>
         <div className={`flex items-center justify-center absolute top-0 left-0 right-0 bottom-0 rounded-2xl transition-opacity duration-300 ${swipeDirection === 'right' ? 'bg-green-500/25' : swipeDirection === 'left' ? 'bg-red-500/25' : ''}`}>
         {swipeDirection === 'right' ? <HeartIcon className="h-16 w-16 rounded-full text-success-900 p-2 bg-success-500/25" /> : swipeDirection === 'left' ? <RejectIcon className="h-16 w-16 text-error-900 p-2 bg-error-500/25 rounded-full" /> : null}
         </div>

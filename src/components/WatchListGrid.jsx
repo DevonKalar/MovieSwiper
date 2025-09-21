@@ -14,9 +14,9 @@ const WatchListGrid = ({movies, removeLikedMovie, openModal}) => {
     >
       {movies.map((movie) => (
         <div className="grid-cols-2 gap-2" key={movie.id || movie.title} role="row">
-          <div className="relative" role="gridcell" aria-labelledby={`movie-title-${movie.id}`}> 
+          <div className="relative aspect-2/3 bg-primary-400 rounded-2xl" role="gridcell" aria-labelledby={`movie-title-${movie.id}`}> 
             <img
-              className="rounded-2xl aspect-2/3 object-cover"
+              className="rounded-2xl w-full h-full object-cover"
               src={movie.poster}
               alt={`Poster for ${movie.title}`}
             />

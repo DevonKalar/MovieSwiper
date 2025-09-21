@@ -11,26 +11,39 @@ const WatchListPagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex flex-row justify-center items-center gap-4 p-3 my-4">
-      <button onClick={prevPage} disabled={currentPage === 1} type="button">
+    <nav className="flex flex-row justify-center items-center gap-4 p-3 my-4" aria-label="Pagination">
+      <button
+        onClick={prevPage}
+        disabled={currentPage === 1}
+        type="button"
+        aria-label="Go to previous page"
+      >
         Previous
       </button>
-      <div className="flex flex-row gap-2">
+      <ul className="flex flex-row gap-2" role="list">
         {pageNumbers.map((number) => (
-          <button
-            key={number}
-            className={`bg-transparent w-9 h-9 ${currentPage === number ? "border-2" : "opacity-75"}`}
-            onClick={() => goToPage(number)}
-            type="button"
-          >
-            {number}
-          </button>
+          <li key={number} role="listitem">
+            <button
+              className={`bg-transparent w-9 h-9 ${currentPage === number ? "border-2" : "opacity-75"}`}
+              onClick={() => goToPage(number)}
+              type="button"
+              aria-label={`Go to page ${number}`}
+              aria-current={currentPage === number ? "page" : undefined}
+            >
+              {number}
+            </button>
+          </li>
         ))}
-      </div>
-      <button onClick={nextPage} disabled={currentPage === totalPages} type="button">
+      </ul>
+      <button
+        onClick={nextPage}
+        disabled={currentPage === totalPages}
+        type="button"
+        aria-label="Go to next page"
+      >
         Next
       </button>
-    </div>
+    </nav>
   );
 };
 
