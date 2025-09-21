@@ -19,7 +19,6 @@ const Discover = () => {
 	
 	const loadMovies = async () => {
 		startLoading();
-		console.log(`loading movies for page ${queryPage}...`);
 		const fetchedMovies = await fetchMoviesWithGenres(["878", "53"], queryPage);
 		const newMovies = fetchedMovies.filter(movie => !likedMovies.some(liked => liked.id === movie.id) && !rejectedMovies.some(rejected => rejected.id === movie.id));
 		const remainingMovies = movies.slice(currentMovieIndex + 1);
