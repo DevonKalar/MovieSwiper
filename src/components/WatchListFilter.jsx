@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useUser } from "@providers/UserProvider.jsx";
 import { DownArrowIcon } from '@icons';
-import Slider from "@components/common/slider.jsx";
+import Slider from "@components/common/Slider.jsx";
 
 const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearchTerm }) => {
 	const [popovers, setPopovers] = useState({});
