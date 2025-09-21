@@ -24,8 +24,8 @@ const WatchListGrid = ({movies, removeLikedMovie }) => {
               alt={`Poster for ${movie.title}`}
               onClick={() => openModal(movie.id)}
             />
-            <button onClick={() => removeLikedMovie(movie)} className="absolute md:hidden top-2 right-2 h-6 w-6 p-0 rounded-full bg-transparent text-error-500" aria-label={`Remove ${movie.title} from watchlist`}>
-              <CloseIcon className="w-6 h-6 rounded-full" />
+            <button onClick={() => removeLikedMovie(movie)} className="absolute md:hidden top-2 right-2 p-0 rounded-full bg-transparent text-error-500 h-fit w-fit" aria-label={`Remove ${movie.title} from watchlist`}>
+              <CloseIcon height={32} width={32} className="rounded-full" />
             </button>
             <div className="hidden group-hover:flex flex-col absolute top-0 left-0 w-full h-full p-4 justify-between opacity-0  hover:opacity-100 bg-blur text-white rounded-2xl border-1 border-primary-300">
               <div className="flex flex-row justify-between items-start gap-4">
