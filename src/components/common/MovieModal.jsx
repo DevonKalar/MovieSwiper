@@ -28,7 +28,7 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 						</div>
 						<h2 id="watchlist-modal-title" className="text-5xl">{movie.title}</h2>
 						<p className="text-sm text-white mb-2">{movie.genreNames.join(", ")}</p>
-						<p id="watchlist-modal-desc">{movie.description}</p>
+						<p id="watchlist-modal-desc" className="max-h-24 max-w-full overflow-scroll">{movie.description}</p>
 						<div className="flex flex-row flex-wrap justify-start items-start gap-2 mt-4">
 							<button aria-label={`Watch ${movie.title} on Netflix`}>Watch On Netflix</button>
 							<button aria-label={`Watch ${movie.title} on Amazon`}>Watch On Amazon</button>
