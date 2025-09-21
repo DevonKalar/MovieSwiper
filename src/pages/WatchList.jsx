@@ -10,7 +10,6 @@ import WatchListModal from "../components/WatchListModal.jsx";
 
 const WatchList = () => {
   const { likedMovies, removeLikedMovie } = useUser();
-  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilters, setActiveFilters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,11 +21,25 @@ const WatchList = () => {
     if (!movie.title) return false;
     const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilters = activeFilters.every(filter => {
-      const movieProp = movie[filter.category];
-      if (Array.isArray(movieProp)) {
-        return movieProp.includes(filter.value);
+      const movieProp = movie[filter.dataProp];
+      switch (filter.type) {
+        case 'date': {
+          // Compare year only
+          const movieYear = movieProp?.split?.("-")[0];
+          return movieYear === filter.value;
+        }
+        case 'range': {
+          // filter.value should be { min, max }
+          if (typeof movieProp !== 'number' || !filter.value) return false;
+          return movieProp >= filter.value.min && movieProp <= filter.value.max;
+        }
+        default: {
+          if (Array.isArray(movieProp)) {
+            return movieProp.includes(filter.value);
+          }
+          return movieProp === filter.value;
+        }
       }
-      return movieProp === filter.value;
     });
     return matchesSearch && matchesFilters;
   });
@@ -35,25 +48,6 @@ const WatchList = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, activeFilters]);
-
-    // Filter options
-  const filterOptions = useMemo(() => ([
-    {
-      dataName: 'genreNames',
-      categoryName: 'Genre',
-      dataOptions: [...new Set(likedMovies.flatMap(movie => movie.genreNames))],
-    },
-    {
-      dataName: 'releaseDate',
-      categoryName: 'Release Date',
-      dataOptions: [...new Set(likedMovies.map(movie => movie.releaseDate).sort((a, b) => b - a))],
-    },
-    {
-      dataName: 'rating',
-      categoryName: 'Rating',
-      dataOptions: [...new Set(likedMovies.map(movie => movie.rating))],
-    },
-  ]), [likedMovies]);
 
   // Pagination
   const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
@@ -105,7 +99,6 @@ const WatchList = () => {
           <WatchListFilter
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
-            filters={filterOptions}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
           />
