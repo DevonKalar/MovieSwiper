@@ -84,7 +84,7 @@ const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearc
 					/>
 				</form>
 				{filters.map((filter) => (
-					<div key={filter.categoryName} className="flex flex-col justify-center relative">
+					<div key={filter.categoryName} className="popover flex flex-col justify-center relative">
 						<div className="flex flex-row justify-between items-center">
 							<h4 className="m-0" id={`filter-label-${filter.categoryName}`}>{filter.categoryName}</h4>
 							<button

@@ -86,7 +86,7 @@ const maxPosition = valueToPosition(range.max);
       <div className="slider-track-container mt-4">
         <div 
           ref={sliderRef}
-          className="slider-track relative h-2 bg-gray-200 rounded-full cursor-pointer"
+          className="slider-track relative h-8 bg-gray-200 rounded-full cursor-pointer"
           onClick={(e) => {
             if (dragState.isDragging) return;
 
@@ -98,10 +98,17 @@ const maxPosition = valueToPosition(range.max);
             const distanceToMin = Math.abs(clickValue - range.min);
             const distanceToMax = Math.abs(clickValue - range.max);
 
+            let newRange;
             if (distanceToMin < distanceToMax) {
-              setRange(prev => ({...prev, min: Math.min(clickValue, prev.max)}));
+              newRange = {...range, min: Math.min(clickValue, range.max)};
             } else {
-              setRange(prev => ({...prev, max: Math.max(clickValue, prev.min)}));
+              newRange = {...range, max: Math.max(clickValue, range.min)};
+            }
+
+            setRange(newRange);
+          
+            if (onChange && (newRange.min !== range.min || newRange.max !== range.max)) {
+              onChange(newRange);
             }
           }}
         >
@@ -113,7 +120,7 @@ const maxPosition = valueToPosition(range.max);
             }} 
           />
           <div 
-            className={`slider-handle-min absolute top-1/2 transform -translate-y-1/2 -translate-x-2.5 w-5 h-5 bg-white border-2 border-accent-500 rounded-full cursor-grab
+            className={`slider-handle-min touch-none absolute top-1/2 transform -translate-y-1/2 -translate-x-2.5 w-8 h-8 bg-white border-2 border-accent-500 rounded-full cursor-grab
                shadow-md transition-transform
               ${dragState.isDragging && dragState.dragType === 'min' ? 'cursor-grabbing' : ''}`}
             style={{ left: `${minPosition}%` }}
@@ -121,8 +128,8 @@ const maxPosition = valueToPosition(range.max);
             onTouchStart={(e) => handleDragStart(e, 'min')}
           />
           <div 
-            className={`slider-handle-max absolute w-5 h-5 bg-white border-2 border-accent-500 rounded-full cursor-grab
-              top-1/2 transform -translate-y-1/2 translate-x-2.5 shadow-md transition-transform hover:scale-110
+            className={`slider-handle-max touch-none absolute w-8 h-8 bg-white border-2 border-accent-500 rounded-full cursor-grab
+              top-1/2 transform -translate-y-1/2 translate-x-2.5 shadow-md transition-transform
               ${dragState.isDragging && dragState.dragType === 'max' ? 'cursor-grabbing' : ''}`}
             style={{ right: `${ 100 - maxPosition}%` }}
             onMouseDown={(e) => handleDragStart(e, 'max')}

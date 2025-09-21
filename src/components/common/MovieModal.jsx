@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { CloseIcon, StarIcon } from '@icons';
 
 
-const WatchListModal = ({ movie, closeModal }) => {
+const MovieModal = ({ movie, isOpen, closeModal }) => {
+
 	return (
-		<div className="modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center bg-black/50 backdrop-blur-xs">
+		<div className={`modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center z-40 bg-black/50 backdrop-blur-xs fade-in ${isOpen ? 'block' : 'hidden'}`}>
 			<div
 				className="modal-content max-w-4xl mx-4 bg-primary-500/90 border-2 rounded-2xl shadow-lg relative"
 				role="dialog"
@@ -12,12 +14,14 @@ const WatchListModal = ({ movie, closeModal }) => {
 				aria-describedby="watchlist-modal-desc"
 			>
 				<div className="flex flex-col md:flex-row gap-4">
-					<img
-						className="w-full md:w-1/2 rounded-xl absolute md:static md:rounded-r aspect-2/3"
-						src={movie.poster}
-						alt={`Poster for ${movie.title}`}
-					/>
-					<div className="flex flex-col md:w-1/2 inset-0 z-10 bg-gradient-to-t aspect-2/3 from-black via-black/90 to-transparent md:bg-none rounded-b-xl py-8 p-4 gap-2">
+					<div className="absolute md:static w-full md:w-1/2 aspect-2/3">
+						<img
+							className="w-full h-full object-cover rounded-xl inset-0"
+							src={movie.poster}
+							alt={`Poster for ${movie.title}`}
+						/>
+					</div>
+					<div className="flex flex-col justify-end md:justify-start md:w-1/2 z-50 bg-gradient-to-t aspect-2/3 from-black via-black/90 to-transparent md:bg-none rounded-b-xl py-8 p-4 gap-2">
 						<div className="border-2 gap-2 flex flex-row justify-start items-center border-primary-700 bg-primary-700 w-fit p-1 px-2 rounded-full">
 							<StarIcon className="w-4 h-4 text-accent-500" />
 							<p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
@@ -45,4 +49,4 @@ const WatchListModal = ({ movie, closeModal }) => {
 	);
 };
 
-export default WatchListModal;
+export default MovieModal;
