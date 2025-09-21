@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { CloseIcon, StarIcon } from '@icons';
+import ScrollableText from "@components/common/ScrollableText";
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {
@@ -28,21 +28,19 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 						</div>
 						<h2 id="watchlist-modal-title" className="text-5xl">{movie.title}</h2>
 						<p className="text-sm text-white mb-2">{movie.genreNames.join(", ")}</p>
-						<p id="watchlist-modal-desc" className="max-h-24 max-w-full overflow-scroll">{movie.description}</p>
+						<ScrollableText>{movie.description}</ScrollableText>
 						<div className="flex flex-row flex-wrap justify-start items-start gap-2 mt-4">
-							<button aria-label={`Watch ${movie.title} on Netflix`}>Watch On Netflix</button>
-							<button aria-label={`Watch ${movie.title} on Amazon`}>Watch On Amazon</button>
-							<button aria-label={`Watch ${movie.title} on Disney Plus`}>Watch On Disney+</button>
+							<button className="w-full" aria-label={`Watch ${movie.title}`}>Watch Now</button>
 						</div>
 					</div>
 				</div>
 				<button
-					className="absolute top-4 right-4 h-6 w-6 p-0 rounded-full bg-secondary-500 text-white z-50"
+					className="absolute top-4 right-4 w-fit h-fit p-0 rounded-full bg-secondary-500 text-white z-50"
 					onClick={() => closeModal()}
 					type="button"
 					aria-label="Close modal"
 				>
-					<CloseIcon />
+					<CloseIcon height={32} width={32} />
 				</button>
 			</div>
 		</div>
