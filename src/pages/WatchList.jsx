@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@providers/UserProvider.jsx";
-import Header from "@components/common/Header";
-import Footer from "@components/common/Footer";
 import WatchListGrid from "@components/WatchListGrid";
 import WatchListFilter from "@components/WatchListFilter";
 import WatchListPagination from "@components/WatchListPagination";
@@ -70,8 +68,6 @@ const WatchList = () => {
 
   if (!likedMovies || likedMovies.length === 0) {
     return (
-      <>
-        <Header />
         <main className="flex-1 flex items-center justify-center overflow-hidden py-12">
           <div className="flex flex-col items-center h-full justify-center gap-4">
             <h1 className="text-3xl">Your Watchlist Is Empty</h1>
@@ -79,14 +75,10 @@ const WatchList = () => {
             <Link to="/" className="px-6 h-12 flex flex-col align-center justify-center bg-secondary-500 text-white rounded-full hover:opacity-75">Discover Movies</Link>
           </div>
         </main>
-        <Footer />
-      </>
     );
   }
 
   return (
-    <>
-      <Header />
       <main ref={topRef} className="flex-1 overflow-hidden py-12">
         <div className="w-full max-w-7xl relative mx-auto px-4 md:px-8 xl:px-0 ">
           <h1>Your Watchlist</h1>
@@ -110,8 +102,6 @@ const WatchList = () => {
           />
         </div>
       </main>
-      <Footer />
-    </>
   );
 };
 

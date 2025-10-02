@@ -6,6 +6,9 @@ const UserProvider = ({ children }) => {
 	const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
 	const [queryPage, setQueryPage] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [firstName, setFirstName] = useState('John');
+  const [lastName, setLastName] = useState('');
 
 	const likeMovie = (newMovie) => {
 		if(likedMovies.some(movie => movie.id === newMovie.id)) return;
@@ -31,7 +34,13 @@ const UserProvider = ({ children }) => {
 			rejectMovie,
 			removeLikedMovie,
 			queryPage,
-			setQueryPage
+			setQueryPage,
+      isLoggedIn,
+      setIsLoggedIn,
+      firstName,
+      lastName,
+      setFirstName,
+      setLastName
 		}}>
 				{children}
 		</UserContext.Provider>

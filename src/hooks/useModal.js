@@ -7,7 +7,11 @@ export const useModal = () => {
   const openModal = (id) => setModalId(id);
   const closeModal = () => setModalId(null);
 
-  return { modalId, openModal, closeModal };
+  return { 
+    modalId, 
+    openModal, 
+    closeModal 
+  };
 }
 
 export default useModal;
