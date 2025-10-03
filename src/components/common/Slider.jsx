@@ -39,14 +39,9 @@ const Slider = ({ min = 1, max = 10, step = 1, value, onChange, label }) => {
       } else if (dragState.dragType === 'max') {
         newRange.max = Math.max(newValue, prev.min + step);
       }
-
-      if (onChange && (newRange.min !== prev.min || newRange.max !== prev.max)) {
-        onChange(newRange);
-      }
-
       return newRange;
     });
-}, [dragState, onChange, positionToValue, step]);
+  }, [dragState, positionToValue, step]);
 
 // handle mouse/touch end
 const handleDragEnd = useCallback(() => {
@@ -74,6 +69,13 @@ useEffect(() => {
     };
   }
 }, [dragState.isDragging, handleDragMove, handleDragEnd]);
+
+// Notify parent of changes
+useEffect(() => {
+  if (onChange) {
+    onChange(range);
+  }
+}, [range, onChange]);
 
 const minPosition = valueToPosition(range.min);
 const maxPosition = valueToPosition(range.max);
