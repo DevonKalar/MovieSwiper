@@ -1,3 +1,12 @@
+/**
+ *  Usage:
+ * 
+ *  Within a component:
+ *  const { modalId, openModal, closeModal } = useModal();
+ *  openModal("myModal");
+ *  closeModal();
+ */
+
 import { useState } from "react";
 
 export const useModal = () => {

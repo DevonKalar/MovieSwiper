@@ -15,7 +15,7 @@ const Modal = ({ children, buttonText, buttonClass, modalClass }) => {
       >
         {buttonText}
       </button>
-      <div className={`modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center z-40 bg-black/50 backdrop-blur-xs fade-in ${isOpen ? 'block' : 'hidden'}`}>
+      {isOpen && <div className={`modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center z-40 bg-black/50 backdrop-blur-xs fade-in ${isOpen ? 'block' : 'hidden'}`}>
         <div
           className={`modal-content p-8 bg-primary-500 border-2 rounded-2xl shadow-lg relative ${modalClass}`}
           role="dialog"
@@ -33,7 +33,7 @@ const Modal = ({ children, buttonText, buttonClass, modalClass }) => {
             <CloseIcon height={32} width={32} />
           </button>
         </div>
-    </div>
+    </div>}
     </>	
 	);
 };
