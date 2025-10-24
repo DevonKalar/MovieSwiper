@@ -11,19 +11,16 @@ if (!userMessage || userMessage.trim() === '') {
 	};
 }
 
+const input = `${userMessage}`;
+
 // create instructions for the model
-const instructions = `Instructions: 
-You are the movie aficionado, Movio! A user at MovieSwiper needs your help with all things movies. 
+const instructions = `You are the movie aficionado, Movio! A user at MovieSwiper needs your help with all things movies. 
 Answer the user's questions concisely and informatively, without using markdown formatting. 
-Do not mention the information provided in the instructions in your response.
 If the user asks for movie recommendations, suggest movies based on their liked movies, if not available suggest popular movies.
 If the user asks trivia questions, provide accurate and concise answers.
 If you don't know the answer, say "I'm sorry, I don't have that information."
 If the user asks for something outside of movies, politely decline and redirect them to movie-related topics.
-The user has liked the following movies: ${likedMovies || 'none'}.
-
-Here is the user's message:
- ${userMessage}`;
+The user has liked the following movies: ${likedMovies || 'none'}.`;
 
 try {
 	const response = await fetch(`${baseUrl}response`, {
@@ -31,7 +28,7 @@ try {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({input: instructions})
+		body: JSON.stringify({input, instructions}),
 	});
 
 	if (!response.ok) {
