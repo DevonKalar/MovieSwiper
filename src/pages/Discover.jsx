@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Header from "@components/common/Header";
-import Footer from "@components/common/Footer";
 import DiscoverCard from "@components/DiscoverCard";
 import { useUser } from "@providers/UserProvider.jsx";
 import { fetchMoviesWithGenres } from "@helpers/movieDataHelpers";
@@ -44,14 +42,12 @@ const Discover = () => {
 
   return (
     <>
-      <Header />
       <main className="flex-1 overflow-hidden py-12 relative">
         {movies.slice(currentMovieIndex, currentMovieIndex + 3).reverse().map(movie => (
 					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isLoading={isLoading} />
 					))
 				}
       </main>
-      <Footer />
     </>
   );
 };

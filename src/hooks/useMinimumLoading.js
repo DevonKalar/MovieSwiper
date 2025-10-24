@@ -1,3 +1,9 @@
+/** 
+ *  Use this hook to manage loading states with a minimum display duration.
+ *  Usage:
+ *  const { isLoading, startLoading, stopLoading } = useMinimumLoading(500); // 500ms minimum
+ */
+
 import { useState, useCallback, useRef } from 'react';
 
 export const useMinimumLoading = (minimumMs = 300) => {
