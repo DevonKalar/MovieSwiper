@@ -1,12 +1,22 @@
 import { usePopover } from '@hooks/usePopover';
 import { UserIcon, SignOutIcon } from "@icons";
 import { useUser } from "../../providers/UserProvider";
+import AuthService from '../../services/AuthService';
 
 
 const UserMenu = () => {
   const { popovers, togglePopover } = usePopover();
   const { firstName, setIsLoggedIn } = useUser();
-  
+
+  const handleLogout = async () => {
+    try {
+      await AuthService.logout();
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    }
+  };
+
   return (
     <div className="navbar-user relative flex flex-row justify-center items-center gap-4">
     <button className="p-0 bg-transparent popover-button" onClick={() => togglePopover("user-menu")}>
@@ -21,7 +31,7 @@ const UserMenu = () => {
       <li className="block w-full text-left text-sm text-gray-700">Settings</li>
       <li className="block w-full text-left text-sm text-gray-700">Account</li>
       </ul>
-      <button className="block w-full text-sm text-gray-700" onClick={() => setIsLoggedIn(false)}>
+      <button className="block w-full text-sm text-gray-700" onClick={handleLogout}>
       Sign Out
       <SignOutIcon className="inline-block ml-2" height={16} width={16} />
       </button>
