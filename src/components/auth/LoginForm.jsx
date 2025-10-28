@@ -5,7 +5,7 @@ import AuthService from '../../services/AuthService';
 
 const LoginForm = () => {
   const { setIsLoggedIn } = useUser();
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const { setFirstName } = useUser();
 
   const handleLogin = async (e) => {
@@ -22,7 +22,7 @@ const LoginForm = () => {
       setFirstName(response.firstName);
     } catch (error) {
       console.error("Login failed:", error);
-      setError(error.message || "Login failed");
+      setErrorMessage(error.message || "Login failed");
     }
   };
 
@@ -31,7 +31,7 @@ const LoginForm = () => {
     <div>
       <h2>Login</h2>
       <p className="mt-2">Welcome back!<br /> Log in to your account below.</p>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
     </div>
     <div className="flex flex-col gap-2">
     <label htmlFor="email">Email</label>
