@@ -13,12 +13,21 @@ const SignUpForm = ({props}) => {
     password: '',
     confirmPassword: ''
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleNext = () => {
     if (stage === 1 && validateStageOne()) {
       setStage(2);
+      setErrorMessage(null);
     } else {
-      alert("Please fill in all fields correctly. //WIP: inline validation coming soon!");
+      setErrorMessage("Please fill in all fields correctly.");
+    }
+  }
+
+  const handlePrev = () => {
+    if (stage > 1) {
+      setStage(stage - 1);
+      setErrorMessage(null);
     }
   }
 
@@ -37,7 +46,7 @@ const SignUpForm = ({props}) => {
   const handleSignUp = async () => {
     console.log("Sign Up clicked");
     if (!validateStageTwo()) {
-      alert("Please fill in all fields correctly. //WIP: inline validation coming soon!");
+      setErrorMessage("Please fill in all fields correctly.");
       return;
     }
     try {
@@ -49,13 +58,12 @@ const SignUpForm = ({props}) => {
       };
       const response = await AuthService.register(userData);
       console.log("Registration successful:", response);
-      if (response && response.success) {
-        setIsLoggedIn(true);
-      }
+      setIsLoggedIn(true);
+      setFirstName(response.firstName);
     } catch (error) {
       console.error("Registration failed:", error);
+      setErrorMessage(error.message || "Registration failed");
     }
-    setFirstName(response.firstName);
   };
 
   return (
@@ -84,6 +92,7 @@ const SignUpForm = ({props}) => {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="border-0 border-b-2 border-primary-200 rounded-none" 
         />
+        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
         <button type="submit" className="mt-4">
           Continue <GoNextIcon className="inline-block ml-2" height={20} width={20} />
         </button>
@@ -123,22 +132,17 @@ const SignUpForm = ({props}) => {
           className="border-0 border-b-2 border-primary-200 rounded-none"
         />
         <div className="flex flex-col gap-2">
+        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
         <button type="submit" className="mt-4">
           Sign Up <SignInIcon className="inline-block ml-2" height={20} width={20} />
         </button>
-        <button onClick={() => setStage(1)} 
+        <button onClick={handlePrev} 
           className="mt-2 border-2 border-secondary-400 text-secondary-400 bg-transparent"
         >
           Previous <GoPrevIcon className="inline-block ml-2" height={20} width={20} />
         </button>
         </div>
       </form> 
-    )}
-
-    {stage === 3 && (
-      <div className="flex flex-col gap-2">
-        
-      </div>
     )}
     </>
   )
