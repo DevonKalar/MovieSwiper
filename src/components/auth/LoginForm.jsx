@@ -1,13 +1,29 @@
 import { SignInIcon } from "@icons";
 import { useUser } from "../../providers/UserProvider";
+import { useState } from 'react';
+import AuthService from '../../services/AuthService';
 
 const LoginForm = () => {
   const { setIsLoggedIn } = useUser();
+  const [error, setError] = useState(null);
+  const { setFirstName } = useUser();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login clicked");
-    setIsLoggedIn(true);
+    const loginData = {
+      email: e.target.email.value,
+      password: e.target.password.value
+    };
+
+    try {
+      const response = await AuthService.login(loginData);
+      setIsLoggedIn(true);
+      setFirstName(response.firstName);
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError(error.message || "Login failed");
+    }
   };
 
   return (
@@ -15,6 +31,7 @@ const LoginForm = () => {
     <div>
       <h2>Login</h2>
       <p className="mt-2">Welcome back!<br /> Log in to your account below.</p>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
     <div className="flex flex-col gap-2">
     <label htmlFor="email">Email</label>
