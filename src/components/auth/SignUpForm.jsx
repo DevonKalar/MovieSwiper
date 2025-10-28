@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
 import { useUser } from "../../providers/UserProvider";
+import AuthService from '../../services/AuthService';
 
 const SignUpForm = ({props}) => {
   const { setIsLoggedIn, setFirstName, setLastName } = useUser();
@@ -33,14 +34,28 @@ const SignUpForm = ({props}) => {
     && formData.password === formData.confirmPassword;
   }
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     console.log("Sign Up clicked");
     if (!validateStageTwo()) {
       alert("Please fill in all fields correctly. //WIP: inline validation coming soon!");
       return;
     }
-    setIsLoggedIn(true);
-    setFirstName(formData.firstName);
+    try {
+      const userData = {
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        password: formData.password
+      };
+      const response = await AuthService.register(userData);
+      console.log("Registration successful:", response);
+      if (response && response.success) {
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+    setFirstName(response.firstName);
   };
 
   return (
