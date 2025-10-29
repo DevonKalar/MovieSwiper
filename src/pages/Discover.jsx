@@ -9,6 +9,7 @@ const Discover = () => {
 	const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
 	const { isLoading, startLoading, stopLoading } = useMinimumLoading(300);
 	const { likeMovie, rejectMovie, queryPage, setQueryPage, likedMovies, rejectedMovies } = useUser();
+  const [ error, setError ] = useState(null);
 
 	// load movies
 	useEffect(() => {
@@ -16,13 +17,30 @@ const Discover = () => {
 	}, [queryPage]);
 	
 	const loadMovies = async () => {
-		startLoading();
-		const fetchedMovies = await fetchMoviesWithGenres(["878", "53"], queryPage);
-		const newMovies = fetchedMovies.filter(movie => !likedMovies.some(liked => liked.id === movie.id) && !rejectedMovies.some(rejected => rejected.id === movie.id));
-		const remainingMovies = movies.slice(currentMovieIndex + 1);
-		setMovies([...remainingMovies, ...newMovies]);
-		setCurrentMovieIndex(0);
-		stopLoading();
+  startLoading();
+    try {
+      const fetchedMovies = await fetchMoviesWithGenres(["878", "53"], queryPage);
+
+      if (fetchedMovies.length === 0) {
+        console.warn('No movies fetched from fetchMoviesWithGenres.');
+        setError('No movies available at the moment. Please try again later.');
+        stopLoading();
+        return;
+      }
+
+      const newMovies = fetchedMovies.filter(movie => !likedMovies.some(liked => liked.id === movie.id) && !rejectedMovies.some(rejected => rejected.id === movie.id));
+      const remainingMovies = movies.slice(currentMovieIndex + 1);
+
+      setMovies([...remainingMovies, ...newMovies]);
+      setCurrentMovieIndex(0);
+
+    } catch (error) {
+      console.error('Error fetching movies:', error);
+      setError(error.message || 'Failed to load movies. Please try again later.');
+      
+    } finally {
+      stopLoading();
+    }
 	};
 
 	// handle swipe

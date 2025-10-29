@@ -10,7 +10,6 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login clicked");
     const loginData = {
       email: e.target.email.value,
       password: e.target.password.value

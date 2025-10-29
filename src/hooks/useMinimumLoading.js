@@ -27,5 +27,9 @@ export const useMinimumLoading = (minimumMs = 300) => {
     }, remaining);
   }, [minimumMs]);
 
-  return { isLoading, startLoading, stopLoading };
+  return { 
+    isLoading, 
+    startLoading, 
+    stopLoading
+  };
 };

@@ -12,7 +12,6 @@
 import { useState, useEffect } from 'react';
 
 function useMobile(breakpoint = 768) {
-  console.log("useMobile hook called with breakpoint:", breakpoint);
   const [isMobile, setIsMobile] = useState(
     () => window.innerWidth < breakpoint
   );

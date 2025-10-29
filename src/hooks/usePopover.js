@@ -1,3 +1,9 @@
+/**
+ * Custom hook to manage popover states.
+ * 
+ * returns an object containing the current popovers state and a function to toggle popovers.
+ */
+
 import { useState } from "react";
 import { useEffect } from "react";
 

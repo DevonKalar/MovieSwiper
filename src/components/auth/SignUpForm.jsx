@@ -44,7 +44,6 @@ const SignUpForm = ({props}) => {
   }
 
   const handleSignUp = async () => {
-    console.log("Sign Up clicked");
     if (!validateStageTwo()) {
       setErrorMessage("Please fill in all fields correctly.");
       return;
@@ -57,11 +56,9 @@ const SignUpForm = ({props}) => {
         password: formData.password
       };
       const response = await AuthService.register(userData);
-      console.log("Registration successful:", response);
       setIsLoggedIn(true);
       setFirstName(response.firstName);
     } catch (error) {
-      console.error("Registration failed:", error);
       setErrorMessage(error.message || "Registration failed");
     }
   };
