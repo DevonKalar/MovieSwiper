@@ -2,9 +2,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useUser } from "@providers/UserProvider.jsx";
 import { DownArrowIcon } from '@icons';
 import Slider from "@components/common/Slider.jsx";
+import usePopover from "@hooks/usePopover.jsx";
 
 const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearchTerm }) => {
-	const [popovers, setPopovers] = useState({});
+	const { popovers, togglePopover } = usePopover();
 	const { likedMovies } = useUser();
 
   // Filter options
@@ -52,21 +53,6 @@ const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearc
 				return [...prev, { category, value, type, dataProp }];
 			}
 		});
-	};
-
-  // Popover logic
-	useEffect(() => {
-		if (Object.keys(popovers).length === 0) return;
-		const handleClick = (e) => {
-			if (e.target.closest('.filter-popover') || e.target.closest('.popover-button')) return;
-			setPopovers({});
-		};
-		document.addEventListener("mousedown", handleClick);
-		return () => document.removeEventListener("mousedown", handleClick);
-	}, [popovers]);
-
-	const togglePopover = (category) => {
-		setPopovers(prev => prev[category] ? {} : { [category]: true });
 	};
 	
 	return (
