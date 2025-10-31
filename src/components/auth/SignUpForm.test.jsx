@@ -46,7 +46,7 @@ describe('SignUpForm', () => {
     fireEvent.change(screen.getByLabelText(/Last Name/i), { target: { value: '' } });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'short' } });
     fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'non matching' } });
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Create Account/i }));
     expect(screen.getByText(/Please fill in all fields correctly./i)).toBeInTheDocument();
   });
   test('calls AuthService.register on valid submission', async () => {
@@ -59,7 +59,7 @@ describe('SignUpForm', () => {
     fireEvent.change(screen.getByLabelText(/Last Name/i), { target: { value: 'User' } });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password123' } });
     fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'Password123' } });
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Create Account/i }));
     await waitFor(() => {
       expect(AuthService.register).toHaveBeenCalledWith({
         email: 'test@example.com',
@@ -81,7 +81,7 @@ describe('SignUpForm', () => {
     fireEvent.change(screen.getByLabelText(/Last Name/i), { target: { value: 'User' } });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'Password123' } });
     fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'Password123' } });
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Create Account/i }));
     await waitFor(() => {
       expect(screen.getByText(/Registration failed/i)).toBeInTheDocument();
     });
