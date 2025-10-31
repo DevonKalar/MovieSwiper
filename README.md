@@ -21,6 +21,7 @@ MovieSwiper is a modern web app for discovering, swiping, and managing your pers
 - **TMDB API** (movie data)
 - **Custom Authentication** (login/registration system)
 - **ESLint & Prettier** (code quality and formatting)
+- **Vitest & Testing Library** (comprehensive test suite)
 
 ## Getting Started
 
@@ -52,14 +53,20 @@ npm run build
 ```
 
 ### Running Tests
+
+Run the full test suite:
 ```sh
 npm run test
 ```
 
-or run with coverage
-
+Run tests with coverage reporting:
 ```sh
 npm run test:coverage
+```
+
+Run tests in watch mode during development:
+```sh
+npm run test:watch
 ```
 
 ## Project Structure
@@ -76,6 +83,8 @@ src/
   providers/       # Context providers (UserProvider)
   services/        # API services (AuthService, movieService, AiChatService)
   helpers/         # Data transformation utilities
+  tests/           # Test files
+    integrations/  # Integration tests for user workflows
   styles/          # Tailwind config, fonts, and theme CSS
   assets/          # Static assets (fonts, icons, images)
 ```
@@ -112,6 +121,50 @@ VITE_BACKEND_URL=<your_backend_api_url>
 - Chat with Movio for movie recommendations
 - Context-aware responses based on user preferences
 - Trivia and movie information
+
+## Testing Strategy
+
+MovieSwiper includes a demonstrative testing suite following best practices with **unit tests**, **integration tests**, and **component tests**.
+
+### Test Coverage
+
+#### **Unit Tests**
+- **AuthService** - API authentication methods (register, login, logout)
+- **movieDataHelpers** - Data transformation and genre mapping logic
+
+#### **Component Tests**  
+- **SignUpForm** - Multi-step form validation and user interactions
+
+#### **Integration Tests**
+- **Authentication Flow** - Complete user journey (sign up → log out → log in)
+
+### Testing Architecture
+
+```
+tests/
+  AuthService.test.js              # Service layer unit tests
+  movieDataHelpers.test.js         # Helper function unit tests
+  components/auth/SignUpForm.test.jsx   # Component behavior tests
+  integrations/auth-flow.integration.test.jsx  # End-to-end user flows
+```
+
+### Key Testing Features
+
+- **Comprehensive Mocking**: Services mocked for component isolation
+- **Error Scenario Testing**: Both success and failure paths covered
+- **User-Centric Approach**: Tests focus on user interactions and business value  
+- **Async Testing**: Proper handling of API calls and loading states
+- **Real DOM Testing**: Using Testing Library for realistic user simulation
+
+### Test Quality Standards
+
+- ✅ **Happy path and error cases** covered
+- ✅ **Service isolation** with proper mocking strategies  
+- ✅ **User workflow testing** for critical business flows
+- ✅ **Form validation** and interactive component testing
+- ✅ **API integration** testing with fetch mocking
+
+The testing suite demonstrates production-ready quality assurance practices suitable for team development and continuous integration.
 
 ## License
 
