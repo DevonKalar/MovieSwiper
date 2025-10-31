@@ -44,7 +44,6 @@ const SignUpForm = ({props}) => {
   }
 
   const handleSignUp = async () => {
-    console.log("Sign Up clicked");
     if (!validateStageTwo()) {
       setErrorMessage("Please fill in all fields correctly.");
       return;
@@ -57,11 +56,9 @@ const SignUpForm = ({props}) => {
         password: formData.password
       };
       const response = await AuthService.register(userData);
-      console.log("Registration successful:", response);
       setIsLoggedIn(true);
       setFirstName(response.firstName);
     } catch (error) {
-      console.error("Registration failed:", error);
       setErrorMessage(error.message || "Registration failed");
     }
   };
@@ -134,7 +131,7 @@ const SignUpForm = ({props}) => {
         <div className="flex flex-col gap-2">
         {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
         <button type="submit" className="mt-4">
-          Sign Up <SignInIcon className="inline-block ml-2" height={20} width={20} />
+          Create Account <SignInIcon className="inline-block ml-2" height={20} width={20} />
         </button>
         <button onClick={handlePrev} 
           className="mt-2 border-2 border-secondary-400 text-secondary-400 bg-transparent"

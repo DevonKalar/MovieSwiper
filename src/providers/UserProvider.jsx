@@ -1,5 +1,31 @@
 import { createContext, useContext, useState } from "react";
 
+/**
+ * Centralized state provider for demo simplicity.
+ * 
+ * This provider currently combines three domains:
+ * 
+ * 1. AUTH DOMAIN - User authentication and profile data
+ *    - isLoggedIn, firstName, lastName
+ *    - Future: Would extract to AuthProvider with user sessions, profile management, and preferences
+ * 
+ * 2. WATCHLIST DOMAIN - User's saved movies  
+ *    - likedMovies, likeMovie, removeLikedMovie
+ *    - Future: Would extract to WatchlistProvider with persistence, sharing features, notes, watch status, etc
+ * 
+ * 3. RECOMMENDATIONS DOMAIN - Movie discovery and pagination state
+ *    - rejectedMovies, queryPage (for filtering and fetching)
+ *    - Future: Would hold Recommendations queue and extract to RecommendationsProvider with algorithm customization
+ * 
+ * PRODUCTION SCALING:
+ * Each domain would become a separate provider with composition:
+ * <AuthProvider><WatchlistProvider><RecommendationsProvider><App /></...></...></...>
+ * Or use a state management solution like Redux or Zustand for complex inter-domain interactions.
+ * 
+ * This allows independent testing, clearer boundaries, and prevents unnecessary re-renders
+ * when unrelated domain state changes.
+ */
+
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {

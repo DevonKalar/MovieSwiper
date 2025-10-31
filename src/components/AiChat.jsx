@@ -16,7 +16,7 @@ export const AiChat = () => {
 	const [userMessage, setUserMessage] = useState("");
 	const [isAgentTyping, setIsAgentTyping] = useState(false);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		// add user message to chat
 		setChatData(prev => [...prev, { sender: 'user', message: userMessage }]);
@@ -24,10 +24,19 @@ export const AiChat = () => {
 		setUserMessage('');
 		// get agent response
 		setIsAgentTyping(true);
-		getAgentResponse(userMessage, movieTitles).then(response => {
-			setChatData(prev => [...prev, response]);
-			setIsAgentTyping(false);
-		});
+		
+    try {
+      const response = await getAgentResponse(userMessage, movieTitles);
+      setChatData(prev => [...prev, response]);
+    } catch (error) {
+      setChatData(prev => [...prev, {
+        sender: 'agent',
+        message: error.message || 'Sorry, I encountered an error. Please send your message again.',
+        error: true
+      }]);
+    } finally {
+      setIsAgentTyping(false);
+    }
 	};
 
 	const chatMessagesRef = useRef(null);

@@ -19,7 +19,7 @@ const UserMenu = () => {
 
   return (
     <div className="navbar-user relative flex flex-row justify-center items-center gap-4">
-    <button className="p-0 bg-transparent popover-button" onClick={() => togglePopover("user-menu")}>
+    <button className="p-0 bg-transparent popover-button" id="user-menu-button" onClick={() => togglePopover("user-menu")}>
       <UserIcon className="text-accent-500 bg-primary-500 rounded-full p-2" height="44px" width="44px" />
     </button>
 

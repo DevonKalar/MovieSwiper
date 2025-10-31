@@ -1,22 +1,24 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 
-const Slider = ({ min = 1, max = 10, step = 1, value, onChange, label }) => {
-  const [range, setRange] = useState({min, max});
+const Slider = ({ sliderMin = 1, sliderMax = 10, step = 1, updateFilter }) => {
+  const [range, setRange] = useState({min: sliderMin, max: sliderMax});
   const [dragState, setDragState] = useState({ isDragging: false, dragType: null})
   const sliderRef = useRef(null);
+
+  const sliderValues = { min: sliderMin, max: sliderMax };
 
   // convert position to value
   const positionToValue = useCallback((position, trackWidth) => {
     const percentage = Math.max(0, Math.min(1, position / trackWidth));
-    const rawValue = min + (percentage * (max - min));
+    const rawValue = sliderValues.min + (percentage * (sliderValues.max - sliderValues.min));
     const steppedValue = Math.round(rawValue / step) * step;
-    return Math.min(max, Math.max(min, steppedValue));
-  }, [min, max, step]);
+    return Math.min(sliderValues.max, Math.max(sliderValues.min, steppedValue));
+  }, [sliderValues.min, sliderValues.max, step]);
 
   // convert value to position percentage
   const valueToPosition = useCallback((value) => {
-    return ((value - min) / (max - min)) * 100;
-  }, [min, max]);
+    return ((value - sliderValues.min) / (sliderValues.max - sliderValues.min)) * 100;
+  }, [sliderValues.min, sliderValues.max]);
 
   // handle mouse/touch start
   const handleDragStart = useCallback((e, type) => {
@@ -46,7 +48,8 @@ const Slider = ({ min = 1, max = 10, step = 1, value, onChange, label }) => {
 // handle mouse/touch end
 const handleDragEnd = useCallback(() => {
   setDragState({ isDragging: false, dragType: null });
-}, []);
+  updateFilter('Rating', range , 'range', 'rating');
+}, [range, updateFilter]);
 
 // Add global event listeners dragging
 useEffect(() => {
@@ -69,13 +72,6 @@ useEffect(() => {
     };
   }
 }, [dragState.isDragging, handleDragMove, handleDragEnd]);
-
-// Notify parent of changes
-useEffect(() => {
-  if (onChange) {
-    onChange(range);
-  }
-}, [range, onChange]);
 
 const minPosition = valueToPosition(range.min);
 const maxPosition = valueToPosition(range.max);
@@ -108,11 +104,8 @@ const maxPosition = valueToPosition(range.max);
             }
 
             setRange(newRange);
-          
-            if (onChange && (newRange.min !== range.min || newRange.max !== range.max)) {
-              onChange(newRange);
-            }
-          }}
+            updateFilter('Rating', newRange , 'range', 'rating');
+          }} 
         >
           <div 
             className="slider-active-range absolute h-full bg-secondary-500 rounded-full" 
@@ -133,7 +126,7 @@ const maxPosition = valueToPosition(range.max);
             className={`slider-handle-max touch-none absolute w-8 h-8 bg-white border-2 border-accent-500 rounded-full cursor-grab
               top-1/2 transform -translate-y-1/2 translate-x-2.5 shadow-md transition-transform
               ${dragState.isDragging && dragState.dragType === 'max' ? 'cursor-grabbing' : ''}`}
-            style={{ right: `${ 100 - maxPosition}%` }}
+            style={{ right: `${100 - maxPosition}%` }}
             onMouseDown={(e) => handleDragStart(e, 'max')}
             onTouchStart={(e) => handleDragStart(e, 'max')}
           />

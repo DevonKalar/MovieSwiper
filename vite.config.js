@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindscss from '@tailwindcss/vite'
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
+import { env } from 'process';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -25,6 +26,14 @@ export default defineConfig({
       '@providers': path.resolve(__dirname, 'src/providers/'),
       '@pages': path.resolve(__dirname, 'src/pages/'),
       '@styles': path.resolve(__dirname, 'src/styles/'),
+    }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/tests/setupTests.js',
+    env: {
+      VITE_BACKEND_URL: env.VITE_BACKEND_URL || 'http://localhost:3000/api/'
     }
   }
 })

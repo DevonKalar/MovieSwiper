@@ -64,7 +64,7 @@ const Header = () => {
         <Link to="/" className="home-link">
           <h1 className="text-white m-0 text-2xl">MovieSwiper</h1>
         </Link>
-        <button className={`${popovers["mobile-menu"] ? "bg-secondary-600" : ""} mobile-menu-button popover-button`} onClick={() => togglePopover("mobile-menu")}>
+        <button className={`${popovers["mobile-menu"] ? "bg-secondary-600" : ""} mobile-menu-button popover-button`} id="mobile-menu-button" onClick={() => togglePopover("mobile-menu")}>
           Menu
         </button>
         {popovers["mobile-menu"] && (
