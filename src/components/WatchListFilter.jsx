@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useUser } from "@providers/UserProvider.jsx";
 import { DownArrowIcon } from '@icons';
 import Slider from "@components/common/Slider.jsx";
-import usePopover from "@hooks/usePopover.jsx";
+import { usePopover } from "@hooks/usePopover";
 
 const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearchTerm }) => {
 	const { popovers, togglePopover } = usePopover();
@@ -97,10 +97,10 @@ const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearc
                     case 'range':
                       return (
                         <Slider
-                          min={1}
-                          max={10}
+                          sliderMin={1}
+                          sliderMax={10}
                           step={1}
-                          onChange={newRange => updateFilter(filter.categoryName, newRange, filter.type, filter.dataProp)}
+                          updateFilter={updateFilter}
                           label={`Select ${filter.categoryName} range`}
                         />
                       );
