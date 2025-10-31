@@ -25,18 +25,18 @@ export const AiChat = () => {
 		// get agent response
 		setIsAgentTyping(true);
 		
-  try {
-    const response = await getAgentResponse(userMessage, movieTitles);
-    setChatData(prev => [...prev, response]);
-  } catch (error) {
-    setChatData(prev => [...prev, {
-      sender: 'agent',
-      message: error.message || 'Sorry, I encountered an error. Please try again.',
-      error: true
-    }]);
-  } finally {
-    setIsAgentTyping(false);
-  }
+    try {
+      const response = await getAgentResponse(userMessage, movieTitles);
+      setChatData(prev => [...prev, response]);
+    } catch (error) {
+      setChatData(prev => [...prev, {
+        sender: 'agent',
+        message: error.message || 'Sorry, I encountered an error. Please send your message again.',
+        error: true
+      }]);
+    } finally {
+      setIsAgentTyping(false);
+    }
 	};
 
 	const chatMessagesRef = useRef(null);

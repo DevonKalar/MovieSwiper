@@ -51,6 +51,17 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 npm run build
 ```
 
+### Running Tests
+```sh
+npm run test
+```
+
+or run with coverage
+
+```sh
+npm run test:coverage
+```
+
 ## Project Structure
 
 ```
