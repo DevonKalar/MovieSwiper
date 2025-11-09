@@ -12,12 +12,25 @@ export const usePopover = () => {
 
   useEffect(() => {
     if (Object.keys(popovers).length === 0) return;
+    
     const handleClick = (e) => {
       if (e.target.closest('.popover') || e.target.closest('.popover-button')) return;
       setPopovers({});
     };
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        setPopovers({});
+      }
+    };
+    
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [popovers]);
 
   const togglePopover = (category) => {

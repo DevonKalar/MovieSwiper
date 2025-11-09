@@ -1,17 +1,37 @@
 import { CloseIcon, StarIcon } from '@icons';
 import ScrollableText from "@components/common/ScrollableText";
+import { useUser } from '@providers/UserProvider';
+import { useEffect } from 'react';
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {
+  const { removeLikedMovie } = useUser();
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, closeModal]);
+
+  if (!isOpen) return null;
 
 	return (
-		<div className={`modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center z-40 bg-black/50 backdrop-blur-xs fade-in ${isOpen ? 'block' : 'hidden'}`}>
+		<div 
+      className={`modal-overlay w-full h-full fixed top-0 left-0 flex items-center justify-center z-40 bg-black/50 backdrop-blur-xs fade-in`}
+    >
 			<div
 				className="modal-content max-w-4xl mx-4 bg-primary-500/90 border-2 rounded-2xl shadow-lg relative"
 				role="dialog"
 				aria-modal="true"
-				aria-labelledby="watchlist-modal-title"
-				aria-describedby="watchlist-modal-desc"
+				aria-labelledby={`modal-title-${movie.id}`}
+				aria-describedby={`modal-desc-${movie.id}`}
 			>
 				<div className="flex flex-col md:flex-row gap-4">
 					<div className="absolute md:static w-full md:w-1/2 aspect-2/3">
@@ -26,11 +46,19 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 							<StarIcon className="w-4 h-4 text-accent-500" />
 							<p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
 						</div>
-						<h2 id="watchlist-modal-title" className="text-5xl">{movie.title}</h2>
+						<h2 id={`modal-title-${movie.id}`} className="text-5xl">{movie.title}</h2>
 						<p className="text-sm text-white mb-2">{movie.genreNames.join(", ")}</p>
-						<ScrollableText>{movie.description}</ScrollableText>
+						<ScrollableText id={`modal-desc-${movie.id}`}>{movie.description}</ScrollableText>
 						<div className="flex flex-row flex-wrap justify-start items-start gap-2 mt-4">
-							<button className="w-full" aria-label={`Watch ${movie.title}`}>Watch Now</button>
+							<button className="w-full border-2 border-secondary-500"
+                aria-label={`Watch ${movie.title}`}>
+                Watch Now
+              </button>
+              <button className="w-full bg-transparent border-2 border-error-500 text-error-500" 
+                aria-label={`Remove ${movie.title} from watchlist`} 
+                onClick={() => removeLikedMovie(movie)}>
+                  Remove
+              </button>
 						</div>
 					</div>
 				</div>
@@ -40,7 +68,7 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 					type="button"
 					aria-label="Close modal"
 				>
-					<CloseIcon height={32} width={32} />
+					<CloseIcon height={32} width={32} aria-hidden="true" />
 				</button>
 			</div>
 		</div>
