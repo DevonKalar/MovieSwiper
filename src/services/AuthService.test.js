@@ -26,18 +26,21 @@ describe('AuthService', () => {
       // verify the response
       expect(response).toEqual(mockResponse);
       // verify the correct URL and options were used
-      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: 'Test',
-          lastName: 'User',
-          email: 'test@example.com',
-          password: 'Password123',
-        }),
-      });
+      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/register`, 
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName: 'Test',
+            lastName: 'User',
+            email: 'test@example.com',
+            password: 'Password123',
+          }),
+          signal: expect.any(AbortSignal),
+        })
+      );
     });
 
     it('should handle registration errors', async () => {
@@ -62,18 +65,37 @@ describe('AuthService', () => {
       ).rejects.toThrow(Error);
 
       // verify the correct URL and options were used
-      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/register`, 
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName: 'Test',
+            lastName: 'User',
+            email: 'test@example.com',
+            password: 'Password123',
+          }),
+          signal: expect.any(AbortSignal),
+        })
+      );
+    });
+
+    it('should handle timeout errors', async () => {
+      // Mock a timeout by rejecting with AbortError
+      global.fetch.mockRejectedValueOnce(
+        Object.assign(new Error('The operation was aborted'), { name: 'AbortError' })
+      );
+      
+      await expect(
+        AuthService.register({
           firstName: 'Test',
           lastName: 'User',
           email: 'test@example.com',
           password: 'Password123',
-        }),
-      });
+        })
+      ).rejects.toThrow('Request timeout - server did not respond in time');
     });
   });
 
@@ -93,17 +115,20 @@ describe('AuthService', () => {
       });
 
       expect(response).toEqual(mockResponse);
-      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          email: 'test@example.com',
-          password: 'Password123',
-        }),
-      });
+      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/login`, 
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            email: 'test@example.com',
+            password: 'Password123',
+          }),
+          signal: expect.any(AbortSignal),
+        })
+      );
     });
 
     it('should handle login errors', async () => {
@@ -124,17 +149,20 @@ describe('AuthService', () => {
       ).rejects.toThrow(Error);
 
       // verify the correct URL and options were used
-      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          email: 'test@example.com',
-          password: 'Password123',
-        }),
-      });
+      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/login`, 
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            email: 'test@example.com',
+            password: 'Password123',
+          }),
+          signal: expect.any(AbortSignal),
+        })
+      );
     });
     
 
@@ -151,12 +179,15 @@ describe('AuthService', () => {
         const response = await AuthService.logout();
     
         expect(response).toEqual({ message: 'User logged out successfully' });
-        expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, 
+          expect.objectContaining({
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            signal: expect.any(AbortSignal),
+          })
+        );
       });
     });
 
@@ -173,12 +204,15 @@ describe('AuthService', () => {
       // verify the response
       await expect(AuthService.logout()).rejects.toThrow(Error);
       // verify the correct URL and options were used
-      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, 
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          signal: expect.any(AbortSignal),
+        })
+      );
     });
   });
 
