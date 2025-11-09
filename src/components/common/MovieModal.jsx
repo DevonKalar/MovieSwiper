@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {
-  const { removeLikedMovie } = useUser();
+  const { removeLikedMovie, likedMovies } = useUser();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,11 +54,11 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
                 aria-label={`Watch ${movie.title}`}>
                 Watch Now
               </button>
-              <button className="w-full bg-transparent border-2 border-error-500 text-error-500" 
+              {likedMovies.includes(movie) && <button className="w-full bg-transparent border-2 border-error-500 text-error-500" 
                 aria-label={`Remove ${movie.title} from watchlist`} 
                 onClick={() => removeLikedMovie(movie)}>
                   Remove
-              </button>
+              </button>}
 						</div>
 					</div>
 				</div>
