@@ -1,24 +1,10 @@
 import { CloseIcon, StarIcon } from '@icons';
 import ScrollableText from "@components/common/ScrollableText";
 import { useUser } from '@providers/UserProvider';
-import { useEffect } from 'react';
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {
   const { removeLikedMovie, likedMovies } = useUser();
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' || e.key === 'Esc') {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, closeModal]);
 
   if (!isOpen) return null;
 

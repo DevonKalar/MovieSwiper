@@ -86,7 +86,7 @@ const Discover = () => {
         className="flex-1 overflow-x-hidden overflow-y-auto py-12 relative"
         aria-label="Movie discovery area"
       >
-        <div className="wrapper max-w-md mx-auto">
+        <div className="wrapper max-w-md mx-auto p-2 relative">
           {movies.slice(currentMovieIndex, currentMovieIndex + 3).map((movie, index) => (
             <DiscoverCard 
               key={movie.id} 

@@ -37,6 +37,20 @@ export const usePopover = () => {
     setPopovers(prev => prev[category] ? {} : { [category]: true });
   };
 
+  
+
+  useEffect(() => {
+    // Close all popovers on route change
+    const handleRouteChange = () => {
+      setPopovers({});
+    };
+
+    window.addEventListener("popstate", handleRouteChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+    };
+  }, []);
 
   return {
     popovers,

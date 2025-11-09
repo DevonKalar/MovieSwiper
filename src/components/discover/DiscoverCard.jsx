@@ -47,26 +47,29 @@ const handleSwipe = (direction) => {
   }, 300);
 }
 
+// Add global event listeners for dragging
 const handleMouseDown = (e) => handleDragStart(e);
-const handleMouseMove = (e) => handleDragMove(e);
-const handleMouseUp = (e) => handleDragEnd();
-
 const handleTouchStart = (e) => handleDragStart(e);
-const handleTouchMove = (e) => handleDragMove(e);
-const handleTouchEnd = (e) => handleDragEnd();
+
 
 useEffect(() => {
   if (isDragging) {
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleTouchEnd);
+
+    const handleMouseMove = (e) => handleDragMove(e);
+    const handleMouseUp = (e) => handleDragEnd();
+
+    const handleTouchMove = (e) => handleDragMove(e);
+    const handleTouchEnd = (e) => handleDragEnd();
+
+    const controller = new AbortController();
+
+    window.addEventListener('mousemove', handleMouseMove, { signal: controller.signal });
+    window.addEventListener('mouseup', handleMouseUp, { signal: controller.signal });
+    window.addEventListener('touchmove', handleTouchMove, { signal: controller.signal });
+    window.addEventListener('touchend', handleTouchEnd, { signal: controller.signal });
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
+      controller.abort();
     };
   }
 }, [isDragging, swipeDirection]);
