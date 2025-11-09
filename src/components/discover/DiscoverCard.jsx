@@ -1,94 +1,25 @@
-import { useState, useEffect, useRef } from "react";
 import { LikeIcon, PassIcon, RejectIcon, HeartIcon, InfoIcon } from '@icons';
 import MovieModal from "../common/MovieModal";
 import { useModal } from "@hooks/useModal";
+import { useSwipe } from "@hooks/useSwipe";
 
-const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true }) => {
-  const [currentX, setCurrentX] = useState(0);
-  const [startX, setStartX] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [swipeDirection, setSwipeDirection] = useState(null); // 'left' or 'right'
-  const isProcessingSwipe = useRef(false);
-  const cardRef = useRef(null);
+const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, cardRef = null }) => {
   const { modalId, openModal, closeModal } = useModal();
+  
+  const {
+    currentX,
+    isDragging,
+    swipeDirection,
+    isProcessingSwipe,
+    useSwipeHandlers,
+    triggerSwipe,
+  } = useSwipe(onSwipe);
 
-const handleDragStart = (e) => {
-  setIsDragging(true);
-  setStartX(e.type === 'touchstart' ? e.touches[0].clientX : e.clientX);
-}
-
-const handleDragMove = (e) => {
-  if (!isDragging) return;
-  const currentClientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-  const diffX = currentClientX - startX;
-  setCurrentX(diffX);
-  if (Math.abs(diffX) < 50) {
-    setSwipeDirection(null);
-    return;
-  }
-  setSwipeDirection(diffX > 0 ? 'right' : 'left');
-}
-
-const handleDragEnd = () => {
-  setIsDragging(false);
-  if (swipeDirection === 'right' || swipeDirection === 'left') {
-    handleSwipe(swipeDirection);
-  } else {
-    setCurrentX(0);
-    setSwipeDirection(null);
-  }
-}
-
-const handleSwipe = (direction) => {
-  setTimeout(() => {
-    onSwipe(direction);
-    setCurrentX(0);
-    setSwipeDirection(null);
-  }, 300);
-}
-
-// Add global event listeners for dragging
-const handleMouseDown = (e) => handleDragStart(e);
-const handleTouchStart = (e) => handleDragStart(e);
-
-
-useEffect(() => {
-  if (isDragging) {
-
-    const handleMouseMove = (e) => handleDragMove(e);
-    const handleMouseUp = (e) => handleDragEnd();
-
-    const handleTouchMove = (e) => handleDragMove(e);
-    const handleTouchEnd = (e) => handleDragEnd();
-
-    const controller = new AbortController();
-
-    window.addEventListener('mousemove', handleMouseMove, { signal: controller.signal });
-    window.addEventListener('mouseup', handleMouseUp, { signal: controller.signal });
-    window.addEventListener('touchmove', handleTouchMove, { signal: controller.signal });
-    window.addEventListener('touchend', handleTouchEnd, { signal: controller.signal });
-
-    return () => {
-      controller.abort();
-    };
-  }
-}, [isDragging, swipeDirection]);
-
-const handleSubmit = (e) => {
-  const buttonValue = e.currentTarget.value;
-  if (!isDragging) {
-    // makes sure button clicks also trigger swipe
-    setSwipeDirection(buttonValue);
-  }
-  e.preventDefault();
-  isProcessingSwipe.current = true;
-  setTimeout(() => {
-    onSwipe(buttonValue);
-    setCurrentX(0);
-    setSwipeDirection(null);
-    isProcessingSwipe.current = false;
-  }, 300)
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const buttonValue = e.currentTarget.value;
+    triggerSwipe(buttonValue);
+  };
 
 	if (isLoading) {
     return (
@@ -101,19 +32,19 @@ const handleSubmit = (e) => {
   return (
     <>
       <article 
-        ref={cardRef} 
+        ref={cardRef}
+        tabIndex={isTopCard ? 0 : -1}
         style={{ 
           transform: `translateX(${currentX}px) rotate(${currentX * 0.1}deg)`,
           ...style 
         }} 
-        onMouseDown={handleMouseDown} 
-        onTouchStart={handleTouchStart} 
+        {...useSwipeHandlers}
         className={`absolute rounded-2xl duration-0 aspect-2/3 max-w-[500px] overflow-hidden select-none
           ${swipeDirection 
             ? 'touch-none' 
             : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        aria-label={`Movie card for ${movie.title}. Swipe right to like, swipe left to pass.`}
         aria-hidden={!isTopCard}
+        
       >
         {swipeDirection && (
           <div 
@@ -135,14 +66,14 @@ const handleSubmit = (e) => {
             aria-label="Movie actions"
           >
             <button onClick={handleSubmit} 
-              disabled={isProcessingSwipe.current} 
+              disabled={isProcessingSwipe} 
               className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 rounded-full w-16 h-16 bg-error-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:opacity-100" 
               value="left" 
               aria-label={`Pass on ${movie.title}`}><PassIcon 
               aria-hidden="true" />
             </button>
             <button onClick={handleSubmit} 
-              disabled={isProcessingSwipe.current} 
+              disabled={isProcessingSwipe} 
               className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 rounded-full w-16 h-16 bg-success-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:opacity-100" 
               value="right" 
               aria-label={`Add ${movie.title} to watchlist`}><LikeIcon 

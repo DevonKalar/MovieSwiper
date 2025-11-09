@@ -1,14 +1,11 @@
-/**
- *  Usage:
- * 
- *  Within a component:
- *  const { modalId, openModal, closeModal } = useModal();
- *  openModal("myModal");
- *  closeModal();
- */
-
 import { useState } from "react";
 import { useEffect } from "react";
+
+/**
+ * Custom hook for managing modal states.
+ * 
+ * returns {object} - containing the current modalId, and functions to open and close modals.
+ */
 
 export const useModal = () => {
   const [modalId, setModalId] = useState(null);

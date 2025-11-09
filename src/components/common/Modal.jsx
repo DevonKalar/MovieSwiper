@@ -1,11 +1,25 @@
 import { CloseIcon } from '@icons';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Modal = ({ children, buttonText, buttonClass, modalClass }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Modal logic
   const toggleModal = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        toggleModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, toggleModal]);
 
 	return (
     <>

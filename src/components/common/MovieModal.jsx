@@ -1,3 +1,12 @@
+/**
+ * MovieModal component displays detailed information about a movie in a modal dialog.
+ * 
+ * It includes the movie's poster, title, rating, genres, description, and options to watch or remove from the watchlist.
+ * The modal can be closed by clicking the close button or pressing the Escape key.
+ * 
+ * TO DO: Refactor to use the common Modal component.
+ */
+
 import { CloseIcon, StarIcon } from '@icons';
 import ScrollableText from "@components/common/ScrollableText";
 import { useUser } from '@providers/UserProvider';
