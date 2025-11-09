@@ -1,6 +1,6 @@
 import { CloseIcon, InfoIcon } from '@icons';
 import useModal from '@hooks/useModal';
-import MovieModal from './common/MovieModal';
+import MovieModal from '../common/MovieModal';
 
 const WatchListGrid = ({movies, removeLikedMovie }) => {
   const { modalId, openModal, closeModal } = useModal();

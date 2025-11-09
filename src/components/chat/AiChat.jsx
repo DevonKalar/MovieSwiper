@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getAgentResponse } from '../services/AiChatService.js';
+import { getAgentResponse } from '../../services/AiChatService.js';
 import { useUser } from '@providers/UserProvider.jsx';
 import movioProfilePic from '@images/ai-avatar.jpg';
 import { ChatBotIcon } from '@icons';

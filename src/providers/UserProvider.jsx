@@ -33,7 +33,7 @@ const UserProvider = ({ children }) => {
 	const [rejectedMovies, setRejectedMovies] = useState([]);
 	const [queryPage, setQueryPage] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [firstName, setFirstName] = useState('John');
+  const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
 	const likeMovie = (newMovie) => {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import DiscoverCard from "@components/DiscoverCard";
+import { useEffect, useState, useRef } from "react";
+import DiscoverCard from "@components/discover/DiscoverCard";
 import { useUser } from "@providers/UserProvider.jsx";
 import { fetchMoviesWithGenres } from "@helpers/movieDataHelpers";
 import { useMinimumLoading } from "@hooks/useMinimumLoading.js";
@@ -10,6 +10,8 @@ const Discover = () => {
 	const { isLoading, startLoading, stopLoading } = useMinimumLoading(300);
 	const { likeMovie, rejectMovie, queryPage, setQueryPage, likedMovies, rejectedMovies } = useUser();
   const [ error, setError ] = useState(null);
+  const [announcement, setAnnouncement] = useState('');
+  const mainRef = useRef(null);
 
 	// load movies
 	useEffect(() => {
@@ -45,10 +47,14 @@ const Discover = () => {
 
 	// handle swipe
 	const handleSwipe = (direction) => {
+    const currentMovie = movies[currentMovieIndex];
+    
 		if (direction === 'right') {
-			likeMovie(movies[currentMovieIndex]);
+			likeMovie(currentMovie);
+      setAnnouncement(`${currentMovie.title} added to watchlist`);
 		} else if (direction === 'left') {
-			rejectMovie(movies[currentMovieIndex]);
+			rejectMovie(currentMovie);
+      setAnnouncement(`Passed on ${currentMovie.title}`);
 		}
 
 		if (currentMovieIndex < movies.length - 1) {
@@ -56,15 +62,42 @@ const Discover = () => {
 		} else {
 			setQueryPage(prevPage => prevPage + 1);
 		}
+
+    // Maintain focus on the main container
+    setTimeout(() => {
+      if (mainRef.current) {
+        mainRef.current.focus();
+      }
+    }, 100);
 	};
 
   return (
     <>
-      <main className="flex-1 overflow-hidden py-12 relative">
-        {movies.slice(currentMovieIndex, currentMovieIndex + 3).reverse().map(movie => (
-					<DiscoverCard key={movie.id} movie={movie} onSwipe={handleSwipe} isLoading={isLoading} />
-					))
-				}
+      <div 
+        aria-live="polite" 
+        aria-atomic="true" 
+        className="sr-only"
+      >
+        {announcement}
+      </div>
+      <main 
+        ref={mainRef}
+        tabIndex="-1"
+        className="flex-1 overflow-x-hidden overflow-y-auto py-12 relative"
+        aria-label="Movie discovery area"
+      >
+        <div className="wrapper max-w-md mx-auto">
+          {movies.slice(currentMovieIndex, currentMovieIndex + 3).map((movie, index) => (
+            <DiscoverCard 
+              key={movie.id} 
+              movie={movie} 
+              onSwipe={handleSwipe} 
+              isLoading={isLoading} 
+              style={{ zIndex: 3 - index }}
+              isTopCard={index === 0}
+            />
+          ))}
+        </div>
       </main>
     </>
   );
