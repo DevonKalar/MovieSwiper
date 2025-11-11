@@ -1,15 +1,13 @@
-/**
- *  Usage:
- * 
- *  Within component: 
- *  const isMobile = useMobile(); // For default 768px
- *  const isMobile = useMobile(640); // For custom breakpoint
- *  Returns: isMobile as boolean
- *  
- *  hook is debounced to avoid excessive re-renders during window resizing
- */
-
 import { useState, useEffect } from 'react';
+
+/**
+ * Custom hook to determine if the current viewport is considered mobile
+ * 
+ * param {number} breakpoint - Width in pixels to define mobile (default: 768)
+ * returns {boolean} isMobile - Whether the viewport is considered mobile
+ *  
+ * hook is debounced to avoid excessive re-renders during window resizing
+ */
 
 function useMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(

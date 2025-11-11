@@ -1,11 +1,35 @@
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 class tmdbApiService {
+  constructor() {
+    this.timeout = 15000; // 15 second timeout for movie API
+  }
+
+  async fetchWithTimeout(url, options = {}) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout - server did not respond in time');
+      }
+      throw error;
+    }
+  }
+
   async fetchMoviesByGenreId(genres = ["878", "53"], page = 1) {
     const genreString = genres.join("%7C");
     const url = `${baseURL}tmdb/movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
     
-    const response = await fetch(url, {
+    const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
         accept: 'application/json',
@@ -31,7 +55,7 @@ class tmdbApiService {
   async fetchMovieDetails(movieId) {
     const url = `${baseURL}tmdb/movies/${movieId}?language=en-US`;
     
-    const response = await fetch(url, {
+    const response = await this.fetchWithTimeout(url, {
       headers: {
         accept: 'application/json',
       },
@@ -56,7 +80,7 @@ class tmdbApiService {
   async fetchGenres() {
     const url = `${baseURL}tmdb/genres`;
     
-    const response = await fetch(url, {
+    const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
         accept: 'application/json',
@@ -74,7 +98,7 @@ class tmdbApiService {
   async fetchPopularMovies(page = 1) {
     const url = `${baseURL}tmdb/popular?language=en-US&page=${page}`;
     
-    const response = await fetch(url, {
+    const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
         accept: 'application/json',

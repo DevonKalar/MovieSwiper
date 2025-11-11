@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@providers/UserProvider.jsx";
-import WatchListGrid from "@components/WatchListGrid";
-import WatchListFilter from "@components/WatchListFilter";
-import WatchListPagination from "@components/WatchListPagination";
+import WatchListGrid from "@components/watchlist/WatchListGrid";
+import WatchListFilter from "@components/watchlist/WatchListFilter";
+import WatchListPagination from "@components/watchlist/WatchListPagination";
 
 const WatchList = () => {
   const { likedMovies, removeLikedMovie } = useUser();

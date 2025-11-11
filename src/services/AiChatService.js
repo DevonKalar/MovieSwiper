@@ -1,6 +1,26 @@
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const baseUrl = `${backendUrl}openai/`;
 
+const fetchWithTimeout = async (url, options = {}, timeout = 30000) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error.name === 'AbortError') {
+      throw new Error('Request timeout - server did not respond in time');
+    }
+    throw error;
+  }
+};
+
 const getAgentResponse = async (userMessage, likedMovies) => {
 // exit early if no user message
 if (!userMessage || userMessage.trim() === '') {
@@ -18,13 +38,13 @@ If you don't know the answer, say "I'm sorry, I don't have that information."
 If the user asks for something outside of movies, politely decline and redirect them to movie-related topics.
 The user has liked the following movies: ${likedMovies || 'none'}.`;
 
-const response = await fetch(`${baseUrl}response`, {
+const response = await fetchWithTimeout(`${baseUrl}response`, {
 	method: 'POST',
 	headers: {
 		'Content-Type': 'application/json',
 	},
 	body: JSON.stringify({input, instructions}),
-});
+}, 30000); // 30 second timeout for AI responses
 
 if (!response.ok) {
 	throw new Error(`AI Chat API Error: ${response.status} ${response.statusText}`);

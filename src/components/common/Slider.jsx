@@ -59,19 +59,18 @@ useEffect(() => {
     const handleTouchMove = (e) => handleDragMove(e);
     const handleTouchEnd = () => handleDragEnd();
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleTouchEnd);
+    const controller = new AbortController();
+
+    window.addEventListener('mousemove', handleMouseMove, { signal: controller.signal });
+    window.addEventListener('mouseup', handleMouseUp, { signal: controller.signal });
+    window.addEventListener('touchmove', handleTouchMove, { signal: controller.signal });
+    window.addEventListener('touchend', handleTouchEnd, { signal: controller.signal });
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
+      controller.abort();
     };
   }
-}, [dragState.isDragging, handleDragMove, handleDragEnd]);
+}, [dragState.isDragging]);
 
 const minPosition = valueToPosition(range.min);
 const maxPosition = valueToPosition(range.max);
