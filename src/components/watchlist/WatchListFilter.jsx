@@ -1,60 +1,47 @@
-import { useState, useEffect, useMemo } from "react";
-import { useUser } from "@providers/UserProvider.jsx";
-import { DownArrowIcon } from '@icons';
-import Slider from "@components/common/Slider.jsx";
-import { usePopover } from "@hooks/usePopover";
+import RangeSlider from "@components/common/RangeSlider.jsx";
+import PopOver from "@components/common/PopOver.jsx";
 
-const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearchTerm }) => {
-	const { popovers, togglePopover } = usePopover();
-	const { likedMovies } = useUser();
-
-  // Filter options
-  const filters = useMemo(() => ([
-		{
-			dataProp: 'genreNames',
-			categoryName: 'Genre',
-			dataOptions: [...new Set(likedMovies.flatMap(movie => movie.genreNames))],
-			type: 'tag',
-		},
-		{
-			dataProp: 'releaseDate',
-			categoryName: 'Release Date',
-			dataOptions: [...new Set(likedMovies.map(movie => movie.releaseDate.split("-")[0]).sort((a, b) => b - a))],
-			type: 'date',
-		},
-		{
-			dataProp: 'rating',
-			categoryName: 'Rating',
-			dataOptions: [...new Set(likedMovies.map(movie => movie.rating))],
-			type: 'range',
-		},
-  ]), [likedMovies]);
-
-	  // Add/remove filter
-	const toggleFilter = (category, value, type, dataProp) => {
-		const exists = activeFilters.some(filter => filter.category === category && filter.value === value);
-		if (exists) {
-			setActiveFilters(prev => prev.filter(filter => !(filter.category === category && filter.value === value)));
-		} else {
-			setActiveFilters(prev => [...prev, { category, value, type, dataProp }]);
-		}
-	};
-
-  const removeFilter = (category, value) => {
-    setActiveFilters(prev => prev.filter(filter => filter.category !== category || filter.value !== value));
-  };
-
-	const updateFilter = (category, value, type, dataProp) => {
-		setActiveFilters(prev => {
-			const exists = prev.some(filter => filter.category === category);
-			if (exists) {
-				return prev.map(filter => filter.category === category ? { ...filter, value } : filter);
-			} else {
-				return [...prev, { category, value, type, dataProp }];
-			}
-		});
-	};
+const WatchListFilter = ({ filters, addFilter, removeFilter, availableGenres, availableDecades }) => {
 	
+	const renderFilterContent = (category) => {
+		const filterRenderers = {
+			rating: () => (
+				<RangeSlider
+					min={1}
+					max={10}
+					step={1}
+					value={filters.rating}
+          label="Ratings"
+					onChange={(newRange) => addFilter('rating', newRange)}
+				/>
+			),
+			genre: () => availableGenres.map((genre) => (
+				<button 
+					key={genre} 
+					onClick={() => addFilter('genre', genre)}
+					className={`flex h-8 p-2 px-4 text-sm outline border-1 ${
+						filters.genre.includes(genre) ? 'bg-secondary-500' : ''
+					}`}
+				>
+					{genre}
+				</button>
+			)),
+			decade: () => availableDecades.map((decade) => (
+				<button 
+					key={decade} 
+					onClick={() => addFilter('decade', decade)}
+					className={`flex h-8 p-2 px-4 text-sm outline border-1 ${
+						filters.decade.includes(decade) ? 'bg-secondary-500' : ''
+					}`}
+				>
+					{decade}s
+				</button>
+			))
+		};
+
+		return filterRenderers[category]?.() || <p>No options available</p>;
+	};
+
 	return (
 		<>
 			<div className="grid md:grid-cols-4 gap-4 my-4 mt-8">
@@ -65,88 +52,78 @@ const WatchListFilter = ({ activeFilters, setActiveFilters, searchTerm, setSearc
 						type="text"
 						placeholder="Filter By Title"
 						className="border-2 p-2 px-4 transparent w-full"
-						value={searchTerm}
-						onChange={e => setSearchTerm(e.target.value)}
+						value={filters.searchTerm}
+						onChange={e => addFilter('searchTerm', e.target.value)}
 					/>
 				</form>
-				{filters.map((filter) => (
-					<div key={filter.categoryName} className="popover flex flex-col justify-center relative">
-						<div className="flex flex-row justify-between items-center">
-							<h4 className="m-0" id={`filter-label-${filter.categoryName}`}>{filter.categoryName}</h4>
-							<button
-								className="popover-button bg-transparent border-2 border-white rounded-full p-2 w-8 h-8"
-								onClick={() => togglePopover(filter.categoryName)}
-								type="button"
-								aria-haspopup="listbox"
-								aria-expanded={!!popovers[filter.categoryName]}
-								aria-controls={`popover-${filter.categoryName}`}
-								aria-label={`Show options for ${filter.categoryName}`}
-							>
-								<DownArrowIcon className="w-4 h-4" />
-							</button>
-						</div>
-            {popovers[filter.categoryName] && (
-              <div
-                id={`popover-${filter.categoryName}`}
-                className="filter-popover w-full flex flex-row flex-wrap absolute top-full bg-primary-500 border-2 rounded-2xl p-4 my-2 gap-2 overflow-y-auto z-10"
-                role="listbox"
-                aria-labelledby={`filter-label-${filter.categoryName}`}
-              >
-                {(() => {
-                  switch (filter.type) {
-                    case 'range':
-                      return (
-                        <Slider
-                          sliderMin={1}
-                          sliderMax={10}
-                          step={1}
-                          updateFilter={updateFilter}
-                          label={`Select ${filter.categoryName} range`}
-                        />
-                      );
-                    default:
-                      return filter.dataOptions.map(option => (
-                        <button
-                          className={`flex h-8 p-2 px-4 text-sm outline border-1 ${activeFilters.some(f => f.category === filter.categoryName && f.value === option) ? 'bg-secondary-500' : ''}`}
-                          key={option}
-                          onClick={() => toggleFilter(filter.categoryName, option, filter.type, filter.dataProp)}
-                          type="button"
-                          role="option"
-                          aria-label={`Add filter: ${option} in ${filter.categoryName}`}
-                        >
-                          {option}
-                        </button>
-                      ));
-                  }
-                })()}
-										</div>
-									)}
-					</div>
-				))}
+
+				{Object.keys(filters).map((category) => {
+					if (category === 'searchTerm') return null;
+					
+					return (
+						<PopOver
+							key={category}
+							label={category.charAt(0).toUpperCase() + category.slice(1)}
+						>
+							{renderFilterContent(category)}
+						</PopOver>
+					);
+				})}
 			</div>
 
-			{activeFilters.length > 0 && (
+			{Object.values(filters).length > 0 && (
 				<div className="flex flex-row align-center gap-2 py-2" aria-label="Active filters">
-							{activeFilters.map((filter, index) => (
-								<div
-									key={`${filter.category}-${filter.value}-${index}`}
-									className="flex flex-row items-center text-sm gap-1 outline border-1 px-4 rounded-4xl"
-								>
-									<span>
-										{filter.type === 'range'
-											? `${filter.value.min} - ${filter.value.max} (${filter.category})`
-											: `${filter.value} (${filter.category})`}
-									</span>
-									<button
-										className="bg-transparent px-2 h-8"
-										onClick={() => removeFilter(filter.category, filter.value)}
-										type="button"
-										aria-label={`Remove filter: ${filter.value} in ${filter.category}`}
-									>
-										x
-									</button>
-								</div>
-							))}
+          {Object.entries(filters).map(([filterCategory, filterValue]) => {
+            // Skip searchTerm and empty arrays
+            if (filterCategory === 'searchTerm') return null;
+            
+            // Handle rating filter (object)
+            if (filterCategory === 'rating') {
+              if (filterValue.min === 1 && filterValue.max === 10) return null;
+              return (
+                <div
+                  key={`${filterCategory}-${filterValue.min}-${filterValue.max}`}
+                  className="flex flex-row items-center text-sm gap-1 outline border-1 px-4 rounded-4xl"
+                >
+                  <span>
+                    {filterValue.min} - {filterValue.max} ({filterCategory})
+                  </span>
+                  <button
+                    className="bg-transparent px-2 h-8"
+                    onClick={() => removeFilter(filterCategory, filterValue)}
+                    type="button"
+                    aria-label={`Remove ${filterCategory} filter`}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            }
+            
+            // Handle array filters (genre, decade)
+            if (Array.isArray(filterValue) && filterValue.length > 0) {
+              return filterValue.map((value) => (
+                <div
+                  key={`${filterCategory}-${value}`}
+                  className="flex flex-row items-center text-sm gap-1 outline border-1 px-4 rounded-4xl"
+                >
+                  <span>
+                    {value}{filterCategory === 'decade' ? 's' : ''} ({filterCategory})
+                  </span>
+                  <button
+                    className="bg-transparent px-2 h-8"
+                    onClick={() => removeFilter(filterCategory, value)}
+                    type="button"
+                    aria-label={`Remove filter: ${value} in ${filterCategory}`}
+                  >
+                    x
+                  </button>
+                </div>
+              ));
+            }
+            
+            return null;
+          })}
 				</div>
 			)}
 		</>
