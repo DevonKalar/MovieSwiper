@@ -42,10 +42,10 @@ const Discover = () => {
     <>
       <ScreenReaderAnnouncement message={announcement} />
       <main 
-        className="flex-1 overflow-x-hidden overflow-y-auto py-12 relative"
+        className="flex flex-column flex-1 overflow-x-hidden overflow-y-auto py-12 px-4"
         aria-label="Movie discovery area"
       >
-        <div className="wrapper max-w-md mx-auto p-2 relative">
+        <div className="card-wrapper relative w-full max-w-md mx-auto aspect-2/3">
           {visibleMovies.map((movie, index) => (
             <DiscoverCard 
               key={movie.id} 
