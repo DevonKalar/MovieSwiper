@@ -38,7 +38,7 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           transform: `translateX(${currentX}px) rotate(${currentX * 0.1}deg)`,
           ...style 
         }} 
-        {...useSwipeHandlers}
+        {...(isTopCard ? useSwipeHandlers : {})}
         className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none
           ${swipeDirection 
             ? 'touch-none' 
