@@ -39,10 +39,8 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           ...style 
         }} 
         {...(isTopCard ? useSwipeHandlers : {})}
-        className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none
-          ${swipeDirection 
-            ? 'touch-none' 
-            : ''} ${isDragging ? 'cursor-grabbing touch-none ' : 'cursor-grab'}`}
+        className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none touch-none
+          ${isDragging ? 'cursor-grabbing ' : 'cursor-grab'}`}
         aria-hidden={!isTopCard}
         
       >

@@ -150,7 +150,7 @@ const RangeSlider = ({ min, max, step, value, onChange, label }) => {
         
         {/* Min handle */}
         <div 
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 md:h-6 md:w-6 bg-white rounded-full border-2 border-accent-500 cursor-grab active:cursor-grabbing select-none z-10 focus:outline-none focus:ring-2 focus:ring-accent-500"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 md:h-6 md:w-6 bg-white rounded-full border-2 border-accent-500 cursor-grab active:cursor-grabbing select-none touch-none z-10 focus:outline-none focus:ring-2 focus:ring-accent-500"
           style={{ left: `${minPosition}%` }}
           onMouseDown={(e) => {
             e.stopPropagation();
@@ -171,7 +171,7 @@ const RangeSlider = ({ min, max, step, value, onChange, label }) => {
         
         {/* Max handle */}
         <div 
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 md:h-6 md:w-6 bg-white rounded-full border-2 border-accent-500 cursor-grab active:cursor-grabbing select-none z-10 focus:outline-none focus:ring-2 focus:ring-accent-500"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 md:h-6 md:w-6 bg-white rounded-full border-2 border-accent-500 cursor-grab active:cursor-grabbing select-none touch-none z-10 focus:outline-none focus:ring-2 focus:ring-accent-500"
           style={{ left: `${ maxPosition}%` }}
           onMouseDown={(e) => {
             e.stopPropagation();
