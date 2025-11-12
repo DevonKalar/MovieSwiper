@@ -27,7 +27,9 @@ const RangeSlider = ({ min, max, step, value, onChange, label }) => {
   const handleMouseMove = (e) => {
     if (!isDragging) return;
     
-    const newValue = calculateValueFromPosition(e.clientX);
+    // Get clientX from either mouse or touch event
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const newValue = calculateValueFromPosition(clientX);
     if (newValue === null) return;
 
     if (isDragging === 'min') {
