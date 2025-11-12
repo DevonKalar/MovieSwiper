@@ -38,11 +38,11 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           transform: `translateX(${currentX}px) rotate(${currentX * 0.1}deg)`,
           ...style 
         }} 
-        {...useSwipeHandlers}
-        className={`absolute rounded-2xl duration-0 aspect-2/3 max-w-[500px] overflow-hidden select-none
+        {...(isTopCard ? useSwipeHandlers : {})}
+        className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none
           ${swipeDirection 
             ? 'touch-none' 
-            : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            : ''} ${isDragging ? 'cursor-grabbing touch-none ' : 'cursor-grab'}`}
         aria-hidden={!isTopCard}
         
       >

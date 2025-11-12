@@ -70,10 +70,10 @@ const Header = () => {
         {popovers["mobile-menu"] && (
         <div className="mobile-collapse-menu absolute right-0 top-full w-full bg-primary-700 p-4 mt-4 rounded-2xl flex flex-col gap-2 z-5 popover">
           <nav className="flex flex-col gap-2 justify-center items-end px-4 py-2">
-            <NavLink to="/" className="nav-link text-white">
+            <NavLink to="/" onClick={() => togglePopover("mobile-menu")} className="nav-link text-white">
               Discover
             </NavLink>
-            <NavLink to="/watchlist" className="nav-link text-white">
+            <NavLink to="/watchlist" onClick={() => togglePopover("mobile-menu")} className="nav-link text-white">
               Watchlist
             </NavLink>
             {isLoggedIn && (

@@ -48,7 +48,7 @@ const WatchList = () => {
 
   if (!likedMovies || likedMovies.length === 0) {
     return (
-        <main className="flex-1 flex items-center justify-center overflow-hidden py-12">
+        <main className="flex-1 flex items-center justify-center overflow-hidden py-12 px-4">
           <div className="flex flex-col items-center h-full justify-center gap-4">
             <h1 className="text-3xl">Your Watchlist Is Empty</h1>
             <p className="text-center">Explore great movies and swipe to add to your watchlist.</p>
