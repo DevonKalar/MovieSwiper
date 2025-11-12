@@ -9,7 +9,7 @@
  * param {boolean} atomic - Whether to read the entire region (default: true)
  * 
  * example
- * <ScreenReaderAnnouncement message="Item added to cart" />
+ * <ScreenReaderAnnouncement message="Movie added to watch list" />
  * <ScreenReaderAnnouncement message="Error occurred" priority="assertive" />
  */
 const ScreenReaderAnnouncement = ({ 

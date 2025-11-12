@@ -1,49 +1,29 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@providers/UserProvider.jsx";
+import { useMovieFilters } from "@hooks/useMovieFilters";
 import WatchListGrid from "@components/watchlist/WatchListGrid";
 import WatchListFilter from "@components/watchlist/WatchListFilter";
 import WatchListPagination from "@components/watchlist/WatchListPagination";
 
 const WatchList = () => {
   const { likedMovies, removeLikedMovie } = useUser();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilters, setActiveFilters] = useState([]);
+  const {
+    filters,
+    filteredMovies,
+    availableGenres,
+    availableDecades,
+    addFilter,
+    removeFilter
+  } = useMovieFilters(likedMovies);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 24;
 
-  // Filtering logic
-  const filteredMovies = likedMovies.filter(movie => {
-    if (!movie.title) return false;
-    const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilters = activeFilters.every(filter => {
-      const movieProp = movie[filter.dataProp];
-      switch (filter.type) {
-        case 'date': {
-          // Compare year only
-          const movieYear = movieProp?.split?.("-")[0];
-          return movieYear === filter.value;
-        }
-        case 'range': {
-          // filter.value should be { min, max }
-          if (typeof movieProp !== 'number' || !filter.value) return false;
-          return movieProp >= filter.value.min && movieProp <= filter.value.max;
-        }
-        default: {
-          if (Array.isArray(movieProp)) {
-            return movieProp.includes(filter.value);
-          }
-          return movieProp === filter.value;
-        }
-      }
-    });
-    return matchesSearch && matchesFilters;
-  });
-
-  // Reset to page 1 on filter/search change
+  // Reset to page 1 on filter/search change - fixes issue where current page is out of range after filtering
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, activeFilters]);
+  }, [filters]);
 
   // Pagination
   const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
@@ -83,10 +63,11 @@ const WatchList = () => {
         <div className="w-full max-w-7xl relative mx-auto px-4 md:px-8 xl:px-0 ">
           <h1>Your Watchlist</h1>
           <WatchListFilter
-            activeFilters={activeFilters}
-            setActiveFilters={setActiveFilters}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
+            filters={filters}
+            addFilter={addFilter}
+            removeFilter={removeFilter}
+            availableGenres={availableGenres}
+            availableDecades={availableDecades}
           />
           <WatchListGrid
             movies={paginatedMovies}
