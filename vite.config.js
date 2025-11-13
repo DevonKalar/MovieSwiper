@@ -36,9 +36,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/tests/setupTests.js',
-    typecheck: {
-      enabled: false,
-    },
     env: {
       VITE_BACKEND_URL: env.VITE_BACKEND_URL || 'http://localhost:3000/api/'
     }
