@@ -1,6 +1,6 @@
 # MovieSwiper
 
-MovieSwiper is a modern web app for discovering, swiping, and managing your personal movie watchlist. It features an interactive swipe interface, AI-powered movie chat, and advanced filtering—all built with React, Vite, and TailwindCSS.
+MovieSwiper is a modern web app for discovering and managing your personal movie watchlist. It features an interactive swipe interface, AI-powered movie chat, and advanced filtering. All built with React, Vite, and TailwindCSS.
 
 ## Features
 
@@ -10,7 +10,6 @@ MovieSwiper is a modern web app for discovering, swiping, and managing your pers
 - **AI Movie Chat:** Chat with Movio, an AI agent, for recommendations and trivia.
 - **Responsive UI:** Optimized for desktop and mobile with custom components.
 - **Advanced Filtering:** Filter by genre, release date, and rating with slider controls.
-- **Modal System:** Interactive modals for movie details and user interactions.
 
 ## Technologies Used
 
@@ -74,9 +73,8 @@ npm run test:watch
 ```
 src/
   components/      # UI components
-    auth/          # Authentication forms (LoginForm, SignUpForm, UserMenu)
+    */             # Domain specific components (Watchlist, Discover, Auth, etc.)
     common/        # Reusable components (Button, Modal, Slider, etc.)
-    *.jsx          # Feature-specific components (DiscoverCard, WatchList, etc.)
   pages/           # Main pages (Discover, WatchList, NotFound)
   layouts/         # Layout components (MainLayout)
   hooks/           # Custom hooks (useModal, usePopover, useMobile, etc.)
@@ -100,22 +98,49 @@ VITE_BACKEND_URL=<your_backend_api_url>
 **Required for full functionality:**
 - `VITE_BACKEND_URL`: Your backend API URL for authentication and movie data
 
+## API Overview
+
+MovieSwiper was written as a React demo project and uses proxied APIs from TMDB for movie data. Future updates would have endpoints for fetching recommendations, persistant watchlists, and movie look ups.
+This would simplify front-end logic such as removing data enrichment requirements, providing cached recommendations, and unique movie data values for filters provided with resource fetch, or a specific watchlist/filters endpoint.
+
+### Backend Endpoints
+
+**Base URL:** `VITE_BACKEND_URL`
+
+#### Authentication
+- `POST /api/auth/register` - Create new account
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - End session
+- `GET /api/auth/me` - Get current user (coming soon)
+
+#### Movies
+- `GET /api/discover` - Get recommended movies (coming soon, to be implemented with a user-specific cache/popular queue for guests)
+- `GET /api/watchlist` - Get user's watchlist (coming soon)
+- `POST /api/watchlist/:id` - Add to watchlist (coming soon)
+- `DELETE /api/watchlist/:id` - Remove from watchlist (coming soon)
+
+### External APIs
+- **TMDB API** - Movie data and images (proxied through backend, 1:1 with TMDB documentation)
+- **OpenAI API** - AI chat agent (proxied through backend, implements with Responses API )
+
 ## Key Features
 
 ### Authentication System
 - User registration and login
-- Session management with secure cookies
-- Protected routes and user state management
+- Session management with secure JWT cookies
+- Protected routes and user state management (coming soon)
 
 ### Interactive Movie Discovery
 - Swipe-based interface for movie selection
 - Real-time feedback with animations
 - Touch and mouse support
+- Accessible with keyboard navigation, event annoucements, and auto focus on new cards (tested with NVDA)
 
 ### Advanced Filtering
 - Multi-criteria filtering (genre, date, rating)
 - Custom slider components for range selection
 - Real-time search and pagination
+- Fully keyboard accessible
 
 ### AI Integration
 - Chat with Movio for movie recommendations
@@ -124,7 +149,7 @@ VITE_BACKEND_URL=<your_backend_api_url>
 
 ## Testing Strategy
 
-MovieSwiper includes a demonstrative testing suite following best practices with **unit tests**, **integration tests**, and **component tests**.
+MovieSwiper includes demonstrative testing following best practices with **unit tests**, **integration tests**, and **component tests**.
 
 ### Test Coverage
 
@@ -163,8 +188,6 @@ tests/
 - ✅ **User workflow testing** for critical business flows
 - ✅ **Form validation** and interactive component testing
 - ✅ **API integration** testing with fetch mocking
-
-The testing suite demonstrates production-ready quality assurance practices suitable for team development and continuous integration.
 
 ## License
 
