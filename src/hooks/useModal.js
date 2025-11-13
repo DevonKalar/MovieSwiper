@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 /**
  * Custom hook for managing modal states.
@@ -10,7 +9,7 @@ import { useEffect } from "react";
 export const useModal = () => {
   const [modalId, setModalId] = useState(null);
 
-    // Modal logic
+  // Modal logic
   const openModal = (id) => setModalId(id);
   const closeModal = () => setModalId(null);
 
@@ -25,7 +24,7 @@ export const useModal = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [modalId, closeModal]);
+  }, [modalId]);
 
   return { 
     modalId, 

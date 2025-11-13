@@ -64,6 +64,7 @@ export const useMovieDiscovery = (genres, likedMovies, rejectedMovies) => {
 
   useEffect(() => {
     loadMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryPage]);
 
   return {

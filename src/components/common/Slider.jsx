@@ -70,6 +70,7 @@ useEffect(() => {
       controller.abort();
     };
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [dragState.isDragging]);
 
 const minPosition = valueToPosition(range.min);

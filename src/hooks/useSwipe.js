@@ -91,6 +91,7 @@ export const useSwipe = (onSwipe, threshold = 50) => {
         controller.abort();
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [isDragging]);
 
   const triggerSwipe = useCallback((direction) => {

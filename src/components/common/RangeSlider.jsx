@@ -62,6 +62,7 @@ const RangeSlider = ({ min, max, step, value, onChange, label }) => {
         controller.abort();
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDragging, localRange]);
 
   const handleKeyDown = (handle, e) => {
