@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { vi, beforeAll, afterEach } from 'vitest';
 
 // Mock fetch before all tests
 beforeAll(() => {

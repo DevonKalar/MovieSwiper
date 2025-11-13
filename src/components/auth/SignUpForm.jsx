@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
-import { useUser } from "../../providers/UserProvider";
-import AuthService from '../../services/AuthService';
+import { useUser } from "@providers/useUser";
+import AuthService from '@services/AuthService';
 
-const SignUpForm = ({props}) => {
-  const { setIsLoggedIn, setFirstName, setLastName } = useUser();
+const SignUpForm = () => {
+  const { setIsLoggedIn, setFirstName } = useUser();
   const [stage, setStage] = useState(1);
   const [formData, setFormData] = useState({
     email: '',

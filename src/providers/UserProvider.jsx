@@ -1,9 +1,7 @@
-import { createContext, useContext, useState } from "react";
-
 /**
- * Centralized state provider for demo simplicity.
+ * Context for user-related state management.
  * 
- * This provider currently combines three domains:
+ * This context currently combines three domains for demo simplicity:
  * 
  * 1. AUTH DOMAIN - User authentication and profile data
  *    - isLoggedIn, firstName, lastName
@@ -26,7 +24,8 @@ import { createContext, useContext, useState } from "react";
  * when unrelated domain state changes.
  */
 
-const UserContext = createContext();
+import { useState } from "react";
+import UserContext from "./UserContext";
 
 const UserProvider = ({ children }) => {
 	const [likedMovies, setLikedMovies] = useState([]);
@@ -73,14 +72,4 @@ const UserProvider = ({ children }) => {
 	)
 };
 
-const useUser = () => {
-	const context = useContext(UserContext);
-
-	if(!context) {
-			throw new Error('useUser must be used within a UserProvider');
-	}
-
-	return context;
-}
-
-export { UserProvider, useUser };
+export default UserProvider;

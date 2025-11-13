@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useUser } from "@providers/UserProvider";
+import { useUser } from "@providers/useUser";
 import Modal from "@components/common/Modal";
 import SignUpForm from "@components/auth/SignUpForm";
 import LoginForm from "@components/auth/LoginForm";

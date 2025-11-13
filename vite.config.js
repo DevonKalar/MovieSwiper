@@ -2,8 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindscss from '@tailwindcss/vite'
 import path from 'path';
+import { fileURLToPath } from 'url';
 import svgr from 'vite-plugin-svgr';
 import { env } from 'process';
+
+// ES compatibility for __dirname
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -29,9 +33,11 @@ export default defineConfig({
     }
   },
   test: {
-    globals: true,
     environment: 'jsdom',
     setupFiles: './src/tests/setupTests.js',
+    typecheck: {
+      enabled: false,
+    },
     env: {
       VITE_BACKEND_URL: env.VITE_BACKEND_URL || 'http://localhost:3000/api/'
     }

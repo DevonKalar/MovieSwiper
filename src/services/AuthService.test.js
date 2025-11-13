@@ -1,4 +1,5 @@
 import AuthService from "./AuthService.js";
+import { describe, it, expect, vi } from 'vitest';
 const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000/api';
 
 global.fetch = vi.fn();

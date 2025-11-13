@@ -9,7 +9,7 @@
 
 import { CloseIcon, StarIcon } from '@icons';
 import ScrollableText from "@components/common/ScrollableText";
-import { useUser } from '@providers/UserProvider';
+import { useUser } from '@providers/useUser';
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {

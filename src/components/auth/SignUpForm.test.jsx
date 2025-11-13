@@ -1,11 +1,10 @@
 import SignUpForm from './SignUpForm';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import AuthService from '../../services/AuthService';
+import AuthService from '@services/AuthService';
 import { UserProvider } from '@providers/UserProvider';
-import { vi } from 'vitest';
+import { vi, describe, test, expect, beforeEach } from 'vitest';
 
-vi.mock('../../services/AuthService');
-
+vi.mock('@services/AuthService');
 describe('SignUpForm', () => {
   beforeEach(() => {
     AuthService.register.mockClear();

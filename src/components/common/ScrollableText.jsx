@@ -1,5 +1,3 @@
-import { useRef, useState, useEffect } from 'react';
-
 const ScrollableText = ({ 
   children, 
   height = '96px',

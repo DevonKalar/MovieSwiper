@@ -1,5 +1,6 @@
 import { fetchMoviesWithGenres } from "./movieDataHelpers";
 import tmdbApi from '@services/movieService';
+import { vi, describe, it, expect } from 'vitest';
 
 vi.mock('@services/movieService', () => ({
   default: {

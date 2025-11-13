@@ -3,7 +3,7 @@ import MainLayout from '@layouts/MainLayout';
 import AuthService from '@services/AuthService';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { describe } from 'vitest';
+import { describe, test, vi, expect } from 'vitest';
 import { UserProvider } from '@providers/UserProvider';
 
 describe('Authentication Flow Integration Test', () => {

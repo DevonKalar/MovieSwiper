@@ -1,7 +1,7 @@
 import { SignInIcon } from "@icons";
-import { useUser } from "../../providers/UserProvider";
+import { useUser } from "@providers/useUser";
 import { useState } from 'react';
-import AuthService from '../../services/AuthService';
+import AuthService from '@services/AuthService';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({

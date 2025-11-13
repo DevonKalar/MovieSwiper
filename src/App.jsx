@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import { UserProvider } from '@providers/UserProvider.jsx';
+import UserProvider from '@providers/UserProvider.jsx';
 import MainLayout from '@layouts/MainLayout.jsx';
 import NotFound from '@pages/NotFound.jsx';
 import WatchList from '@pages/WatchList.jsx';

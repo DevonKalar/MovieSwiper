@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import DiscoverCard from "@components/discover/DiscoverCard";
 import ScreenReaderAnnouncement from "@components/common/ScreenReaderAnnouncement";
-import { useUser } from "@providers/UserProvider.jsx";
+import { useUser } from "@providers/useUser";
 import { useMovieDiscovery } from "@hooks/useMovieDiscovery.js";
 import { useAnnouncement } from "@hooks/useAnnouncement.js";
 
@@ -14,7 +14,6 @@ const Discover = () => {
     visibleMovies,
     currentMovie,
     isLoading,
-    error,
     moveToNext,
   } = useMovieDiscovery(["878", "53"], likedMovies, rejectedMovies);
 

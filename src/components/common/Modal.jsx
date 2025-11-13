@@ -1,12 +1,11 @@
 import { CloseIcon } from '@icons';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const Modal = ({ children, buttonText, buttonClass, modalClass }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Modal logic
-  const toggleModal = () => setIsOpen(!isOpen);
+  const toggleModal = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
