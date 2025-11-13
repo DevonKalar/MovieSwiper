@@ -164,30 +164,29 @@ MovieSwiper includes demonstrative testing following best practices with **unit 
 - **Authentication Flow** - Complete user journey (sign up → log out → log in)
 
 ### Testing Architecture
+Unit and component tests are co-located with the logic they are testing. Integration tests are located within the tests directory. Testing set up uses Vitest
 
 ```
 tests/
-  AuthService.test.js              # Service layer unit tests
-  movieDataHelpers.test.js         # Helper function unit tests
-  components/auth/SignUpForm.test.jsx   # Component behavior tests
-  integrations/auth-flow.integration.test.jsx  # End-to-end user flows
+  setupTests.js                 # Test set up, holds global set up and take down for all suites (specific requirements to go in test file)
+  integrations/                 # Integration tests (currently holds auth-flow test)
+  **Unit or Component tests**   # Co-located with the code they verify (/services/AuthService.js → /services/AuthService.test.js )
 ```
 
 ### Key Testing Features
 
 - **Comprehensive Mocking**: Services mocked for component isolation
 - **Error Scenario Testing**: Both success and failure paths covered
-- **User-Centric Approach**: Tests focus on user interactions and business value  
 - **Async Testing**: Proper handling of API calls and loading states
 - **Real DOM Testing**: Using Testing Library for realistic user simulation
 
 ### Test Quality Standards
 
-- ✅ **Happy path and error cases** covered
-- ✅ **Service isolation** with proper mocking strategies  
-- ✅ **User workflow testing** for critical business flows
-- ✅ **Form validation** and interactive component testing
-- ✅ **API integration** testing with fetch mocking
+- **Happy path and error cases** covered
+- **Service isolation** with proper mocking strategies  
+- **User workflow testing** for critical business flows
+- **Form validation** and interactive component testing
+- **API integration** testing with fetch mocking
 
 ## License
 
