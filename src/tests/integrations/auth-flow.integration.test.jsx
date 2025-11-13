@@ -4,7 +4,7 @@ import AuthService from '@services/AuthService';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { describe, test, vi, expect } from 'vitest';
-import { UserProvider } from '@providers/UserProvider';
+import UserProvider from '@providers/UserProvider';
 
 describe('Authentication Flow Integration Test', () => {
   test('User can sign up, log in, and log out successfully', async () => {

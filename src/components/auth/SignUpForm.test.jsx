@@ -1,7 +1,7 @@
 import SignUpForm from './SignUpForm';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import AuthService from '@services/AuthService';
-import { UserProvider } from '@providers/UserProvider';
+import UserProvider from '@providers/UserProvider';
 import { vi, describe, test, expect, beforeEach } from 'vitest';
 
 vi.mock('@services/AuthService');
