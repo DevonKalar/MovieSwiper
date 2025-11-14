@@ -42,7 +42,7 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 							<p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
 						</div>
 						<h2 id={`modal-title-${movie.id}`} className="text-5xl">{movie.title}</h2>
-						<p className="text-sm text-white mb-2">{movie.genreNames.join(", ")}</p>
+						<p className="text-sm text-white mb-2">{movie.genres.join(", ")}</p>
 						<ScrollableText id={`modal-desc-${movie.id}`}>{movie.description}</ScrollableText>
 						<div className="flex flex-row flex-wrap justify-start items-start gap-2 mt-4">
 							<button className="w-full border-2 border-secondary-500"

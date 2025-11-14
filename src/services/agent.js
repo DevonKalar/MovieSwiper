@@ -21,7 +21,7 @@ const fetchWithTimeout = async (url, options = {}, timeout = 30000) => {
   }
 };
 
-const getAgentResponse = async (userMessage, likedMovies) => {
+const getResponse = async (userMessage, likedMovies) => {
 // exit early if no user message
 if (!userMessage || userMessage.trim() === '') {
 	throw new Error('Please provide a message for me to respond to.');
@@ -57,4 +57,9 @@ return {
 };
 };
 
-export { getAgentResponse };
+// exporting as an object to normalize usage with other services
+const agentService = {
+  getResponse,
+};
+
+export default agentService;

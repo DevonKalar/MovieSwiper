@@ -1,6 +1,6 @@
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
-class tmdbApiService {
+class tmdbApi {
   constructor() {
     this.timeout = 15000; // 15 second timeout for movie API
   }
@@ -25,9 +25,48 @@ class tmdbApiService {
     }
   }
 
-  async fetchMoviesByGenreId(genres = ["878", "53"], page = 1) {
-    const genreString = genres.join("%7C");
-    const url = `${baseURL}tmdb/movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
+  // fetches movie recommendations, if no preferred genres provided, backend will handle defaults
+  async fetchRecommendations(page = 1, genres) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    
+    if (genres && genres.length > 0) {
+      params.append('genres', genres.join(','));
+    }
+    
+    const url = `${baseURL}tmdb/recommendations?${params.toString()}`;
+
+    const response = await this.fetchWithTimeout(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log(`[fetchRecommendations] Response status: ${response.status}`);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`TMDB API Error: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log(`[fetchRecommendations] Success, received ${data?.length || 0} movies`);
+    return data.map(movie => ({
+      id: movie.id,
+      title: movie.title,
+      description: movie.overview,
+      releaseDate: movie.release_date,
+      poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      rating: movie.vote_average,
+      genres: movie.genre_names,
+    }));
+  }
+
+  async fetchMoviesByGenreId(genres = ["Action", "Thriller"], page = 1) {
+    const genreParam = genres.join(',');
+    const genreString = `genres=${encodeURIComponent(genreParam)}`;
+    const url = `${baseURL}tmdb/movies?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&${genreString}`;
     
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
@@ -124,5 +163,5 @@ class tmdbApiService {
   }
 }
 
-const tmdbApi = new tmdbApiService();
-export default tmdbApi;
+const movieService = new tmdbApi();
+export default movieService;

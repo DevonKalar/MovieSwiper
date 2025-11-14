@@ -15,7 +15,7 @@ const Discover = () => {
     currentMovie,
     isLoading,
     moveToNext,
-  } = useMovieDiscovery(["878", "53"], likedMovies, rejectedMovies);
+  } = useMovieDiscovery(["Thriller", "Action"], likedMovies, rejectedMovies);
 
 	// handle swipe
 	const handleSwipe = (direction) => {

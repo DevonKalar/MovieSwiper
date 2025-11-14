@@ -49,7 +49,7 @@ const WatchListGrid = ({movies, removeLikedMovie }) => {
             <div className="overlay flex flex-row justify-between items-start gap-4">
               <div>
                 <h3>{movie.title}</h3>
-                <p>{movie.genreNames.join(", ")}</p>
+                <p>{movie.genres.join(", ")}</p>
               </div>
               <button
                 className="h-6 w-6 p-0 rounded-full bg-transparent text-error-500"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchMoviesWithGenres } from "@helpers/movieDataHelpers";
+import movieService from "@services/movies.js";
 import { useMinimumLoading } from "@hooks/useMinimumLoading.js";
 
 /**
@@ -22,7 +23,7 @@ export const useMovieDiscovery = (genres, likedMovies, rejectedMovies) => {
   const loadMovies = async () => {
     startLoading();
     try {
-      const fetchedMovies = await fetchMoviesWithGenres(genres, queryPage);
+      const fetchedMovies = await movieService.fetchRecommendations(queryPage, genres);
 
       if (fetchedMovies.length === 0) {
         console.warn('No movies fetched from fetchMoviesWithGenres.');

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getAgentResponse } from '../../services/AiChatService.js';
+import agentService from '@services/agent.js';
 import { useUser } from '@providers/UserContext';
 import movioProfilePic from '@images/ai-avatar.jpg';
 import { ChatBotIcon } from '@icons';
@@ -26,7 +26,7 @@ const AiChat = () => {
 		setIsAgentTyping(true);
 		
     try {
-      const response = await getAgentResponse(userMessage, movieTitles);
+      const response = await agentService.getResponse(userMessage, movieTitles);
       setChatData(prev => [...prev, response]);
     } catch (error) {
       setChatData(prev => [...prev, {

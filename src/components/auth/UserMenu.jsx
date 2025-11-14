@@ -1,7 +1,7 @@
 import { usePopover } from '@hooks/usePopover';
 import { UserIcon, SignOutIcon } from "@icons";
 import { useUser } from "@providers/UserContext";
-import AuthService from '@services/AuthService';
+import authService from '@services/auth';
 
 
 const UserMenu = () => {
@@ -10,7 +10,7 @@ const UserMenu = () => {
 
   const handleLogout = async () => {
     try {
-      await AuthService.logout();
+      await authService.logout();
       setIsLoggedIn(false);
     } catch (error) {
       console.error("Sign out failed:", error);

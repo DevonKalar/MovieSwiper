@@ -1,4 +1,4 @@
-import tmdbApi from '@services/movieService';
+import movieService from '@services/movies';
 
 // fetch movie data with genre ids and enrich with genre names
 export const fetchMoviesWithGenres = async (genres, page) => {
@@ -7,8 +7,8 @@ export const fetchMoviesWithGenres = async (genres, page) => {
     return [];
   }
   const [moviesWithGenreIds, allGenres] = await Promise.all([
-    tmdbApi.fetchMoviesByGenreId(genres, page),
-    tmdbApi.fetchGenres()
+    movieService.fetchMoviesByGenreId(genres, page),
+    movieService.fetchGenres()
   ]);
   const genreMap = allGenres.reduce((map, genre) => {
     map[genre.id] = genre.name;

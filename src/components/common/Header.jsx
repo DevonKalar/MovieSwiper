@@ -6,7 +6,7 @@ import LoginForm from "@components/auth/LoginForm";
 import UserMenu from "@components/auth/UserMenu";
 import { usePopover } from "@hooks/usePopover";
 import { SignOutIcon } from "@icons";
-import AuthService from "@services/AuthService";
+import authService from "@services/auth";
 
 const Header = () => {
   const { isLoggedIn } = useUser();
@@ -15,7 +15,7 @@ const Header = () => {
 
   const handleLogout = async () => {
       try {
-        await AuthService.logout();
+        await authService.logout();
         setIsLoggedIn(false);
       } catch (error) {
         console.error("Sign out failed:", error);
