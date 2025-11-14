@@ -4,7 +4,7 @@ import MainLayout from '@layouts/MainLayout.jsx';
 import NotFound from '@pages/NotFound.jsx';
 import WatchList from '@pages/WatchList.jsx';
 import Discover from '@pages/Discover.jsx';
-import {AiChat} from '@components/chat/AiChat.jsx';
+import AiChat from '@components/chat/AiChat.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

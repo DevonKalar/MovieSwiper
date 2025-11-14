@@ -1,6 +1,6 @@
 import { usePopover } from '@hooks/usePopover';
 import { UserIcon, SignOutIcon } from "@icons";
-import { useUser } from "@providers/useUser";
+import { useUser } from "@providers/UserContext";
 import AuthService from '@services/AuthService';
 
 

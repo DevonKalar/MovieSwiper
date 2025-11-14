@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import DiscoverCard from "@components/discover/DiscoverCard";
 import ScreenReaderAnnouncement from "@components/common/ScreenReaderAnnouncement";
-import { useUser } from "@providers/useUser";
+import { useUser } from "@providers/UserContext";
 import { useMovieDiscovery } from "@hooks/useMovieDiscovery.js";
 import { useAnnouncement } from "@hooks/useAnnouncement.js";
 

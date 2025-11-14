@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
-import { useUser } from "@providers/useUser";
+import { useUser } from "@providers/UserContext";
 import AuthService from '@services/AuthService';
 
 const SignUpForm = () => {

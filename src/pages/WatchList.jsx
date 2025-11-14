@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "@providers/useUser";
+import { useUser } from "@providers/UserContext";
 import { useMovieFilters } from "@hooks/useMovieFilters";
 import WatchListGrid from "@components/watchlist/WatchListGrid";
 import WatchListFilter from "@components/watchlist/WatchListFilter";
