@@ -1,10 +1,11 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import UserProvider from '@providers/UserProvider.jsx';
+import MovieFeedProvider from '@providers/MovieFeedProvider.jsx';
 import MainLayout from '@layouts/MainLayout.jsx';
 import NotFound from '@pages/NotFound.jsx';
 import WatchList from '@pages/WatchList.jsx';
 import Discover from '@pages/Discover.jsx';
-import {AiChat} from '@components/chat/AiChat.jsx';
+import AiChat from '@components/chat/AiChat.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,8 +20,10 @@ const router = createBrowserRouter(
 function App() {
   return (
     <UserProvider>
-      <RouterProvider router={router} />
-      <AiChat />
+      <MovieFeedProvider>
+        <RouterProvider router={router} />
+        <AiChat />
+      </MovieFeedProvider>
     </UserProvider>
   )
 }

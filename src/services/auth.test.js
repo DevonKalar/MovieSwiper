@@ -1,4 +1,4 @@
-import AuthService from "./AuthService.js";
+import authService from "./auth.js";
 import { describe, it, expect, vi } from 'vitest';
 const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000/api';
 
@@ -17,7 +17,7 @@ describe('AuthService', () => {
         json: async () => mockResponse,
       });
 
-      const response = await AuthService.register({
+      const response = await authService.register({
         firstName: 'Test',
         lastName: 'User',
         email: 'test@example.com',
@@ -57,7 +57,7 @@ describe('AuthService', () => {
       
       // verify the response
       await expect(
-        AuthService.register({
+        authService.register({
           firstName: 'Test',
           lastName: 'User',
           email: 'test@example.com',
@@ -90,7 +90,7 @@ describe('AuthService', () => {
       );
       
       await expect(
-        AuthService.register({
+        authService.register({
           firstName: 'Test',
           lastName: 'User',
           email: 'test@example.com',
@@ -110,7 +110,7 @@ describe('AuthService', () => {
         }),
         json: async () => mockResponse,
       });
-      const response = await AuthService.login({
+      const response = await authService.login({
         email: 'test@example.com',
         password: 'Password123',
       });
@@ -143,7 +143,7 @@ describe('AuthService', () => {
       
       // verify the response
       await expect(
-        AuthService.login({
+        authService.login({
           email: 'test@example.com',
           password: 'Password123',
         })
@@ -175,11 +175,9 @@ describe('AuthService', () => {
             'Content-Type': 'application/json',
           }),
           json: async () => ({ message: 'User logged out successfully' }),
-        });
-    
-        const response = await AuthService.logout();
-    
-        expect(response).toEqual({ message: 'User logged out successfully' });
+      });
+
+        const response = await authService.logout();        expect(response).toEqual({ message: 'User logged out successfully' });
         expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, 
           expect.objectContaining({
             method: 'POST',
@@ -203,7 +201,7 @@ describe('AuthService', () => {
       });
 
       // verify the response
-      await expect(AuthService.logout()).rejects.toThrow(Error);
+      await expect(authService.logout()).rejects.toThrow(Error);
       // verify the correct URL and options were used
       expect(global.fetch).toHaveBeenCalledWith(`${serverUrl}/auth/logout`, 
         expect.objectContaining({

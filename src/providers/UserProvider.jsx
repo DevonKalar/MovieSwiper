@@ -1,36 +1,11 @@
-/**
- * Context for user-related state management.
- * 
- * This context currently combines three domains for demo simplicity:
- * 
- * 1. AUTH DOMAIN - User authentication and profile data
- *    - isLoggedIn, firstName, lastName
- *    - Future: Would extract to AuthProvider with user sessions, profile management, and preferences
- * 
- * 2. WATCHLIST DOMAIN - User's saved movies  
- *    - likedMovies, likeMovie, removeLikedMovie
- *    - Future: Would extract to WatchlistProvider with persistence, sharing features, notes, watch status, etc
- * 
- * 3. RECOMMENDATIONS DOMAIN - Movie discovery and pagination state
- *    - rejectedMovies, queryPage (for filtering and fetching)
- *    - Future: Would hold Recommendations queue and extract to RecommendationsProvider with algorithm customization
- * 
- * PRODUCTION SCALING:
- * Each domain would become a separate provider with composition:
- * <AuthProvider><WatchlistProvider><RecommendationsProvider><App /></...></...></...>
- * Or use a state management solution like Redux or Zustand for complex inter-domain interactions.
- * 
- * This allows independent testing, clearer boundaries, and prevents unnecessary re-renders
- * when unrelated domain state changes.
- */
-
 import { useState } from "react";
-import UserContext from "./UserContext";
+import { UserContext } from "./UserContext";
+
+// going to be watchlist provider
 
 const UserProvider = ({ children }) => {
-	const [likedMovies, setLikedMovies] = useState([]);
+  const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
-	const [queryPage, setQueryPage] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -58,9 +33,7 @@ const UserProvider = ({ children }) => {
 			likeMovie,
 			rejectMovie,
 			removeLikedMovie,
-			queryPage,
-			setQueryPage,
-      isLoggedIn,
+		  isLoggedIn,
       setIsLoggedIn,
       firstName,
       lastName,
@@ -70,6 +43,7 @@ const UserProvider = ({ children }) => {
 				{children}
 		</UserContext.Provider>
 	)
-};
+
+}
 
 export default UserProvider;

@@ -1,8 +1,8 @@
 import { fetchMoviesWithGenres } from "./movieDataHelpers";
-import tmdbApi from '@services/movieService';
+import movieService from '@services/movies';
 import { vi, describe, it, expect } from 'vitest';
 
-vi.mock('@services/movieService', () => ({
+vi.mock('@services/movies', () => ({
   default: {
     fetchMoviesByGenreId: vi.fn(),
     fetchGenres: vi.fn(),
@@ -13,7 +13,7 @@ describe("fetchMoviesWithGenres", () => {
 
   it("should transform genre IDs to genre names", async () => {
     // Mock 1: Movies with genre IDs
-    tmdbApi.fetchMoviesByGenreId.mockResolvedValue([
+    movieService.fetchMoviesByGenreId.mockResolvedValue([
       { 
         id: 1, 
         title: "Blade Runner", 
@@ -22,7 +22,7 @@ describe("fetchMoviesWithGenres", () => {
     ]);
     
     // Mock 2: Genre mapping
-    tmdbApi.fetchGenres.mockResolvedValue([
+    movieService.fetchGenres.mockResolvedValue([
       { id: 878, name: "Science Fiction" },
       { id: 53, name: "Thriller" }
     ]);
@@ -36,11 +36,11 @@ describe("fetchMoviesWithGenres", () => {
   });
 
   it("should handle unknown genre IDs", async () => {
-    tmdbApi.fetchMoviesByGenreId.mockResolvedValue([
+    movieService.fetchMoviesByGenreId.mockResolvedValue([
       { id: 2, title: "Mystery Movie", genreIds: [878, 9999] } // 9999 doesn't exist
     ]);
     
-    tmdbApi.fetchGenres.mockResolvedValue([
+    movieService.fetchGenres.mockResolvedValue([
       { id: 878, name: "Science Fiction" }
     ]);
 

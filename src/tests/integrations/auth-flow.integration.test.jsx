@@ -1,6 +1,6 @@
 import Discover from '@pages/Discover';
 import MainLayout from '@layouts/MainLayout';
-import AuthService from '@services/AuthService';
+import authService from '@services/auth';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { describe, test, vi, expect } from 'vitest';
@@ -9,9 +9,9 @@ import UserProvider from '@providers/UserProvider';
 describe('Authentication Flow Integration Test', () => {
   test('User can sign up, log in, and log out successfully', async () => {
     // Mock successful registration and login responses
-    AuthService.register = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
-    AuthService.login = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
-    AuthService.logout = vi.fn().mockResolvedValue({});
+    authService.register = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
+    authService.login = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
+    authService.logout = vi.fn().mockResolvedValue({});
     render(
       <Router>
         <UserProvider>

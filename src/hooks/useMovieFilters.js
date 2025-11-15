@@ -18,7 +18,7 @@ export const useMovieFilters = (movies) => {
   const availableGenres = useMemo(() => {
     const genresSet = new Set();
     movies.forEach(movie => {
-      movie.genreNames?.forEach(genre => genresSet.add(genre));
+      movie.genres?.forEach(genre => genresSet.add(genre));
     });
     return Array.from(genresSet).sort();
   }, [movies]);
@@ -44,7 +44,7 @@ export const useMovieFilters = (movies) => {
       
       // Check genres
       const matchesGenre = filters.genre.length === 0 || 
-        filters.genre.every(genre => movie.genreNames?.includes(genre));
+        filters.genre.every(genre => movie.genres?.includes(genre));
       
       // Check decades
       const matchesDecade = filters.decade.length === 0 || 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
-import { useUser } from "@providers/useUser";
-import AuthService from '@services/AuthService';
+import { useUser } from "@providers/UserContext";
+import authService from '@services/auth';
 
 const SignUpForm = () => {
   const { setIsLoggedIn, setFirstName } = useUser();
@@ -55,7 +55,7 @@ const SignUpForm = () => {
         lastName: formData.lastName,
         password: formData.password
       };
-      const response = await AuthService.register(userData);
+      const response = await authService.register(userData);
       setIsLoggedIn(true);
       setFirstName(response.firstName);
     } catch (error) {
