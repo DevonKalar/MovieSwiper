@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { UserContext } from "./UserContext";
 
+// going to be watchlist provider
+
 const UserProvider = ({ children }) => {
   const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
-	const [queryPage, setQueryPage] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -32,9 +33,7 @@ const UserProvider = ({ children }) => {
 			likeMovie,
 			rejectMovie,
 			removeLikedMovie,
-			queryPage,
-			setQueryPage,
-      isLoggedIn,
+		  isLoggedIn,
       setIsLoggedIn,
       firstName,
       lastName,

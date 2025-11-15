@@ -35,15 +35,13 @@ class tmdbApi {
     }
     
     const url = `${baseURL}tmdb/recommendations?${params.toString()}`;
-
+    console.log(`[fetchRecommendations] Fetching from URL: ${url}`);
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     });
-
-    console.log(`[fetchRecommendations] Response status: ${response.status}`);
     
     if (!response.ok) {
       const errorText = await response.text();
