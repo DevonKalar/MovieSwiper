@@ -1,5 +1,7 @@
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
+//
+
 class tmdbApi {
   constructor() {
     this.timeout = 15000; // 15 second timeout for movie API
@@ -49,7 +51,6 @@ class tmdbApi {
     }
 
     const data = await response.json();
-    console.log(`[fetchRecommendations] Success, received ${data?.length || 0} movies`);
     return data.map(movie => ({
       id: movie.id,
       title: movie.title,

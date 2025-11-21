@@ -2,7 +2,7 @@ import { MovieFeedContext } from "./MovieFeedContext";
 import { useUser } from "./UserContext";
 import { useState, useEffect } from "react";
 import { useMinimumLoading } from "@/hooks/useMinimumLoading";
-import movieService from "@/services/movies";
+import fetchRecommendations from "@/services/recommendations";
 
 const MovieFeedProvider = ({ children }) => {
   const [movieQueue, setMovieQueue] = useState([]);
@@ -15,7 +15,7 @@ const MovieFeedProvider = ({ children }) => {
   const loadMovies = async () => {
     startLoading();
     try {
-      const fetchedMovies = await movieService.fetchRecommendations(queryPage);
+      const fetchedMovies = await fetchRecommendations.fetchRecommendations(queryPage);
 
       if (fetchedMovies.length === 0) {
         console.warn('No movies fetched from fetchMoviesWithGenres.');
