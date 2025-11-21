@@ -2,9 +2,11 @@ import { LikeIcon, PassIcon, RejectIcon, HeartIcon, InfoIcon } from '@icons';
 import MovieModal from "../common/MovieModal";
 import { useModal } from "@hooks/useModal";
 import { useSwipe } from "@hooks/useSwipe";
+import { useState, useEffect } from "react";
 
 const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, cardRef = null }) => {
   const { modalId, openModal, closeModal } = useModal();
+  const [isVisible, setIsVisible] = useState(false);
   
   const {
     currentX,
@@ -20,6 +22,11 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
     const buttonValue = e.currentTarget.value;
     triggerSwipe(buttonValue);
   };
+
+  // Set isVisible to true on mount for fade-in effect
+  useEffect (() => {
+    setIsVisible(true);
+  }, []);
 
 	if (isLoading) {
     return (
@@ -39,8 +46,9 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           ...style 
         }} 
         {...(isTopCard ? useSwipeHandlers : {})}
-        className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none touch-none
-          ${isDragging ? 'cursor-grabbing ' : 'cursor-grab'}`}
+        className={`absolute inset-0 rounded-2xl duration-0 aspect-2/3 overflow-hidden select-none touch-none fade-in
+          ${isDragging ? 'cursor-grabbing ' : 'cursor-grab'}
+          ${isVisible ? 'block' : 'hidden'}`}
         aria-hidden={!isTopCard}
         
       >
@@ -58,7 +66,7 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           </div>
         )}
         <div>
-          <img className="bg-primary-400 object-cover aspect-2/3" src={movie.poster} alt={`${movie.title} movie poster`} />
+          <img className={`bg-primary-400 object-cover aspect-2/3`} src={movie.poster} alt={`${movie.title} movie poster`} />
           <div className={`flex flex-row group absolute bottom-0 left-0 right-0 justify-center items-end gap-4 h-full py-4 opacity-0 hover:opacity-100 focus-within:opacity-100 text-white rounded-2xl `} 
             role="group"
             aria-label="Movie actions"
