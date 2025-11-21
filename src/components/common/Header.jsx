@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useUser } from "@providers/UserContext";
+import useAuth from "@providers/AuthContext";
 import Modal from "@components/common/Modal";
 import SignUpForm from "@components/auth/SignUpForm";
 import LoginForm from "@components/auth/LoginForm";
@@ -9,14 +9,12 @@ import { SignOutIcon } from "@icons";
 import authService from "@services/auth";
 
 const Header = () => {
-  const { isLoggedIn } = useUser();
+  const { isAuthenticated, logout, user } = useAuth();
   const { popovers, togglePopover } = usePopover();
-  const { firstName, setIsLoggedIn } = useUser();
 
   const handleLogout = async () => {
       try {
-        await authService.logout();
-        setIsLoggedIn(false);
+        await logout();
       } catch (error) {
         console.error("Sign out failed:", error);
       }
@@ -39,7 +37,7 @@ const Header = () => {
             Watchlist
           </NavLink>
         </nav>
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <UserMenu />
         ) : (
           <div className="navbar-buttons-wrapper flex flex-row gap-2">
@@ -76,7 +74,7 @@ const Header = () => {
             <NavLink to="/watchlist" onClick={() => togglePopover("mobile-menu")} className="nav-link text-white">
               Watchlist
             </NavLink>
-            {isLoggedIn && (
+            {isAuthenticated && (
               <>
                 <hr className="border-1 w-full border-primary-400" />
                 <NavLink to="/profile" className="nav-link text-white">
@@ -92,9 +90,9 @@ const Header = () => {
               </>
             )}
           </nav>
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <>
-            <p className="self-center">Logged in as {firstName}, not you?</p>
+            <p className="self-center">Logged in as {user.firstname}, not you?</p>
             <button className="block w-full text-sm text-gray-700" onClick={handleLogout}>
               Sign Out
               <SignOutIcon className="inline-block ml-2" height={16} width={16} />

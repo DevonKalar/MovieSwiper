@@ -30,7 +30,6 @@ class recommendationsApi {
   // fetches movie recommendations, if no preferred genres provided, backend will handle defaults
   async fetchRecommendations(page = 1) {
     const url = `${baseURL}recommendations?page=${page}`;
-    console.log(`[fetchRecommendations] Fetching from URL: ${url}`);
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {

@@ -1,6 +1,6 @@
-import { AuthProvider } from './AuthContext';
+import { AuthContext } from './AuthContext';
 import { useState } from 'react';
-import authService from '@/services/authService';
+import authService from '@/services/auth';
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
       setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {
-      console.error('Login failed:', error);
       setError(error);
       throw error;
     } finally {
@@ -38,7 +37,6 @@ const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
     } catch (error) {
-      console.error('Logout failed:', error);
       setError(error);
       throw error;
     } finally {
@@ -68,9 +66,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthProvider.Provider value={{ isAuthenticated, user, login, logout, register }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, register }}>
       {children}
-    </AuthProvider.Provider>
+    </AuthContext.Provider>
   );
 };
 
