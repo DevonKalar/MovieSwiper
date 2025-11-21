@@ -27,12 +27,13 @@ MovieSwiper is a modern web app for discovering and managing your personal movie
 ### Prerequisites
 
 - Node.js (v18+ recommended)
+- **backend server running** → [MovieSwiper Backend](https://github.com/DevonKalar/MovieSwiper-Server)
 - npm or yarn
 
 ### Installation
 
 ```sh
-git clone https://github.com/DevonKalar/MoveSwiper.git
+git clone https://github.com/DevonKalar/MovieSwiper.git
 cd movieswiper
 npm install
 ```
@@ -92,16 +93,16 @@ src/
 Create a `.env` file with the following variables:
 
 ```
-VITE_BACKEND_URL=<your_backend_api_url>
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VITE_BACKEND_URL` | Backend API URL | ✅ |
+```
+**Example:**
+```env
+VITE_BACKEND_URL=http://localhost:3000
 ```
 
-**Required for full functionality:**
-- `VITE_BACKEND_URL`: Your backend API URL for authentication and movie data
-
 ## API Overview
-
-MovieSwiper was written as a React demo project and uses proxied APIs from TMDB for movie data. Future updates would have endpoints for fetching recommendations, persistant watchlists, and movie look ups.
-This would simplify front-end logic such as removing data enrichment requirements, providing cached recommendations, and unique movie data values for filters provided with resource fetch, or a specific watchlist/filters endpoint.
 
 ### Backend Endpoints
 
@@ -115,9 +116,9 @@ This would simplify front-end logic such as removing data enrichment requirement
 
 #### Movies
 - `GET /api/discover` - Get recommended movies (coming soon, to be implemented with a user-specific cache/popular queue for guests)
-- `GET /api/watchlist` - Get user's watchlist (coming soon)
-- `POST /api/watchlist/:id` - Add to watchlist (coming soon)
-- `DELETE /api/watchlist/:id` - Remove from watchlist (coming soon)
+- `GET /api/watchlist` - Get user's watchlist
+- `POST /api/watchlist/:id` - Add to watchlist
+- `DELETE /api/watchlist/:id` - Remove from watchlist
 
 ### External APIs
 - **TMDB API** - Movie data and images (proxied through backend, 1:1 with TMDB documentation)
@@ -128,7 +129,7 @@ This would simplify front-end logic such as removing data enrichment requirement
 ### Authentication System
 - User registration and login
 - Session management with secure JWT cookies
-- Protected routes and user state management (coming soon)
+- Protected routes and user state management
 
 ### Interactive Movie Discovery
 - Swipe-based interface for movie selection
@@ -190,4 +191,4 @@ tests/
 
 ## License
 
-For demonstration purposes only. © MovieSwiper
+ISC License
