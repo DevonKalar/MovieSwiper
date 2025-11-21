@@ -42,6 +42,31 @@ class watchlistApi {
       throw new Error(`Watchlist API Error: ${errorText}`);
     }
   }
+
+  async getWatchlist() {
+    const url = `${baseURL}watchlist/`;
+    const response = await this.fetchWithTimeout(url, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Watchlist API Error: ${errorText}`);
+    }
+    return response.json();
+  }
+
+  async removeFromWatchlist(movieId) {
+    const url = `${baseURL}watchlist/${movieId}`;
+    const response = await this.fetchWithTimeout(url, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Watchlist API Error: ${errorText}`);
+    }
+  }
 }
 
 const watchlistService = new watchlistApi();
