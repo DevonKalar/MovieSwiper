@@ -7,9 +7,6 @@ import watchlistService from "@/services/watchlist";
 const UserProvider = ({ children }) => {
   const [likedMovies, setLikedMovies] = useState([]);
 	const [rejectedMovies, setRejectedMovies] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
 
 	const likeMovie = (newMovie) => {
 		if(likedMovies.some(movie => movie.id === newMovie.id)) return;
@@ -37,12 +34,6 @@ const UserProvider = ({ children }) => {
 			likeMovie,
 			rejectMovie,
 			removeLikedMovie,
-		  isLoggedIn,
-      setIsLoggedIn,
-      firstName,
-      lastName,
-      setFirstName,
-      setLastName
 		}}>
 				{children}
 		</UserContext.Provider>
