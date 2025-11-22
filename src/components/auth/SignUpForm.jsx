@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
 import useAuth from "@providers/AuthContext";
-import authService from '@services/auth';
 
 const SignUpForm = () => {
-  const { register, isAuthenticated, user } = useAuth();
+  const {register } = useAuth();
   const [stage, setStage] = useState(1);
   const [formData, setFormData] = useState({
     email: '',
@@ -22,7 +21,7 @@ const SignUpForm = () => {
     } else {
       setErrorMessage("Please fill in all fields correctly.");
     }
-  }
+  };
 
   const handlePrev = () => {
     if (stage > 1) {

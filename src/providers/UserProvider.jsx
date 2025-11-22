@@ -69,6 +69,8 @@ const UserProvider = ({ children }) => {
 		<UserContext.Provider value={{
 			likedMovies,
 			rejectedMovies,
+      isLoading,
+      error,
 			likeMovie,
 			rejectMovie,
 			removeLikedMovie,
