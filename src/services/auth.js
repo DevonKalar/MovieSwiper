@@ -81,6 +81,7 @@ class AuthService {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     
     // Parse response regardless of status to get server message

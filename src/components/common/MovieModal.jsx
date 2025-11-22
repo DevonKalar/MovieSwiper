@@ -32,15 +32,16 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 					<div className="absolute md:static w-full md:w-1/2 aspect-2/3">
 						<img
 							className="w-full h-full object-cover rounded-xl inset-0"
-							src={movie.poster}
+							src={movie.posterUrl}
 							alt={`Poster for ${movie.title}`}
 						/>
 					</div>
 					<div className="flex flex-col justify-end md:justify-start md:w-1/2 z-50 bg-gradient-to-t aspect-2/3 from-black via-black/90 to-transparent md:bg-none rounded-b-xl py-8 p-4 gap-2">
-						<div className="border-2 gap-2 flex flex-row justify-start items-center border-primary-700 bg-primary-700 w-fit p-1 px-2 rounded-full">
-							<StarIcon className="w-4 h-4 text-accent-500" />
-							<p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
-						</div>
+						{movie.rating && 
+              <div className="border-2 gap-2 flex flex-row justify-start items-center border-primary-700 bg-primary-700 w-fit p-1 px-2 rounded-full">
+                <StarIcon className="w-4 h-4 text-accent-500" />
+                <p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
+						  </div>}
 						<h2 id={`modal-title-${movie.id}`} className="text-5xl">{movie.title}</h2>
 						<p className="text-sm text-white mb-2">{movie.genres.join(", ")}</p>
 						<ScrollableText id={`modal-desc-${movie.id}`}>{movie.description}</ScrollableText>

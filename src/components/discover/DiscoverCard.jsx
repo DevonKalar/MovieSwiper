@@ -66,7 +66,7 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
           </div>
         )}
         <div>
-          <img className={`bg-primary-400 object-cover aspect-2/3`} src={movie.poster} alt={`${movie.title} movie poster`} />
+          <img className={`bg-primary-400 object-cover aspect-2/3`} src={movie.posterUrl} alt={`${movie.title} movie poster`} />
           <div className={`flex flex-row group absolute bottom-0 left-0 right-0 justify-center items-end gap-4 h-full py-4 opacity-0 hover:opacity-100 focus-within:opacity-100 text-white rounded-2xl `} 
             role="group"
             aria-label="Movie actions"

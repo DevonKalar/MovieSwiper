@@ -23,7 +23,7 @@ const WatchListGrid = ({movies, removeLikedMovie }) => {
         >
           <img
             className="rounded-2xl w-full h-full object-cover"
-            src={movie.poster}
+            src={movie.posterUrl}
             alt={`${movie.title} poster`}
             onClick={() => openModal(movie.id)}
             role="button"
