@@ -6,7 +6,6 @@ import LoginForm from "@components/auth/LoginForm";
 import UserMenu from "@components/auth/UserMenu";
 import { usePopover } from "@hooks/usePopover";
 import { SignOutIcon } from "@icons";
-import authService from "@services/auth";
 
 const Header = () => {
   const { isAuthenticated, logout, user } = useAuth();

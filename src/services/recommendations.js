@@ -48,7 +48,7 @@ class recommendationsApi {
       title: movie.title,
       description: movie.overview,
       releaseDate: movie.release_date,
-      poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
       rating: movie.vote_average,
       genres: movie.genre_names,
     }));

@@ -1,7 +1,6 @@
 import { usePopover } from '@hooks/usePopover';
 import { UserIcon, SignOutIcon } from "@icons";
 import useAuth from "@providers/AuthContext";
-import authService from '@services/auth';
 
 
 const UserMenu = () => {

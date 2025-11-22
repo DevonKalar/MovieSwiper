@@ -5,7 +5,7 @@ import AuthProvider from '@providers/AuthProvider';
 import { vi, describe, test, expect, beforeEach } from 'vitest';
 
 vi.mock('@services/auth');
-describe('SignUpForm', () => {
+describe('Signgit lopForm', () => {
   beforeEach(() => {
     authService.register.mockClear();
   });

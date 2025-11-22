@@ -1,7 +1,6 @@
 import { SignInIcon } from "@icons";
 import useAuth from "@providers/AuthContext";
 import { useState } from 'react';
-import authService from '@services/auth';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +37,7 @@ const LoginForm = () => {
     <label htmlFor="password">Password</label>
     <input type="password" id="password" placeholder="Enter your password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} className="border-0 border-b-2 border-primary-200 rounded-none" />
     </div>
-    <button type="submit" form="login-form" className="mt-4">
+    <button type="submit" form="login-form" className="mt-4" disabled={isLoading}>
       Sign In <SignInIcon className="inline-block ml-2" height={20} width={20} />
     </button>
     {error && <p className="text-red-500 mt-2">{error.message || "Login failed"}</p>}
