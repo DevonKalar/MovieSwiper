@@ -1,5 +1,5 @@
 import { SignInIcon } from "@icons";
-import { useUser } from "@providers/UserContext";
+import useAuth from "@providers/AuthContext";
 import { useState } from 'react';
 import authService from '@services/auth';
 
@@ -8,14 +8,13 @@ const LoginForm = () => {
     email: '',
     password: ''
   });
-  const [errorMessage, setErrorMessage] = useState(null);
-  const { setFirstName } = useUser();
-  const { setIsLoggedIn } = useUser();
+  const { login, isLoading, error } = useAuth();
+  const [validationError, setValidationError] = useState(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      setErrorMessage("Please enter both email and password.");
+      setValidationError("Please enter both email and password.");
       return;
     }
     const loginData = {
@@ -23,14 +22,7 @@ const LoginForm = () => {
       password: formData.password
     };
 
-    try {
-      const response = await authService.login(loginData);
-      setIsLoggedIn(true);
-      setFirstName(response.firstName);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setErrorMessage(error.message || "Login failed");
-    }
+    await login(loginData);
   };
 
   return (
@@ -38,7 +30,7 @@ const LoginForm = () => {
     <div>
       <h2>Login</h2>
       <p className="mt-2">Welcome back!<br /> Log in to your account below.</p>
-      {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+      {validationError && <p className="text-red-500 mt-2">{validationError}</p>}
     </div>
     <div className="flex flex-col gap-2">
     <label htmlFor="email">Email</label>
@@ -49,6 +41,7 @@ const LoginForm = () => {
     <button type="submit" form="login-form" className="mt-4">
       Sign In <SignInIcon className="inline-block ml-2" height={20} width={20} />
     </button>
+    {error && <p className="text-red-500 mt-2">{error.message || "Login failed"}</p>}
     </form>
   )
 };

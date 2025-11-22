@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
-import { useUser } from "@providers/UserContext";
+import useAuth from "@providers/AuthContext";
 import authService from '@services/auth';
 
 const SignUpForm = () => {
-  const { setIsLoggedIn, setFirstName } = useUser();
+  const { register, isAuthenticated, user } = useAuth();
   const [stage, setStage] = useState(1);
   const [formData, setFormData] = useState({
     email: '',
@@ -55,9 +55,7 @@ const SignUpForm = () => {
         lastName: formData.lastName,
         password: formData.password
       };
-      const response = await authService.register(userData);
-      setIsLoggedIn(true);
-      setFirstName(response.firstName);
+      await register(userData);
     } catch (error) {
       setErrorMessage(error.message || "Registration failed");
     }

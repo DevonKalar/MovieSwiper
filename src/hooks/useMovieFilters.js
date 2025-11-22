@@ -12,7 +12,7 @@ export const useMovieFilters = (movies) => {
     searchTerm: "",
     genre: [],
     decade: [],
-    rating: { min: 1, max: 10 },
+    rating: { min: 1, max: 10},
   });
 
   const availableGenres = useMemo(() => {
@@ -37,7 +37,6 @@ export const useMovieFilters = (movies) => {
   const filteredMovies = useMemo(() => {
     return movies.filter(movie => {
       if (!movie.title) return false;
-      
       // Check search term
       const matchesSearch = !filters.searchTerm || 
         movie.title.toLowerCase().includes(filters.searchTerm.toLowerCase());
@@ -52,9 +51,10 @@ export const useMovieFilters = (movies) => {
           Math.floor(parseInt(movie.releaseDate.split("-")[0]) / 10) * 10
         ));
       
-      // Check rating range
-      const matchesRating = movie.rating >= filters.rating.min && 
-        movie.rating <= filters.rating.max;
+      // Check rating range - show all if min is 1 and max is 10
+      const matchesRating = (filters.rating.min == 1 && filters.rating.max == 10)
+        ? true
+        : movie.rating >= filters.rating.min && movie.rating <= filters.rating.max;
       
       return matchesSearch && matchesGenre && matchesDecade && matchesRating;
     });

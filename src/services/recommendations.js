@@ -30,7 +30,6 @@ class recommendationsApi {
   // fetches movie recommendations, if no preferred genres provided, backend will handle defaults
   async fetchRecommendations(page = 1) {
     const url = `${baseURL}recommendations?page=${page}`;
-    console.log(`[fetchRecommendations] Fetching from URL: ${url}`);
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
@@ -49,7 +48,7 @@ class recommendationsApi {
       title: movie.title,
       description: movie.overview,
       releaseDate: movie.release_date,
-      poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
       rating: movie.vote_average,
       genres: movie.genre_names,
     }));

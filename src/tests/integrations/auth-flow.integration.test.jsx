@@ -4,7 +4,7 @@ import authService from '@services/auth';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { describe, test, vi, expect } from 'vitest';
-import UserProvider from '@providers/UserProvider';
+import AuthProvider from '@providers/AuthProvider';
 
 describe('Authentication Flow Integration Test', () => {
   test('User can sign up, log in, and log out successfully', async () => {
@@ -14,11 +14,11 @@ describe('Authentication Flow Integration Test', () => {
     authService.logout = vi.fn().mockResolvedValue({});
     render(
       <Router>
-        <UserProvider>
+        <AuthProvider>
           <MainLayout>
             <Discover />
           </MainLayout>
-        </UserProvider>
+        </AuthProvider>
       </Router>
     );
     // Open sign-up modal

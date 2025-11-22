@@ -1,5 +1,6 @@
 import { MovieFeedContext } from "./MovieFeedContext";
 import { useUser } from "./UserContext";
+import useAuth from './AuthContext'
 import { useState, useEffect } from "react";
 import { useMinimumLoading } from "@/hooks/useMinimumLoading";
 import fetchRecommendations from "@/services/recommendations";
@@ -11,6 +12,7 @@ const MovieFeedProvider = ({ children }) => {
   const { isLoading, startLoading, stopLoading } = useMinimumLoading(300);
   const [error, setError] = useState(null);
   const { likedMovies } = useUser();
+  const { isAuthenticated } = useAuth();
 
   const loadMovies = async () => {
     startLoading();
@@ -53,7 +55,7 @@ const MovieFeedProvider = ({ children }) => {
   useEffect(() => {
     loadMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryPage]);
+  }, [queryPage, isAuthenticated]);
 
   return (
     <MovieFeedContext.Provider value={{ 

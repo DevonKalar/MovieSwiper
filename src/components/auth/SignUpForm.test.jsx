@@ -1,19 +1,19 @@
 import SignUpForm from './SignUpForm';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import authService from '@services/auth';
-import UserProvider from '@providers/UserProvider';
+import AuthProvider from '@providers/AuthProvider';
 import { vi, describe, test, expect, beforeEach } from 'vitest';
 
 vi.mock('@services/auth');
-describe('SignUpForm', () => {
+describe('Signgit lopForm', () => {
   beforeEach(() => {
     authService.register.mockClear();
   });
   const renderComponent = () => {
     return render(
-      <UserProvider>
+      <AuthProvider>
         <SignUpForm />
-      </UserProvider>
+      </AuthProvider>
     );
   };
   // Stage One
