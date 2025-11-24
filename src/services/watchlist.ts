@@ -32,7 +32,7 @@ class watchlistApi {
 
   // adds a movie to the user's watchlist
   async addToWatchlist(movie: Movie) {
-    const url = `${this.baseUrl}/`;
+    const url = `${this.baseUrl}`;
     const response = await this.fetchWithTimeout(url, {
       method: 'POST',
       credentials: 'include',
@@ -49,7 +49,7 @@ class watchlistApi {
   }
 
   async getWatchlist() {
-    const url = `${this.baseUrl}/`;
+    const url = `${this.baseUrl}`;
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       credentials: 'include',
