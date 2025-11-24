@@ -37,6 +37,7 @@ class AuthService {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
+      credentials: "include",       
     });
     
     // Parse response regardless of status to get server message
@@ -61,6 +62,7 @@ class AuthService {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(credentials),
+      credentials: "include",       
     });
     
     // Parse response regardless of status to get server message
@@ -84,7 +86,7 @@ class AuthService {
       headers: {
         "Content-Type": "application/json",
       },
-      
+      credentials: "include",       
     });
     
     // Parse response regardless of status to get server message
