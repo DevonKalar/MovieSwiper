@@ -33,6 +33,7 @@ class AuthService {
   async register(userData: RegisterData): Promise<User> {
     const response = await this.fetchWithTimeout(`${this.baseUrl}/register`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -57,6 +58,7 @@ class AuthService {
   async login(credentials: LoginCredentials): Promise<User> {
     const response = await this.fetchWithTimeout(`${this.baseUrl}/login`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -81,6 +83,7 @@ class AuthService {
   async logout() {
     const response = await this.fetchWithTimeout(`${this.baseUrl}/logout`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
