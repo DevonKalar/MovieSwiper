@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
 import useAuth from "@providers/AuthContext";
+import auth from '@/services/auth';
 
 const SignUpForm = () => {
   const {register, error: authError } = useAuth();
