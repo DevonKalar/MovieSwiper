@@ -27,7 +27,6 @@ const AuthProvider = ({ children }: ProviderProps) => {
       };
       setUser(userData);
       setIsAuthenticated(true);
-      console.log("Login successful", userData);
     } catch (error) {
       const err = error instanceof Error ? error : new Error('Login failed');
       setError(err);
