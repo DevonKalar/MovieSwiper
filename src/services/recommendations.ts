@@ -1,13 +1,15 @@
-const baseURL = import.meta.env.VITE_BACKEND_URL;
-
-//
+import { Movie, RawMovie } from '@/types/movie';
 
 class recommendationsApi {
-  constructor() {
+  private readonly timeout: number;
+  private readonly baseUrl: string;
+
+  constructor(backendUrl: string = import.meta.env.VITE_BACKEND_URL) {
     this.timeout = 15000; // 15 second timeout for movie API
+    this.baseUrl = `${backendUrl}recommendations`;
   }
 
-  async fetchWithTimeout(url, options = {}) {
+  async fetchWithTimeout(url: string, options: RequestInit = {}) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -16,20 +18,21 @@ class recommendationsApi {
         ...options,
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
       return response;
     } catch (error) {
-      clearTimeout(timeoutId);
-      if (error.name === 'AbortError') {
+      const err = error instanceof Error ? error : new Error('Network error');
+      if (err.name === 'AbortError') {
         throw new Error('Request timeout - server did not respond in time');
       }
-      throw error;
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
   // fetches movie recommendations, if no preferred genres provided, backend will handle defaults
   async fetchRecommendations(page = 1) {
-    const url = `${baseURL}recommendations?page=${page}`;
+    const url = `${this.baseUrl}?page=${page}`;
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       headers: {
@@ -42,8 +45,8 @@ class recommendationsApi {
       throw new Error(`TMDB API Error: ${errorText}`);
     }
 
-    const data = await response.json();
-    return data.results.map(movie => ({
+    const rawData: { results: RawMovie[] } = await response.json();
+    const data: Movie[] = rawData.results.map(movie => ({
       id: movie.id,
       title: movie.title,
       description: movie.overview,
@@ -52,6 +55,7 @@ class recommendationsApi {
       rating: movie.vote_average,
       genres: movie.genre_names,
     }));
+    return data;
   }
 }
 

@@ -1,13 +1,16 @@
 const baseURL = import.meta.env.VITE_BACKEND_URL;
-
-//
+import type { Movie, RawMovie } from "@/types/movie";
 
 class tmdbApi {
-  constructor() {
+  private readonly timeout: number;
+  private readonly baseUrl: string;
+  
+  constructor(backendUrl: string = import.meta.env.VITE_BACKEND_URL) {
     this.timeout = 15000; // 15 second timeout for movie API
+    this.baseUrl = `${backendUrl}tmdb/`;
   }
 
-  async fetchWithTimeout(url, options = {}) {
+  async fetchWithTimeout(url: string, options: RequestInit = {}) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -16,27 +19,28 @@ class tmdbApi {
         ...options,
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
       return response;
     } catch (error) {
-      clearTimeout(timeoutId);
-      if (error.name === 'AbortError') {
+      const err = error instanceof Error ? error : new Error('Network error');
+      if (err.name === 'AbortError') {
         throw new Error('Request timeout - server did not respond in time');
       }
-      throw error;
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
   // fetches movie recommendations, if no preferred genres provided, backend will handle defaults
-  async fetchRecommendations(page = 1, genres) {
+  async fetchRecommendations(page = 1, genres: string[] = []) {
     const params = new URLSearchParams();
-    params.append('page', page);
+    params.append('page', page.toString());
     
     if (genres && genres.length > 0) {
       params.append('genres', genres.join(','));
     }
     
-    const url = `${baseURL}tmdb/recommendations?${params.toString()}`;
+    const url = `${this.baseUrl}recommendations?${params.toString()}`;
     console.log(`[fetchRecommendations] Fetching from URL: ${url}`);
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
@@ -50,16 +54,18 @@ class tmdbApi {
       throw new Error(`TMDB API Error: ${errorText}`);
     }
 
-    const data = await response.json();
-    return data.map(movie => ({
+    const rawData: RawMovie[] = await response.json();
+    const data: Movie[] = rawData.map((movie) => ({
       id: movie.id,
       title: movie.title,
       description: movie.overview,
       releaseDate: movie.release_date,
-      poster: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
       rating: movie.vote_average,
       genres: movie.genre_names,
     }));
+
+    return data;
   }
 
   async fetchMoviesByGenreId(genres = ["Action", "Thriller"], page = 1) {
@@ -78,8 +84,8 @@ class tmdbApi {
       throw new Error(`TMDB API Error: ${response.status} ${response.statusText}`);
     }
     
-    const data = await response.json();
-    return data.results.map(movie => ({
+    const rawData = await response.json();
+    const data = rawData.results.map((movie: RawMovie) => ({
       id: movie.id,
       title: movie.title,
       description: movie.overview,
@@ -88,9 +94,11 @@ class tmdbApi {
       rating: movie.vote_average,
       genreIds: movie.genre_ids,
     }));
+    
+    return data;
   }
 
-  async fetchMovieDetails(movieId) {
+  async fetchMovieDetails(movieId: number) {
     const url = `${baseURL}tmdb/movies/${movieId}?language=en-US`;
     
     const response = await this.fetchWithTimeout(url, {
@@ -108,8 +116,8 @@ class tmdbApi {
       id: data.id,
       title: data.title,
       description: data.overview,
-      companies: data.production_companies?.map(company => company.name) || "Unknown",
-      genreIds: data.genres?.map(genre => genre.name) || "Unknown",
+      companies: data.production_companies?.map((company: { name: string }) => company.name) || "Unknown",
+      genreIds: data.genres?.map((genre: { name: string }) => genre.name) || "Unknown",
       releaseDate: data.release_date,
       poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
     };
@@ -147,8 +155,8 @@ class tmdbApi {
       throw new Error(`TMDB API Error: ${response.status} ${response.statusText}`);
     }
     
-    const data = await response.json();
-    return data.results.map(movie => ({
+    const rawData = await response.json();
+    const data: Movie[] = rawData.results.map((movie: RawMovie) => ({
       id: movie.id,
       title: movie.title,
       description: movie.overview,
@@ -159,6 +167,7 @@ class tmdbApi {
       rating: movie.vote_average,
       genreIds: movie.genre_ids, // Note: genre_ids are numeric IDs; mapping to names requires additional data
     }));
+    return data
   }
 }
 

@@ -23,7 +23,7 @@ const UserMenu = () => {
 
     {popovers["user-menu"] && (
     <div className="popover flex flex-col gap-4 absolute right-0 top-full mt-6 w-48 bg-primary-700 p-4 rounded-2xl shadow-lg z-10">
-      <p className="text-white">Hello, {user.firstname}!</p>
+      <p className="text-white">Hello, {user.firstName}!</p>
       <ul className="flex flex-col gap-2">
       <li className="block w-full text-left text-sm text-gray-700">Profile</li>
       <li className="block w-full text-left text-sm text-gray-700">Settings</li>

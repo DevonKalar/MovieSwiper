@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { SignInIcon, GoNextIcon, GoPrevIcon } from "@icons";
 import useAuth from "@providers/AuthContext";
+import auth from '@/services/auth';
 
 const SignUpForm = () => {
-  const {register } = useAuth();
+  const {register, error: authError } = useAuth();
   const [stage, setStage] = useState(1);
   const [formData, setFormData] = useState({
     email: '',
@@ -64,6 +65,7 @@ const SignUpForm = () => {
     <>
     <div>
       <h2>Sign Up</h2>
+      {authError && <p className="text-red-500 mt-2">{authError.message}</p>}
     </div>
 
     <div>

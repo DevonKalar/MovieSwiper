@@ -122,7 +122,6 @@ describe('AuthService', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include',
           body: JSON.stringify({
             email: 'test@example.com',
             password: 'Password123',
@@ -156,7 +155,6 @@ describe('AuthService', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include',
           body: JSON.stringify({
             email: 'test@example.com',
             password: 'Password123',
