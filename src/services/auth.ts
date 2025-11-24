@@ -1,12 +1,15 @@
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
-const baseUrl = `${backendUrl}auth/`;
+import type { User, LoginCredentials, RegisterData } from "../types/auth";
 
 class AuthService {
-  constructor() {
+  private readonly timeout: number;
+  private readonly baseUrl: string;
+
+  constructor(backendUrl: string = import.meta.env.VITE_BACKEND_URL) {
     this.timeout = 10000; // 10 second timeout
+    this.baseUrl = `${backendUrl}auth`;
   }
 
-  async fetchWithTimeout(url, options = {}) {
+  async fetchWithTimeout(url: string, options: RequestInit = {}) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -15,19 +18,20 @@ class AuthService {
         ...options,
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
       return response;
     } catch (error) {
-      clearTimeout(timeoutId);
-      if (error.name === 'AbortError') {
+      const err = error instanceof Error ? error : new Error('Network error');
+      if (err.name === 'AbortError') {
         throw new Error('Request timeout - server did not respond in time');
       }
-      throw error;
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
-  async register(userData) {
-    const response = await this.fetchWithTimeout(`${baseUrl}register`, {
+  async register(userData: RegisterData): Promise<User> {
+    const response = await this.fetchWithTimeout(`${this.baseUrl}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,13 +54,12 @@ class AuthService {
     return data;
   }
 
-  async login(credentials) {
-    const response = await this.fetchWithTimeout(`${baseUrl}login`, {
+  async login(credentials: LoginCredentials): Promise<User> {
+    const response = await this.fetchWithTimeout(`${this.baseUrl}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(credentials),
     });
     
@@ -76,7 +79,7 @@ class AuthService {
   }
   
   async logout() {
-    const response = await this.fetchWithTimeout(`${baseUrl}logout`, {
+    const response = await this.fetchWithTimeout(`${this.baseUrl}/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

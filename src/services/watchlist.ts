@@ -1,11 +1,15 @@
-const baseURL = import.meta.env.VITE_BACKEND_URL;
+import type { Movie } from "@/types/movie";
 
 class watchlistApi {
-  constructor() {
+  private readonly timeout: number;
+  private readonly baseUrl: string;
+
+  constructor(backendUrl: string = import.meta.env.VITE_BACKEND_URL) {
     this.timeout = 10000; // 10 second timeout for watchlist API
+    this.baseUrl = `${backendUrl}watchlist`;
   }
 
-  async fetchWithTimeout(url, options = {}) {
+  async fetchWithTimeout(url: string, options: RequestInit = {}) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -14,20 +18,21 @@ class watchlistApi {
         ...options,
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
       return response;
     } catch (error) {
-      clearTimeout(timeoutId);
-      if (error.name === 'AbortError') {
+      const err = error instanceof Error ? error : new Error('Network error');
+      if (err.name === 'AbortError') {
         throw new Error('Request timeout - server did not respond in time');
       }
-      throw error;
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
   // adds a movie to the user's watchlist
-  async addToWatchlist(movie) {
-    const url = `${baseURL}watchlist/`;
+  async addToWatchlist(movie: Movie) {
+    const url = `${this.baseUrl}/`;
     const response = await this.fetchWithTimeout(url, {
       method: 'POST',
       credentials: 'include',
@@ -44,7 +49,7 @@ class watchlistApi {
   }
 
   async getWatchlist() {
-    const url = `${baseURL}watchlist/`;
+    const url = `${this.baseUrl}/`;
     const response = await this.fetchWithTimeout(url, {
       method: 'GET',
       credentials: 'include',
@@ -56,8 +61,8 @@ class watchlistApi {
     return response.json();
   }
 
-  async removeFromWatchlist(movieId) {
-    const url = `${baseURL}watchlist/${movieId}`;
+  async removeFromWatchlist(movieId: number) {
+    const url = `${this.baseUrl}/${movieId}`;
     const response = await this.fetchWithTimeout(url, {
       method: 'DELETE',
       credentials: 'include',
