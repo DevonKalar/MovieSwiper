@@ -104,6 +104,30 @@ class AuthService {
     
     return data;
   }
+
+  async getCurrentUser(): Promise<User> {
+    const response = await this.fetchWithTimeout(`${this.baseUrl}/check`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Parse response regardless of status to get server message
+    let data = null;
+    if (response.headers.get("content-type")?.includes("application/json")) {
+      data = await response.json();
+    }
+
+    if (!response.ok) {
+      // Use server's error message if available, fallback to generic message
+      const errorMessage = data?.message || `HTTP Error ${response.status}: ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return data;
+  }
 }
 
 export default new AuthService();

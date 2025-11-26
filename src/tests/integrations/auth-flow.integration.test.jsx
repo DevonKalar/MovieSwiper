@@ -1,17 +1,40 @@
 import Discover from '@pages/Discover';
 import MainLayout from '@layouts/MainLayout';
-import authService from '@services/auth';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { describe, test, vi, expect } from 'vitest';
+import { describe, test, vi, expect, beforeEach } from 'vitest';
 import AuthProvider from '@providers/AuthProvider';
 
 describe('Authentication Flow Integration Test', () => {
+  beforeEach(() => {
+    // Mock fetch globally
+    global.fetch = vi.fn((url) => {
+      if (url.includes('/register')) {
+        return Promise.resolve({
+          ok: true,
+          headers: new Headers({ 'content-type': 'application/json' }),
+          json: () => Promise.resolve({ firstName: 'Test', lastName: 'User' }),
+        });
+      }
+      if (url.includes('/login')) {
+        return Promise.resolve({
+          ok: true,
+          headers: new Headers({ 'content-type': 'application/json' }),
+          json: () => Promise.resolve({ firstName: 'Test', lastName: 'User' }),
+        });
+      }
+      if (url.includes('/logout')) {
+        return Promise.resolve({
+          ok: true,
+          headers: new Headers({ 'content-type': 'application/json' }),
+          json: () => Promise.resolve({}),
+        });
+      }
+      return Promise.reject(new Error('Unknown endpoint'));
+    });
+  });
+
   test('User can sign up, log in, and log out successfully', async () => {
-    // Mock successful registration and login responses
-    authService.register = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
-    authService.login = vi.fn().mockResolvedValue({ firstName: 'Test', lastName: 'User' });
-    authService.logout = vi.fn().mockResolvedValue({});
     render(
       <Router>
         <AuthProvider>

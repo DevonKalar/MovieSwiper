@@ -1,5 +1,5 @@
 import { AuthContext } from './AuthContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import authService from '@/services/auth';
 import type { 
   User, 
@@ -13,6 +13,33 @@ const AuthProvider = ({ children }: ProviderProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [user, setUser] = useState<User | null>(null);
+
+  async function checkAuthStatus(): Promise<void> {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const rawData: UserApiResponse = await authService.getCurrentUser();
+      const userData: User = {
+        firstName: rawData.firstName,
+        lastName: rawData.lastName,
+        email: rawData.email,
+        id: rawData.id,
+      };
+      setUser(userData);
+      setIsAuthenticated(true);
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error('Failed to check authentication status');
+      setError(err);
+      setIsAuthenticated(false);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
 
   async function login(credentials: LoginCredentials): Promise<void> {
     setIsLoading(true);
