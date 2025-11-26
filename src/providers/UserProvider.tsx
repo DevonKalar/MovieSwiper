@@ -63,7 +63,18 @@ const UserProvider = ({ children }: ProviderProps) => {
 	}
 
 	const removeLikedMovie = (newMovie: Movie): void => {
-		setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+    const previousLikedMovies = likedMovies;
+
+    setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+
+    try {
+      watchlistService.removeFromWatchlist(newMovie.id);
+    } catch (error) {
+      console.error("Failed to remove movie from watchlist:", error);
+      setLikedMovies(previousLikedMovies);
+      const err = error instanceof Error ? error : new Error('Failed to remove movie from watchlist');
+      setError(err);
+    }
 	}
 
   const value: UserContextType = {
@@ -74,7 +85,6 @@ const UserProvider = ({ children }: ProviderProps) => {
     likeMovie,
     rejectMovie,
     removeLikedMovie,
-
   }
 	return (
 		<UserContext.Provider value={value}>
