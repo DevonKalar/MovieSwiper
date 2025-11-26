@@ -8,15 +8,15 @@ import { useState, useCallback, useRef } from 'react';
  */
 
 export const useMinimumLoading = (minimumMs = 300) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const startTimeRef = useRef(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const startTimeRef = useRef<number | null>(null);
 
-  const startLoading = useCallback(() => {
+  const startLoading: () => void = useCallback(() => {
     setIsLoading(true);
     startTimeRef.current = Date.now();
   }, []);
 
-  const stopLoading = useCallback(() => {
+  const stopLoading: () => void = useCallback(() => {
     if (!startTimeRef.current) return;
     
     const elapsed = Date.now() - startTimeRef.current;
