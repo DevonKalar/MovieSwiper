@@ -4,7 +4,7 @@ import MovieFeedProvider from '@providers/MovieFeedProvider.jsx';
 import AuthProvider from '@providers/AuthProvider.jsx';
 import MainLayout from '@layouts/MainLayout.jsx';
 import NotFound from '@pages/NotFound.jsx';
-import WatchList from '@pages/WatchList.jsx';
+import WatchList from '@pages/WatchList';
 import Discover from '@pages/Discover.jsx';
 import AiChat from '@components/chat/AiChat.jsx';
 

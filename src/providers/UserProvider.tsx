@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import { UserContext, type UserContextType } from "./UserContext";
 import useAuth from './AuthContext'
 import watchlistService from "@/services/watchlist";
+import { useMinimumLoading } from "@hooks/useMinimumLoading";
 import type { Movie } from "@/types/movie";
 import type { ProviderProps } from '@/types/provider';
 
 const UserProvider = ({ children }: ProviderProps) => {
   const [likedMovies, setLikedMovies] = useState<Movie[]>([]);
 	const [rejectedMovies, setRejectedMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { isAuthenticated } = useAuth();
+  const { isLoading, startLoading, stopLoading } = useMinimumLoading(300);
 
   async function loadWatchlist(): Promise<void> {
-    setIsLoading(true);
+    startLoading();
     setError(null);
     try { 
       const rawData = await watchlistService.getWatchlist();
@@ -24,7 +25,7 @@ const UserProvider = ({ children }: ProviderProps) => {
       const err = error instanceof Error ? error : new Error('Failed to load watchlist');
       setError(err);
     } finally {
-      setIsLoading(false);
+      stopLoading();
     }
   }
 
