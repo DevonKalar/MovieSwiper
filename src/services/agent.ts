@@ -1,7 +1,5 @@
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const baseUrl = `${backendUrl}openai/`;
-import type { ChatMessage } from '@/types/chat';
-import type { Movie } from '@/types/movie';
 
 const fetchWithTimeout = async (url: string, options = {}, timeout = 30000) => {
   const controller = new AbortController();
@@ -23,9 +21,9 @@ const fetchWithTimeout = async (url: string, options = {}, timeout = 30000) => {
   }
 };
 
-const getResponse = async (userMessage: ChatMessage, likedMovies: Movie[]) => {
+const getResponse = async (userMessage: string, likedMovies: string) => {
 // exit early if no user message
-if (!userMessage || userMessage.content.trim() === '') {
+if (!userMessage || userMessage.trim() === '') {
 	throw new Error('Please provide a message for me to respond to.');
 }
 
@@ -53,9 +51,10 @@ if (!response.ok) {
 }
 
 const data = await response.json();
+
 return {
 	sender: 'agent',
-	message: data.output_text
+	content: data.output_text
 };
 };
 

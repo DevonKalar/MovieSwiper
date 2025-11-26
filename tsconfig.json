@@ -30,10 +30,12 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@services/*": ["./src/services/*"],
+      "@providers/*": ["./src/providers/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@styles/*": ["./src/styles/*"],
       "@assets/*": ["./src/assets/*"],
+      "@icons*": ["./src/assets/icons/exports.jsx"],
       "@types/*": ["./src/types/*"]
     }
   },
