@@ -86,12 +86,12 @@ const DiscoverCard = ({ movie, onSwipe, isLoading, style, isTopCard = true, card
               aria-hidden="true" />
             </button>
           </div>
-          <button onClick={() => openModal(movie.id)} className="absolute top-4 right-4 h-10 w-10 p-0 rounded-full text-white bg-transparent z-50" aria-label={`View details for ${movie.title}`}>
+          <button onClick={() => openModal(movie.tmdbId)} className="absolute top-4 right-4 h-10 w-10 p-0 rounded-full text-white bg-transparent z-50" aria-label={`View details for ${movie.title}`}>
             <InfoIcon className="w-8 h-8 bg-secondary-500 rounded-full" aria-hidden="true" />
           </button>
         </div>
       </article>
-      <MovieModal movie={movie} isOpen={modalId === movie.id} closeModal={closeModal} />
+      <MovieModal movie={movie} isOpen={modalId === movie.tmdbId} closeModal={closeModal} />
     </>
   );
 };
