@@ -21,12 +21,12 @@ const MovieFeedProvider = ({ children }: ProviderProps) => {
     try {
       const fetchedMovies = await fetchRecommendations.fetchRecommendations(queryPage);
 
-      if (fetchedMovies.length === 0) {
+      if (fetchedMovies.results.length === 0) {
         throw new Error('No movies available at the moment. Please try again later.');
       }
 
       // Filter out movies already in watchlist
-      const newMovies: Movie[] = fetchedMovies.filter(
+      const newMovies: Movie[] = fetchedMovies.results.filter(
         (movie: Movie) => !likedMovies.some(liked => liked.id === movie.id) 
       );
       

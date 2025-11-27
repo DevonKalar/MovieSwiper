@@ -1,4 +1,4 @@
-import { Movie, RawMovie } from '@/types/movie';
+import { Movie } from '@/types/movie';
 
 class recommendationsApi {
   private readonly timeout: number;
@@ -45,16 +45,7 @@ class recommendationsApi {
       throw new Error(`TMDB API Error: ${errorText}`);
     }
 
-    const rawData: { results: RawMovie[] } = await response.json();
-    const data: Movie[] = rawData.results.map(movie => ({
-      id: movie.id,
-      title: movie.title,
-      description: movie.overview,
-      releaseDate: movie.release_date,
-      posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-      rating: movie.vote_average,
-      genres: movie.genre_names,
-    }));
+    const data: { results: Movie[] } = await response.json();
     return data;
   }
 }

@@ -25,8 +25,8 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
 				className="modal-content max-w-4xl mx-4 bg-primary-500/90 border-2 rounded-2xl shadow-lg relative"
 				role="dialog"
 				aria-modal="true"
-				aria-labelledby={`modal-title-${movie.id}`}
-				aria-describedby={`modal-desc-${movie.id}`}
+				aria-labelledby={`modal-title-${movie.tmdbId}`}
+				aria-describedby={`modal-desc-${movie.tmdbId}`}
 			>
 				<div className="flex flex-col md:flex-row gap-4">
 					<div className="absolute md:static w-full md:w-1/2 aspect-2/3">
@@ -42,9 +42,9 @@ const MovieModal = ({ movie, isOpen, closeModal }) => {
                 <StarIcon className="w-4 h-4 text-accent-500" />
                 <p className="text-sm text-white">{movie.rating.toFixed(1)} </p>
 						  </div>}
-						<h2 id={`modal-title-${movie.id}`} className="text-5xl">{movie.title}</h2>
+						<h2 id={`modal-title-${movie.tmdbId}`} className="text-5xl">{movie.title}</h2>
 						<p className="text-sm text-white mb-2">{movie.genres.join(", ")}</p>
-						<ScrollableText id={`modal-desc-${movie.id}`}>{movie.description}</ScrollableText>
+						<ScrollableText id={`modal-desc-${movie.tmdbId}`}>{movie.description}</ScrollableText>
 						<div className="flex flex-row flex-wrap justify-start items-start gap-2 mt-4">
 							<button className="w-full border-2 border-secondary-500"
                 aria-label={`Watch ${movie.title}`}>

@@ -44,7 +44,7 @@ const Discover = () => {
         <div className="card-wrapper relative w-full max-w-md mx-auto aspect-2/3">
           {visibileMovies.map((movie, index) => (
             <DiscoverCard 
-              key={movie.id} 
+              key={movie.tmdbId} 
               movie={movie} 
               onSwipe={handleSwipe} 
               isLoading={isLoading} 
