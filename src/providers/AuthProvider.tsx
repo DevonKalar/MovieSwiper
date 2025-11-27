@@ -28,8 +28,6 @@ const AuthProvider = ({ children }: ProviderProps) => {
       setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {
-      const err = error instanceof Error ? error : new Error('Failed to check authentication status');
-      setError(err);
       setIsAuthenticated(false);
       setUser(null);
     } finally {
