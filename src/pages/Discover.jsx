@@ -1,12 +1,12 @@
 import { useRef } from "react";
 import DiscoverCard from "@components/discover/DiscoverCard";
 import ScreenReaderAnnouncement from "@components/common/ScreenReaderAnnouncement";
-import { useUser } from "@providers/UserContext";
+import { useWatchlist } from "@/providers/WatchlistContext";
 import useMovieFeed from "@providers/MovieFeedContext.js";
 import { useAnnouncement } from "@hooks/useAnnouncement.js";
 
 const Discover = () => {
-	const { likeMovie, rejectMovie} = useUser();
+	const { likeMovie, rejectMovie} = useWatchlist();
   const { movieQueue, feedPosition, isLoading, moveToNext } = useMovieFeed();
   const { announcement, announce } = useAnnouncement();
   const topCardRef = useRef(null);

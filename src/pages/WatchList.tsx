@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "@providers/UserContext";
+import { useWatchlist } from "@/providers/WatchlistContext";
 import { useMovieFilters } from "@hooks/useMovieFilters";
 import WatchListGrid from "@components/watchlist/WatchListGrid";
 import WatchListFilter from "@components/watchlist/WatchListFilter";
 import WatchListPagination from "@components/watchlist/WatchListPagination";
 
 const WatchList = () => {
-  const { likedMovies, removeLikedMovie, isLoading } = useUser();
+  const { likedMovies, removeLikedMovie, isLoading } = useWatchlist();
   const {
     filters,
     filteredMovies,

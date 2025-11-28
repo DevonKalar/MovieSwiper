@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import agentService from '@services/agent.js';
-import { useUser } from '@providers/UserContext';
+import { useWatchlist } from '@/providers/WatchlistContext';
 import movioProfilePic from '@images/ai-avatar.jpg';
 import { ChatBotIcon } from '@icons';
 import type { ChatMessage } from '@/types/chat';
@@ -13,7 +13,7 @@ const AiChat = () => {
   }]);
 	const [inputContent, setInputContent] = useState<string>("");
 	const [isAgentTyping, setIsAgentTyping] = useState<boolean>(false);
-  const { likedMovies } = useUser();
+  const { likedMovies } = useWatchlist();
 
   const movieTitles = useMemo(() => likedMovies.map((movie: Movie) => movie.title).join(", "), [likedMovies]);
 

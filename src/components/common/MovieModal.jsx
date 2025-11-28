@@ -9,12 +9,11 @@
 
 import { CloseIcon, StarIcon } from '@icons';
 import ScrollableText from "@components/common/ScrollableText";
-import { useUser } from '@providers/UserContext';
+import { useWatchlist } from '@/providers/WatchlistContext';
 
 
 const MovieModal = ({ movie, isOpen, closeModal }) => {
-  const { removeLikedMovie, likedMovies } = useUser();
-
+  const { removeLikedMovie, likedMovies } = useWatchlist();
   if (!isOpen) return null;
 
 	return (
