@@ -54,7 +54,7 @@ export const useMovieFilters = (movies) => {
       // Check rating range - show all if min is 1 and max is 10
       const matchesRating = (filters.rating.min == 1 && filters.rating.max == 10)
         ? true
-        : movie.rating >= filters.rating.min && movie.rating <= filters.rating.max;
+        : movie.ratings >= filters.rating.min && movie.ratings <= filters.rating.max;
       
       return matchesSearch && matchesGenre && matchesDecade && matchesRating;
     });

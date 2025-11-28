@@ -1,6 +1,5 @@
 export interface Movie {
-  id?: number;
-  tmdbId: number;
+  id: number;
   title: string;
   description: string;
   posterUrl: string;
@@ -8,6 +7,3 @@ export interface Movie {
   ratings: number;
   releaseDate: string;
 }
-
-export type Watchlist = Movie[];
-export type LikedMovies = Movie[]; // To be deprecated in future Watchlist implementation

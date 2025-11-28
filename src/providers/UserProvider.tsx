@@ -45,6 +45,8 @@ const UserProvider = ({ children }: ProviderProps) => {
 		
 		setLikedMovies((prev) => [...prev, newMovie]);
 		setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+
+    if(!isAuthenticated) return;
 		
 		try {
 			await watchlistService.addToWatchlist(newMovie);
@@ -67,6 +69,8 @@ const UserProvider = ({ children }: ProviderProps) => {
     const previousLikedMovies = likedMovies;
 
     setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+
+    if(!isAuthenticated) return;
 
     try {
       watchlistService.removeFromWatchlist(newMovie.id);

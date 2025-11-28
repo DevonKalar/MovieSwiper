@@ -1,5 +1,4 @@
 import { MovieFeedContext, type MovieFeedContextType } from "./MovieFeedContext";
-import { useUser } from "./UserContext";
 import useAuth from './AuthContext'
 import { useState, useEffect } from "react";
 import { useMinimumLoading } from "@hooks/useMinimumLoading";
@@ -12,7 +11,6 @@ const MovieFeedProvider = ({ children }: ProviderProps) => {
   const [feedPosition, setFeedPosition] = useState<number>(0);
   const [queryPage, setQueryPage] = useState<number>(1);
   const [error, setError] = useState<Error | null>(null);
-  const { likedMovies } = useUser();
   const { isAuthenticated } = useAuth();
   const { isLoading, startLoading, stopLoading } = useMinimumLoading(300);
 
@@ -24,14 +22,9 @@ const MovieFeedProvider = ({ children }: ProviderProps) => {
       if (fetchedMovies.results.length === 0) {
         throw new Error('No movies available at the moment. Please try again later.');
       }
-
-      // Filter out movies already in watchlist
-      const newMovies: Movie[] = fetchedMovies.results.filter(
-        (movie: Movie) => !likedMovies.some(liked => liked.id === movie.id) 
-      );
       
       const remainingMovies = movieQueue.slice(feedPosition + 1);
-      setMovieQueue([...remainingMovies, ...newMovies]);
+      setMovieQueue([...remainingMovies, ...fetchedMovies.results]);
       setFeedPosition(0);
 
     } catch (error) {
