@@ -72,6 +72,22 @@ class watchlistApi {
       throw new Error(`Watchlist API Error: ${errorText}`);
     }
   }
+
+  async addBulkToWatchlist(movies: Movie[]) {
+    const url = `${this.baseUrl}/bulk`;
+    const response = await this.fetchWithTimeout(url, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ movies: movies }),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Watchlist API Error: ${errorText}`);
+    }
+  }
 }
 
 const watchlistService = new watchlistApi();
