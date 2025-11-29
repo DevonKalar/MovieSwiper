@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { UserContext, type UserContextType } from "./UserContext";
+import { WatchlistContext, type WatchlistContextType } from "./WatchlistContext";
 import useAuth from './AuthContext'
 import watchlistService from "@/services/watchlist";
 import { useMinimumLoading } from "@hooks/useMinimumLoading";
 import type { Movie } from "@/types/movie";
 import type { ProviderProps } from '@/types/provider';
 
-const UserProvider = ({ children }: ProviderProps) => {
+const WatchlistProvider = ({ children }: ProviderProps) => {
   const [likedMovies, setLikedMovies] = useState<Movie[]>([]);
 	const [rejectedMovies, setRejectedMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<Error | null>(null);
@@ -16,7 +16,13 @@ const UserProvider = ({ children }: ProviderProps) => {
   async function loadWatchlist(): Promise<void> {
     startLoading();
     setError(null);
-    try { 
+    try {
+      // Sync guest watchlist with user watchlist
+      const guestWatchlist = likedMovies;
+      if (guestWatchlist.length > 0) {
+        await watchlistService.addBulkToWatchlist(guestWatchlist);
+      }
+      // fetch the complete watchlist from the backend 
       const rawData = await watchlistService.getWatchlist();
       const watchlist = rawData.watchlist.map((item: { movie: Movie }) => item.movie);
       setLikedMovies(watchlist);
@@ -45,6 +51,8 @@ const UserProvider = ({ children }: ProviderProps) => {
 		
 		setLikedMovies((prev) => [...prev, newMovie]);
 		setRejectedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
+
+    if(!isAuthenticated) return;
 		
 		try {
 			await watchlistService.addToWatchlist(newMovie);
@@ -68,6 +76,8 @@ const UserProvider = ({ children }: ProviderProps) => {
 
     setLikedMovies((prev) => prev.filter(movie => movie.id !== newMovie.id));
 
+    if(!isAuthenticated) return;
+
     try {
       watchlistService.removeFromWatchlist(newMovie.id);
     } catch (error) {
@@ -78,7 +88,7 @@ const UserProvider = ({ children }: ProviderProps) => {
     }
 	}
 
-  const value: UserContextType = {
+  const value: WatchlistContextType = {
     likedMovies,
     rejectedMovies,
     isLoading,
@@ -88,11 +98,11 @@ const UserProvider = ({ children }: ProviderProps) => {
     removeLikedMovie,
   }
 	return (
-		<UserContext.Provider value={value}>
+		<WatchlistContext.Provider value={value}>
 				{children}
-		</UserContext.Provider>
+		</WatchlistContext.Provider>
 	)
 
 }
 
-export default UserProvider;
+export default WatchlistProvider;

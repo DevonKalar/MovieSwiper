@@ -1,6 +1,6 @@
 import { AuthContext } from './AuthContext';
 import { useEffect, useState } from 'react';
-import authService from '@/services/auth';
+import authService from '@services/auth';
 import type { 
   User, 
   UserApiResponse, 

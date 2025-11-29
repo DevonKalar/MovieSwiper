@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import type { Movie } from '@/types/movie';
 
-export interface UserContextType {
+export interface WatchlistContextType {
   likedMovies: Movie[];
   rejectedMovies: Movie[];
   isLoading: boolean;
@@ -11,12 +11,12 @@ export interface UserContextType {
   removeLikedMovie: (movie: Movie) => void;
 }
 
-export const UserContext = createContext<UserContextType | undefined>(undefined);
+export const WatchlistContext = createContext<WatchlistContextType | undefined>(undefined);
 
-export const useUser = () => {
-  const context = useContext(UserContext);
+export const useWatchlist = () => {
+  const context = useContext(WatchlistContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error('useWatchlist must be used within a WatchlistProvider');
   }
   return context;
 };
